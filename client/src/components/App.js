@@ -10,6 +10,7 @@ import TopBar from "./layout/TopBar";
 import HomePage from "./HomePage.js"
 import GigsListPage from "./GigsList";
 import GigShowPage from "./GigShowPage";
+import NewGigForm from "./NewGigForm.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -33,6 +34,9 @@ const App = (props) => {
         <Route exact path="/">
           <HomePage />
           <GigsListPage />
+        </Route>
+        <Route exact path="/gigs/new-gig-form">
+          <NewGigForm />
         </Route>
         <Route 
           exact 

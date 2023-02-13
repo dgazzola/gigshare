@@ -1,16 +1,29 @@
 import express from "express"
 import { Gig } from "../../../models/index.js"
+import { ValidationError } from "objection"
 
 const gigsRouter = new express.Router()
 
 gigsRouter.get("/", async (req, res) => {
-  console.log("TEST POINT")
   try {
     const gigs = await Gig.query()
     console.log(gigs)
     return res.status(200).json({ gigs:gigs })
   } catch (error) {
     return res.status(500).json({errors: error})
+  }
+})
+
+gigsRouter.post("/", async (req, res) => {
+  try {
+    const { body } = req
+    const newPersistedGig = await Gig.query().insertAndFetch(body)
+    return res.status(201).json({ gig:newPersistedGig })
+  } catch (error) {
+    if (error instanceof ValidationError){
+      return res.status(422).json({ errors:error.data })
+    }
+    return res.status(500).json({ errors:error })
   }
 })
 
