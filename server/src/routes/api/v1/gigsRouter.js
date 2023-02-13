@@ -14,4 +14,15 @@ gigsRouter.get("/", async (req, res) => {
   }
 })
 
+gigsRouter.get("/:id", async (req, res) => {
+  const { id } = req.params
+  console.log(id)
+  try {
+    const gig = await Gig.query().findById(id)
+    return res.status(200).json({ gig:gig })
+  } catch(error) {
+    return res.status(500).json({ errors:error })
+  }
+})
+
 export default gigsRouter

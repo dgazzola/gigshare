@@ -9,6 +9,7 @@ import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import HomePage from "./HomePage.js"
 import GigsListPage from "./GigsList";
+import GigShowPage from "./GigShowPage";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -33,6 +34,11 @@ const App = (props) => {
           <HomePage />
           <GigsListPage />
         </Route>
+        <Route 
+          exact 
+          path="/gigs/:id"
+          render= {(props) => <GigShowPage {...props} user={currentUser}/>}
+        />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
       </Switch>
