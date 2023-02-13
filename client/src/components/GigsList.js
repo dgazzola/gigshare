@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import GigTile from "./GigTile.js"
 
 const GigsListPage = () => {
@@ -38,6 +39,7 @@ const GigsListPage = () => {
       <div className="grid-x">
         {gigTileComponenets}
       </div>
+      <Link to="/gigs/new-gig-form">Share a Gig!</Link>
     </div>
   )
 }
