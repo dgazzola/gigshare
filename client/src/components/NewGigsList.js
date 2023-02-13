@@ -3,7 +3,7 @@ import React from "react"
 const NewGigsList = () => {
 
   return (
-    <div>
+    <div className="centered">
       <h1>Hello from NewGigsList</h1>
     </div>
   )
