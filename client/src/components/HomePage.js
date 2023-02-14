@@ -4,7 +4,7 @@ const HomePage = () => {
 
   return (
     <div className="centered">
-      <h1>GIGSHARE</h1>
+      <h1 className="purp">GIGSHARE</h1>
     </div>
   )
 }

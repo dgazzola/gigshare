@@ -39,7 +39,7 @@ const GigsListPage = () => {
       <div className="grid-x">
         {gigTileComponenets}
       </div>
-      <Link to="/gigs/new-gig-form">Share a Gig!</Link>
+      <Link to="/gigs/new-gig-form" className="button">Share a Gig!</Link>
     </div>
   )
 }
