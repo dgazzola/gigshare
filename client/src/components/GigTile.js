@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 const GigTile = ({ id, name, location, time}) => {
   const gigUrl = `/gigs/${id}`
   return(
-    <div className="small-6 callout centered">
+    <div className="small-5 callout centered purp showtile">
       <Link to={gigUrl} className = "centered">
       <h4>{name}</h4>
       <p>Location: {location}</p>

@@ -20,8 +20,7 @@ const GigShowPage = (props) => {
   }
 
   useEffect(() => {
-    getGig(),
-    console.log(id)
+    getGig()
   }, [])
 
   return(
