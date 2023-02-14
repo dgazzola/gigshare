@@ -16,6 +16,19 @@ class Artist extends Model {
     }
   }
 
+  static get relationMappings() {
+    const { User } = require("./index.js")
+    return {
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: "movies.genreId",
+          to: "genres.id"
+        }
+      }
+    }
+  }
 }
 
 module.exports = Artist

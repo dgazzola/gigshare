@@ -18,7 +18,7 @@ body, html {
 }
 
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
   height: 60vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -72,6 +72,7 @@ body, html {
   border: none;
   color: #000000;
   text-align: center;
+  font-weight: 400;
   font-size: 28px;
   padding: 20px;
   width: 200px;

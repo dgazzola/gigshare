@@ -26,13 +26,29 @@ class User extends uniqueFunc(Model) {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["email"],
+      required: ["email", "username"],
 
       properties: {
         email: { type: "string" },
+        username: { type: "string" },
         cryptedPassword: { type: "string" },
       },
     };
+  }
+
+  static get relationMappings() {
+    const { Artist } = require("./index.js")
+
+    return {
+      artists: {
+        relation: Model.HasManyRelation,
+        modelClass: Artist,
+        join: {
+          from:"users.id",
+          to: "artists.userId"
+        }
+      }
+    }
   }
 
   $formatJson(json) {
