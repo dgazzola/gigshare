@@ -34,7 +34,7 @@ const GigsListPage = () => {
   })
 
   return (
-    <div>
+    <div className="centered">
       <h2 className="centered">Upcoming Gigs</h2>
       <div className="grid-x">
         {gigTileComponenets}
