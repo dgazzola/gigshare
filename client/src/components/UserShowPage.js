@@ -6,6 +6,7 @@ const UserShowPage = (props) => {
   const [user, setUser] = useState({
     artist:""
   })
+
   const currentUser = props.currentUser
 
   const getUser = async () => {
@@ -17,7 +18,6 @@ const UserShowPage = (props) => {
       }
       const body = await response.json()
       setUser(body.user)
-      console.log(body)
       } catch (error) {
       console.error(`error in fetch: ${error}`)
     }
@@ -26,11 +26,29 @@ const UserShowPage = (props) => {
   useState(() => {
     getUser()
   }, [])
-  let artistInfo ="Replace with artist info/link to artist profile page?"
+
+  let artistInfo ="replace with user artist button"
+  //need to redirect to artist show page /artists/artistId, which is set by accessing users nested artist value
+  if (user.artist.length!==0){
+    console.log("USER ARTIST", user.artist[0])
+    console.log("USER ARTIST ID FOR REDIRECT", user.artist[0].id)
+    artistInfo = <div>
+        <Link to={`/artists/${user.artist[0].id}`} className="centered">
+          <button type="button" className="button">
+            {user.artist[0].artistName}'s Artist Page
+          </button>
+        </Link>
+      </div>
+  }
 
   if (user.artist.length===0){
-    console.log("HIT ARTIST SECTION", user)
-    artistInfo=<button type="button" className="button">Register as Artist</button>
+    console.log("user artist", user.artist)
+    // console.log("HIT ARTIST SECTION", user)
+    artistInfo=<button type="button" className="button">
+      <Link to={`/users/${id}/register-as-artist`}>
+      Register as Artist
+      </Link>
+      </button>
   }
 
   const DateObject = new Date(user.createdAt)

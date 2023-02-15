@@ -12,6 +12,8 @@ import GigsListPage from "./GigsList.js";
 import GigShowPage from "./GigShowPage.js";
 import NewGigForm from "./NewGigForm.js";
 import UserShowPage from "./UserShowPage.js";
+import RegisterArtistForm from "./RegisterArtistForm.js";
+import ArtistShowPage from "./ArtistShowPage.js"
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -46,12 +48,21 @@ const App = (props) => {
           path="/gigs/:id"
           render= {(props) => <GigShowPage {...props} currentUser={currentUser}/>}
         />
+        <Route 
+          exact 
+          path="/users/:id/register-as-artist"
+          render= {(props) => <RegisterArtistForm {...props} currentUser={currentUser}/>}
+        />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route 
           exact 
           path="/users/:id" 
           render={(props) => <UserShowPage {...props} currentUser={currentUser} />}/>
+        <Route 
+          exact 
+          path="/artists/:id" 
+          render={(props) => <ArtistShowPage {...props} currentUser={currentUser} />}/>
       </Switch>
     </Router>
   );

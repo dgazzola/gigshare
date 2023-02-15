@@ -3,8 +3,11 @@ import passport from "passport";
 import { User } from "../../../models/index.js";
 import { ValidationError } from "objection"
 import UserSerializer from "../../../serializers/UserSerializer.js";
+import userArtistsRouter from "./userArtistsRouter.js"
 
 const usersRouter = new express.Router();
+
+usersRouter.use("/:id/register-as-artist", userArtistsRouter)
 
 usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params
@@ -20,7 +23,6 @@ usersRouter.get("/:id", async (req, res) => {
 usersRouter.post("/", async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    console.log("POST BODY", req.body)
     const persistedUser = await User.query().insertAndFetch({ email, password, username });
     return req.login(persistedUser, () => {
       return res.status(201).json({ user: persistedUser });
