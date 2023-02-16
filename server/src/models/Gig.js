@@ -18,6 +18,33 @@ class Gig extends Model {
     }
   }
 
+  static get relationMappings(){
+    const { Artist, Lineup } = require("./index.js")
+
+    return {
+      artists: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Artist,
+        join: {
+          from:"gigs.id",
+          through: {
+            from: "lineups.gigId",
+            to: "lineups.artistId"
+          },
+          to: "artists.id"
+        }
+      },
+      lineups: {
+        relation: Model.HasManyRelation,
+        modelClass: Lineup,
+        join: {
+          from: "gigs.id",
+          to:"lineups.gigId"
+        }
+      }
+    }
+  }
+
 }
 
 module.exports = Gig
