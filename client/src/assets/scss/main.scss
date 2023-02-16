@@ -15,10 +15,11 @@
 
 body, html {
   height: 100%;
+  background: linear-gradient(#000000 67%,#fff);
 }
 
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 45%, rgba(0, 0, 0, 1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
   height: 60vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -46,16 +47,12 @@ body, html {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
   }
   to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff7dbe, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
   }
 }
 
 .shift-down{
   transform: translate(0%, 50%);
-}
-
-.white{
-  color:white
 }
 
 .huge{
@@ -68,9 +65,9 @@ body, html {
 
 .button {
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: #d0d0d0;
   border: none;
-  color: #000000;
+  color: #ff4dd3;
   text-align: center;
   font-weight: 400;
   font-size: 28px;
@@ -98,6 +95,7 @@ body, html {
 }
 
 .button:hover span {
+  opacity:90%;
   padding-right: 25px;
 }
 
@@ -108,4 +106,26 @@ body, html {
 
 .centered{
   text-align: center;
+}
+
+.white{
+  color:white;
+  background:white
+}
+
+h3{
+  color:white;
+}
+
+.text-box{
+  opacity:80%;
+  background: linear-gradient(#fff 80%,#000000);
+}
+
+.opaque{
+  opacity:100%
+}
+
+h3.black{
+  color:black;
 }

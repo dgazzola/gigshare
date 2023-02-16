@@ -69,7 +69,7 @@ $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #1779ba,
+  primary: #fff,
   secondary: #767676,
   success: #3adb76,
   warning: #ffae00,
@@ -299,7 +299,7 @@ $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
 $button-background-hover: scale-color($button-background, $lightness: -15%);
-$button-color: $white;
+$button-color: $black;
 $button-color-alt: $black;
 $button-radius: $global-radius;
 $button-border: 1px solid transparent;
@@ -872,7 +872,7 @@ $tooltip-radius: $global-radius;
 // -----------
 
 $topbar-padding: 0.5rem;
-$topbar-background: $light-gray;
+$topbar-background: $black;
 $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
 $topbar-input-width: 200px;

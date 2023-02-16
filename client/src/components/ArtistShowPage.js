@@ -26,9 +26,17 @@ const ArtistShowPage = (props) => {
   }, [])
 
   return(
-    <div>
-      <h1>Individual Artist Page!</h1>
-      <h2>GArtist NAME:{artist.artistName}</h2>
+    <div className="centered">
+      {/* <div className="hero-image">
+        <div className="hero-text"> */}
+        <div className="text-box">
+          <h1 className="huge opaque"> RETURN ARTIST TILE FORMATTED{artist.artistName}</h1>
+          <h1 className="shift-down opaque">{artist.genre}</h1>
+          <h1 className="shift-down opaque">Upcoming Gigs:</h1>
+
+        </div>
+      {/* </div>
+    </div> */}
     </div>
   )
 }
