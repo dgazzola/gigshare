@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react"
+import { Link, Redirect } from "react-router-dom"
 
 const ArtistShowPage = (props) => {
   const [artist, setArtist] = useState({})
-  console.log("props match params id = artist id", props.match)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
+  const [updatedArtist,setUpdatedArtist] = useState({
+    artistName:"",
+    genre:""
+  })
   const id = props.match.params.id
+  const userId = props.currentUser?.id
+  const [errors, setErrors] = useState({})
+  const [visibility, setVisibility] = useState("invisible")
 
   const getArtist = async() => {
     try {
@@ -15,7 +23,6 @@ const ArtistShowPage = (props) => {
       }
       const artistData = await response.json()
       setArtist(artistData.artist)
-      console.log("ARTIST DATA", artistData)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -25,18 +32,146 @@ const ArtistShowPage = (props) => {
     getArtist()
   }, [])
 
+  let editArtistForm=''
+  let deleteArtistButton=''
+
+  const deleteArtist = async () => {
+    try {
+      const response = await fetch(`/api/v1/artists/${artist.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify(artist)
+      })
+      if (!response.ok) {
+        if (response.status===422) {
+          const body = await response.json()
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw error         
+        }
+      } else {
+        setShouldRedirect(true)
+      }
+    } catch(err) {
+      console.error(`Error in fetch: ${err.message}`)
+    }
+  }
+
+  const editArtist = async () => {
+    try {
+      const response = await fetch(`/api/v1/artists/${artist.id}`, {
+        method: "PATCH",
+        headers: new Headers({
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify(updatedArtist)
+      })
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json()
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw error
+        }
+      } else {
+        const body = await response.json()
+        const returnedArtist = body.artist    
+        setShouldRedirect(true)      
+        setArtist(returnedArtist)
+      }
+    } catch(err) {
+
+    }
+  }
+
+  const handleUpdate = event => {
+    event.preventDefault()
+    editArtist()
+  }
+
+  const handleDelete = () => {
+    if (confirm(`Are you sure you want to delete ${artist.artistName}'s profile? \nThis cannot be undone`) == true) {
+      deleteArtist()
+    } else {
+      alert(`${artist.artistName}'s profile has NOT been deleted.`)
+    }
+  }
+
+  const handleEdit = event => {
+    event.preventDefault()
+    if (visibility){
+      setVisibility("")
+    } else {
+      setVisibility("invisible")
+    }
+    console.log("EDIT SUBMITTED")
+  }
+
+  const handleInputChange = event => {
+    console.log("UPDATED ARTIST", updatedArtist)
+    setUpdatedArtist({
+      ...updatedArtist,
+      [event.currentTarget.name]: event.currentTarget.value
+    })
+  }
+  
+  if (props.currentUser?.id===artist.userId){
+    editArtistForm =<div>
+      <button type="button" className="button shift-down" onClick={handleEdit}>
+        Edit
+      </button>
+    <div className={`${visibility}`}>
+      <form onSubmit={handleUpdate} className="form-smaller">
+      <label className="text-white">
+          Update Artist Name:
+          <input
+            type="text"
+            name="artistName"
+            onChange={handleInputChange}
+            value={updatedArtist.artistName}
+          />
+        </label>
+      <label className="text-white">
+          Update Genre:
+          <input
+            type="text"
+            name="genre"
+            onChange={handleInputChange}
+            value={updatedArtist.genre}
+          />
+        </label>
+        <div className="button-group centered">
+          <input className="button" type="submit" value="Submit Artist Update" />
+        </div>
+      </form>
+    </div>
+
+    </div>
+    deleteArtistButton=<button type="button" className={`button shift-down ${visibility}`} onClick={handleDelete}> Delete Artist</button>
+  }
+
+  if (shouldRedirect) {
+    return <Redirect push to ={`/users/${userId}`} />
+  }
+
   return(
     <div className="centered">
-      {/* <div className="hero-image">
-        <div className="hero-text"> */}
         <div className="text-box">
-          <h1 className="huge opaque"> RETURN ARTIST TILE FORMATTED{artist.artistName}</h1>
-          <h1 className="shift-down opaque">{artist.genre}</h1>
-          <h1 className="shift-down opaque">Upcoming Gigs:</h1>
+          <h1 className="huge opaque glow huge">{artist.artistName}</h1>
+          <h1 className="shift-down opaque text-white">{artist.genre}</h1>
+          <h1 className="shift-down opaque text-white">Upcoming Gigs:</h1>
+          {editArtistForm}<br className="shift-down-big"></br>
+          {deleteArtistButton}
 
         </div>
-      {/* </div>
-    </div> */}
     </div>
   )
 }

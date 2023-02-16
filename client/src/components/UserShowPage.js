@@ -21,6 +21,7 @@ const UserShowPage = (props) => {
       } catch (error) {
       console.error(`error in fetch: ${error}`)
     }
+    console.log("TEST LOG", body.user)
   }
 
   useState(() => {
@@ -31,22 +32,27 @@ const UserShowPage = (props) => {
   //need to redirect to artist show page /artists/artistId, which is set by accessing users nested artist value
   if (user.artist.length!==0){
     console.log("USER ARTIST", user.artist[0])
-    console.log("USER ARTIST ID FOR REDIRECT", user.artist[0].id)
-    artistInfo = <div>
+    console.log("USER", user)
+    artistInfo =
+    <div className="shift-down">
         <Link to={`/artists/${user.artist[0].id}`} className="centered">
           <button type="button" className="button">
             {user.artist[0].artistName}'s Artist Page
           </button>
         </Link>
+
       </div>
   }
 
   if (user.artist.length===0){
-    artistInfo=<button type="button" className="button">
-      <Link to={`/users/${id}/register-as-artist`}>
-      Register as Artist
+    artistInfo =
+    <div className="shift-down">
+      <Link to={`/users/${id}/register-as-artist`} className="centered">
+        <button type="button" className="button">
+          Register As Artist
+        </button>
       </Link>
-      </button>
+    </div>
   }
 
   const DateObject = new Date(user.createdAt)
@@ -54,9 +60,9 @@ const UserShowPage = (props) => {
 
   return(
     <div className="centered text-box">
-      <h3>Username: {user.username}</h3>
-      <h3>Email: {user.email}</h3>
-      <h3>Created At: {createdDateString}</h3>
+      <h3 className="text-white">Username: {user.username}</h3>
+      <h3 className="text-white">Email: {user.email}</h3>
+      <h3 className="text-white">Created At: {createdDateString}</h3>
       {artistInfo}
     </div>
   )

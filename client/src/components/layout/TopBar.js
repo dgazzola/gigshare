@@ -30,7 +30,7 @@ const TopBar = ({ user }) => {
 
   return (
     <div className="top-bar">
-      <div className="top-bar-left">
+      <div className="top-bar-left white">
         <ul className="menu">
           <li className="menu-text">App</li>
           <li>

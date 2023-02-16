@@ -35,11 +35,13 @@ const GigsListPage = () => {
 
   return (
     <div className="centered">
-      <h2 className="centered">Upcoming Gigs</h2>
+      <div className="hero-image">
+        <h1 className="glow small shift-down-small">Upcoming Gigs</h1>
       <div className="grid-x">
         {gigTileComponenets}
       </div>
-      <Link to="/gigs/new-gig-form" className="button">Share a Gig!</Link>
+      </div>
+      {/* <Link to="/gigs/new-gig-form" className="button">Share a Gig!</Link> */}
     </div>
   )
 }
