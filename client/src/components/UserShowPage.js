@@ -42,8 +42,6 @@ const UserShowPage = (props) => {
   }
 
   if (user.artist.length===0){
-    console.log("user artist", user.artist)
-    // console.log("HIT ARTIST SECTION", user)
     artistInfo=<button type="button" className="button">
       <Link to={`/users/${id}/register-as-artist`}>
       Register as Artist
@@ -55,9 +53,9 @@ const UserShowPage = (props) => {
   const createdDateString= DateObject.toUTCString()
 
   return(
-    <div className="centered">
-      <h1>Username: {user.username}</h1>
-      <h2>Email: {user.email}</h2>
+    <div className="centered text-box">
+      <h3>Username: {user.username}</h3>
+      <h3>Email: {user.email}</h3>
       <h3>Created At: {createdDateString}</h3>
       {artistInfo}
     </div>

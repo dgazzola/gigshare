@@ -7,7 +7,7 @@ const HomePage = () => {
     console.log("BUTTON IS WORKING")
   }
   return (
-    <div className="hero-image">
+    <div className="hero-image fade-back-black">
       <div className="hero-text">
         <h1 className="huge glow">GIGSHARE</h1>
         <Link to="/gigs">
