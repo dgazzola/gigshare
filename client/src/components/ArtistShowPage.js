@@ -35,7 +35,6 @@ const ArtistShowPage = (props) => {
   let editArtistForm=''
   let deleteArtistButton=''
 
-
   const deleteArtist = async () => {
     try {
       const response = await fetch(`/api/v1/artists/${artist.id}`, {
@@ -123,7 +122,7 @@ const ArtistShowPage = (props) => {
       [event.currentTarget.name]: event.currentTarget.value
     })
   }
-  //UPDATE ARTIST WILL SEND AN UPDATE REQUEST AND THEN NEED ROUTER TO EDIT THE ARTIST ON BACKEND
+  
   if (props.currentUser?.id===artist.userId){
     editArtistForm =<div>
       <button type="button" className="button shift-down" onClick={handleEdit}>
