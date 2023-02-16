@@ -24,9 +24,12 @@ const GigShowPage = (props) => {
   }, [])
 
   return(
-    <div>
+    <div className="text-white">
       <h1>individual gig show page!</h1>
-      <h2>GIG NAME: {gig.name}</h2>
+      <h2 className="text-white">GIG NAME: {gig.name}</h2>
+      <h2 className="text-white">GIG NAME: {gig.location}</h2>
+      <h2 className="text-white">GIG NAME: {gig.date}</h2>
+      <h2 className="text-white">GIG NAME: {gig.time}</h2>
     </div>
   )
 }

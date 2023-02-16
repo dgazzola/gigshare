@@ -12,7 +12,7 @@ const RegisterArtistForm = props => {
   const [errors, setErrors] = useState({})
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
-  let newArtistForm = (<h3>Artist form placeholder</h3>)
+  let newArtistForm
 
   const registerNewArtist = async (newArtistData) => {
     const userId = props.currentUser?.id
@@ -45,7 +45,6 @@ const RegisterArtistForm = props => {
   const handleSubmit = (event) => {
     event.preventDefault()
     registerNewArtist(newArtist)
-    // console.log("USER ID", props.currentUser?.id)
   }
 
   const handleInput = event => {
