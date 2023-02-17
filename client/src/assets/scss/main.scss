@@ -26,6 +26,14 @@ body, html {
   background-size: cover;
   position: relative;
 }
+.hero-image-2 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, .9)), url("https://thumbs.dreamstime.com/b/concert-stage-illuminated-empty-purple-light-fog-69768402.jpg");
+  height: 60vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
 .hero-text {
   text-align: center;
   color: white;

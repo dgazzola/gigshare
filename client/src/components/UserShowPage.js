@@ -21,7 +21,6 @@ const UserShowPage = (props) => {
       } catch (error) {
       console.error(`error in fetch: ${error}`)
     }
-    console.log("TEST LOG", body.user)
   }
 
   useState(() => {
@@ -60,9 +59,9 @@ const UserShowPage = (props) => {
 
   return(
     <div className="centered text-box">
-      <h3 className="text-white">Username: {user.username}</h3>
-      <h3 className="text-white">Email: {user.email}</h3>
-      <h3 className="text-white">Created At: {createdDateString}</h3>
+      <h3 className="text-white ">Username: {user.username}</h3>
+      <h3 className="text-white ">Email: {user.email}</h3>
+      <h3 className="text-white ">Created At: {createdDateString}</h3>
       {artistInfo}
     </div>
   )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link, Redirect } from "react-router-dom"
+import GigTile from "./GigTile.js"
 
 const ArtistShowPage = (props) => {
   const [artist, setArtist] = useState({})
@@ -31,6 +32,8 @@ const ArtistShowPage = (props) => {
   useEffect(() => {
     getArtist()
   }, [])
+
+
 
   let editArtistForm=''
   let deleteArtistButton=''
@@ -112,11 +115,15 @@ const ArtistShowPage = (props) => {
     } else {
       setVisibility("invisible")
     }
-    console.log("EDIT SUBMITTED")
   }
 
   const handleInputChange = event => {
-    console.log("UPDATED ARTIST", updatedArtist)
+    // console.log("UPDATED ARTIST", updatedArtist)
+    // console.log(artist.gigs)
+    // for (let i=0;i<artist.gigs.length;i++){
+    //   console.log(artist.gigs[i].name)
+    // }
+    // console.log(artist.gigs.name) accessing artist gigs, delete later
     setUpdatedArtist({
       ...updatedArtist,
       [event.currentTarget.name]: event.currentTarget.value
@@ -157,17 +164,30 @@ const ArtistShowPage = (props) => {
     </div>
     deleteArtistButton=<button type="button" className={`button shift-down ${visibility}`} onClick={handleDelete}> Delete Artist</button>
   }
+  let gigTileComponents = ""
+  if (artist.gigs) {
+    gigTileComponents = artist.gigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+        />
+      )
+    })
+    //IF NO GIGS SHOULD DISPLAY A NO GIGS YET MESSAGE, REGISTER FOR A GIG IF OWN ARTIST PAGE
+  }
 
   if (shouldRedirect) {
     return <Redirect push to ={`/users/${userId}`} />
   }
 
   return(
-    <div className="centered">
+    <div className="centered hero-image-2">
         <div className="text-box">
           <h1 className="huge opaque glow huge">{artist.artistName}</h1>
           <h1 className="shift-down opaque text-white">{artist.genre}</h1>
           <h1 className="shift-down opaque text-white">Upcoming Gigs:</h1>
+          <div>{gigTileComponents}</div>
           {editArtistForm}<br className="shift-down-big"></br>
           {deleteArtistButton}
 

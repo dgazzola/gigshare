@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { connection } from "../boot.js"
-import { Artist, Gig } from "../models/index.js"
 import UserSeeder from "./seeders/UserSeeder.js"
 import GigSeeder from "./seeders/GigSeeder.js"
 import ArtistSeeder from "./seeders/ArtistSeeder.js"
@@ -17,7 +16,7 @@ class Seeder {
     console.log("seeding artists")
     await ArtistSeeder.seed()
 
-    console.log("attempting to seed lineups")
+    console.log("seeding lineups")
     await LineupSeeder.seed()
 
     console.log("Done!")

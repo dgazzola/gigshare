@@ -28,7 +28,7 @@ class LineupSeeder {
     await Lineup.query().insert({gigId: edc.id, artistId: porter.id})
     await Lineup.query().insert({gigId: burningMan.id, artistId: skrillex.id})
 
-    console.log("reviews seeded")
+    console.log("lineups seeded")
 
   }
 }
