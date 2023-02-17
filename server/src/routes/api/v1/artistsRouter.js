@@ -28,6 +28,7 @@ artistsRouter.get("/:id", async (req, res) => {
   const { id } = req.params
   try {
     const artist = await Artist.query().findById(id)
+    artist.gigs = await artist.$relatedQuery("gigs")
     return res.status(200).json({ artist })
   } catch (error) {
     return res.status(500).json({errors: error})
@@ -36,8 +37,6 @@ artistsRouter.get("/:id", async (req, res) => {
 
 artistsRouter.patch("/:id", async (req, res) => {
   const { id } = req.params
-  console.log("PATCH HIT")
-  console.log("REQUES BODY", req.body)
   try {
     const artist = await Artist.query().findById(id).patch(req.body)
     return res.status(200).json({ artist })

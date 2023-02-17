@@ -1,3 +1,6 @@
+import Artist from "../models/index.js"
+import User from "../models/index.js"
+
 class UserSerializer {
   static async getSummary(user) {
     const allowedAttributes = ["id", "email", "username", "createdAt"]
