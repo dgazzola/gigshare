@@ -18,5 +18,8 @@
   },
   "engines": {
     "node": "^16.18"
+  },
+  "dependencies": {
+    "react-player": "^2.11.2"
   }
 }

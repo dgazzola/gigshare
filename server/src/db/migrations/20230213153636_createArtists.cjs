@@ -11,6 +11,7 @@ exports.up = async (knex) => {
     table.bigInteger("userId").unsigned().index().references("users.id")
     table.string("artistName").notNullable()
     table.string("genre").notNullable()
+    table.string("mediaUrl")
     table.timestamp("createdAt").notNullable().defaultTo(knex.fn.now())
     table.timestamp("updatedAt").notNullable().defaultTo(knex.fn.now())
 

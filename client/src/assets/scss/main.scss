@@ -14,8 +14,8 @@
 }
 
 body, html {
-  height: 100%;
-  background: linear-gradient(#000000 67%,#fff);
+  background: linear-gradient(#000000 50%,#fff);
+  height: 120%;
 }
 
 .hero-image {
@@ -167,4 +167,17 @@ h2{
 
 .form-smaller{
   margin:8vw;
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.player-wrapper {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  opacity: 90%;
 }

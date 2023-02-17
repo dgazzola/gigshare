@@ -11,7 +11,9 @@ class Artist extends Model {
       required: ["artistName"],
       properties: {
         artistName: {type: "string"},
-        genre: {type: "string"}
+        genre: {type: "string"},
+        userId: {type: "integer"},
+        mediaUrl: {type: "string"}
       }
     }
   }

@@ -2,10 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 const HomePage = () => {
-  const logTest=(event)=>{
-    event.preventDefault()
-    console.log("BUTTON IS WORKING")
-  }
+  
   return (
     <div className="hero-image">
       <div className="hero-text">
