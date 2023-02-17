@@ -114,8 +114,10 @@ const ArtistShowPage = (props) => {
   const handleEdit = () => {
     if (visibility){
       setVisibility("")
+      window.scrollTo(0,document.body.scrollHeight)
     } else {
       setVisibility("invisible")
+      window.scrollTo(0,0)
     }
   }
 
