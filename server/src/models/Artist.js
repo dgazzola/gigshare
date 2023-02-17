@@ -12,7 +12,7 @@ class Artist extends Model {
       properties: {
         artistName: {type: "string"},
         genre: {type: "string"},
-        userId: {type: "integer"},
+        userId: {type: ["integer", "string"]},
         mediaUrl: {type: "string"}
       }
     }

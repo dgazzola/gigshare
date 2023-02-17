@@ -8,7 +8,7 @@
 exports.up = async (knex) => {
   return knex.schema.createTable("artists", table => {
     table.bigIncrements("id")
-    table.bigInteger("userId").unsigned().index().references("users.id")
+    table.bigInteger("userId").unsigned().index().references("users.id").onDelete("CASCADE")
     table.string("artistName").notNullable()
     table.string("genre").notNullable()
     table.string("mediaUrl")

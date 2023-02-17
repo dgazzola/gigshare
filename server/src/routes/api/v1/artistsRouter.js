@@ -16,8 +16,7 @@ artistsRouter.get("/", async (req, res) => {
 artistsRouter.delete("/:id", async (req, res) => {
   const { id } = req.params
   try {
-    const deletedArtist = await Artist.query().findById(id).delete()
-    console.log(deletedArtist)
+    const deletedArtist = await Artist.query().deleteById(id)
     return res.status(200).json({ deletedArtist })
   } catch (error) {
     return res.status(500).json({errors: error})
