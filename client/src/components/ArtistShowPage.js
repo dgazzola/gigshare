@@ -6,10 +6,7 @@ import ReactPlayer from "react-player"
 const ArtistShowPage = (props) => {
   const [artist, setArtist] = useState({})
   const [shouldRedirect, setShouldRedirect] = useState(false)
-  const [updatedArtist,setUpdatedArtist] = useState({
-    artistName:"",
-    genre:""
-  })
+  const [updatedArtist,setUpdatedArtist] = useState({})
   const id = props.match.params.id
   const userId = props.currentUser?.id
   const [errors, setErrors] = useState({})
@@ -25,13 +22,13 @@ const ArtistShowPage = (props) => {
       }
       const artistData = await response.json()
       setArtist(artistData.artist)
-      console.log(artistData)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
 
   useEffect(() => {
+    window.scrollTo(0,0),
     getArtist()
   }, [])
 
@@ -93,13 +90,17 @@ const ArtistShowPage = (props) => {
         setArtist(returnedArtist)
       }
     } catch(err) {
-
     }
   }
 
   const handleUpdate = event => {
     event.preventDefault()
-    editArtist()
+    if (!updatedArtist.artistName && !updatedArtist.genre && !updatedArtist?.mediaUrl){
+      handleEdit()
+      alert(`No changes have been submitted for ${artist.artistName}'s profile!`)
+    } else {
+      editArtist()
+    }
   }
 
   const handleDelete = () => {
@@ -110,8 +111,7 @@ const ArtistShowPage = (props) => {
     }
   }
 
-  const handleEdit = event => {
-    event.preventDefault()
+  const handleEdit = () => {
     if (visibility){
       setVisibility("")
     } else {
@@ -151,6 +151,15 @@ const ArtistShowPage = (props) => {
             value={updatedArtist.genre}
           />
         </label>
+      <label className="text-white">
+          Update Profile Song:
+          <input
+            type="text"
+            name="mediaUrl"
+            onChange={handleInputChange}
+            value={updatedArtist.mediaUrl}
+          />
+        </label>
         <div className="button-group centered">
           <input className="button" type="submit" value="Submit Artist Update" />
         </div>
@@ -180,7 +189,8 @@ const ArtistShowPage = (props) => {
   return(
     <div className="centered hero-image-2">
         <div className="text-box">
-          <h1 className="opaque glow huge">{artist.artistName} / {artist.genre}</h1>
+          <h1 className="glow huge">{artist.artistName}</h1>
+          <h3 className="glow small">({artist.genre})</h3>
             <div className="player-wrapper">
               <ReactPlayer url={`${artist.mediaUrl}`} config={{
                 soundcloud: {options: {auto_play: true}},
@@ -188,7 +198,7 @@ const ArtistShowPage = (props) => {
               }}
               />
             </div>
-          <h1 className="shift-down opaque text-white glow small">Upcoming Gigs:</h1>
+          <h1 className="shift-down text-white glow small">Upcoming Gigs:</h1>
           <div>{gigTileComponents}</div>
           {editArtistForm}<br className="shift-down-big"></br>
           {deleteArtistButton}

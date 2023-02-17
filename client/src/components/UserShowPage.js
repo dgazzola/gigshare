@@ -24,11 +24,12 @@ const UserShowPage = (props) => {
   }
 
   useState(() => {
+    window.scrollTo(0,0),
     getUser()
   }, [])
 
   let artistInfo ="replace with user artist button"
-  //need to redirect to artist show page /artists/artistId, which is set by accessing users nested artist value
+
   if (user.artist.length!==0){
     console.log("USER ARTIST", user.artist[0])
     console.log("USER", user)
@@ -39,7 +40,6 @@ const UserShowPage = (props) => {
             {user.artist[0].artistName}'s Artist Page
           </button>
         </Link>
-
       </div>
   }
 

@@ -6,7 +6,9 @@ class LineupSeeder {
     const zola = await Artist.query().findOne("artistName", "ZOLA")
     const porter = await Artist.query().findOne("artistName", "Porter Robinson")
     const skrillex = await Artist.query().findOne("artistName", "Skrillex")
+    const gecs = await Artist.query().findOne("artistName", "100 Gecs")
     const xandor = await Artist.query().findOne("artistName", "Xandor")
+    const midwxst = await Artist.query().findOne("artistName", "midwxst")
     const coachella = await Gig.query().findOne("name", "Coachella")
     const hardSummer = await Gig.query().findOne("name", "Hard Summer")
     const edc = await Gig.query().findOne("name", "EDC Orlando")
@@ -27,6 +29,10 @@ class LineupSeeder {
     await Lineup.query().insert({gigId: electricZoo.id, artistId: skrillex.id})
     await Lineup.query().insert({gigId: edc.id, artistId: porter.id})
     await Lineup.query().insert({gigId: burningMan.id, artistId: skrillex.id})
+
+    await Lineup.query().insert({gigId: coachella.id, artistId: gecs.id})
+    await Lineup.query().insert({gigId: coachella.id, artistId: midwxst.id})
+    await Lineup.query().insert({gigId: edc.id, artistId: gecs.id})
 
     console.log("lineups seeded")
 
