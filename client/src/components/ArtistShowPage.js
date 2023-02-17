@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Link, Redirect } from "react-router-dom"
 import GigTile from "./GigTile.js"
+import ReactPlayer from "react-player"
 
 const ArtistShowPage = (props) => {
   const [artist, setArtist] = useState({})
@@ -24,6 +25,7 @@ const ArtistShowPage = (props) => {
       }
       const artistData = await response.json()
       setArtist(artistData.artist)
+      console.log(artistData)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -118,12 +120,6 @@ const ArtistShowPage = (props) => {
   }
 
   const handleInputChange = event => {
-    // console.log("UPDATED ARTIST", updatedArtist)
-    // console.log(artist.gigs)
-    // for (let i=0;i<artist.gigs.length;i++){
-    //   console.log(artist.gigs[i].name)
-    // }
-    // console.log(artist.gigs.name) accessing artist gigs, delete later
     setUpdatedArtist({
       ...updatedArtist,
       [event.currentTarget.name]: event.currentTarget.value
@@ -165,7 +161,7 @@ const ArtistShowPage = (props) => {
     deleteArtistButton=<button type="button" className={`button shift-down ${visibility}`} onClick={handleDelete}> Delete Artist</button>
   }
   let gigTileComponents = ""
-  if (artist.gigs) {
+  if (artist?.gigs) {
     gigTileComponents = artist.gigs.map(gigObject => {
       return (
         <GigTile
@@ -174,7 +170,7 @@ const ArtistShowPage = (props) => {
         />
       )
     })
-    //IF NO GIGS SHOULD DISPLAY A NO GIGS YET MESSAGE, REGISTER FOR A GIG IF OWN ARTIST PAGE
+
   }
 
   if (shouldRedirect) {
@@ -184,9 +180,15 @@ const ArtistShowPage = (props) => {
   return(
     <div className="centered hero-image-2">
         <div className="text-box">
-          <h1 className="huge opaque glow huge">{artist.artistName}</h1>
-          <h1 className="shift-down opaque text-white">{artist.genre}</h1>
-          <h1 className="shift-down opaque text-white">Upcoming Gigs:</h1>
+          <h1 className="opaque glow huge">{artist.artistName} / {artist.genre}</h1>
+            <div className="player-wrapper">
+              <ReactPlayer url={`${artist.mediaUrl}`} config={{
+                soundcloud: {options: {auto_play: true}},
+                youtube: {playerVars: { autoplay: 1 }}
+              }}
+              />
+            </div>
+          <h1 className="shift-down opaque text-white glow small">Upcoming Gigs:</h1>
           <div>{gigTileComponents}</div>
           {editArtistForm}<br className="shift-down-big"></br>
           {deleteArtistButton}

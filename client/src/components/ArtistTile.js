@@ -11,7 +11,7 @@ const ArtistTile = ({ id, artistName, genre}) => {
     <div className=" callout centered tile-box">
       <Link to={artistUrl} className = "centered">
       <h4 className="black">{artistName}</h4>
-      <p className="black">Genre: {genre}</p>
+      <p className="black">{genre}</p>
       </Link>
     </div>
 

@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-const GigTile = ({ id, name, location, time}) => {
+const GigTile = ({ id, name, location, time, date}) => {
   const gigUrl = `/gigs/${id}`
   return(
     <button type="button" className="centered small-4">
@@ -9,6 +9,7 @@ const GigTile = ({ id, name, location, time}) => {
       <Link to={gigUrl} className = "centered">
       <h4 className="black">{name}</h4>
       <p className="black">Location: {location}</p>
+      <p className="black">Date: {date}</p>
       <p className="black">Time: {time}</p>
       </Link>
     </div>
