@@ -16,6 +16,7 @@ const GigShowPage = (props) => {
         throw error
       }
       const gigData = await response.json()
+      console.log(gigData)
       setGig(gigData.gig)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
@@ -111,7 +112,7 @@ const GigShowPage = (props) => {
     <div className="centered text-white">
       <div className="hero-image">
       <h1 className="glow small shift-down-small">{gig.name}</h1>
-      <h2 className="text-white">Location: {gig.location}</h2>
+      <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
       <h2 className="text-white">Date: {gig.date}</h2>
       <h2 className="text-white">Time: {gig.time}</h2>
       <h2 className="text-white">Favorited: {favoriteCount}</h2>

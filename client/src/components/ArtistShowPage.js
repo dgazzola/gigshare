@@ -173,13 +173,11 @@ const ArtistShowPage = (props) => {
   if (artist?.gigs) {
     gigTileComponents = artist.gigs.map(gigObject => {
       return (
-
-
           <GigTile
             key={gigObject.id}
             {...gigObject}
-          />
-
+            currentUser={props.currentUser}
+        />
       )
     })
 
@@ -197,15 +195,17 @@ const ArtistShowPage = (props) => {
             <div className="player-wrapper">
               <ReactPlayer url={`${artist.mediaUrl}`} config={{
                 // soundcloud: {options: {auto_play: true}},
-                // youtube: {playerVars: { autoplay: 1 }}
+                // youtube: {playerVars: { autoplay: 1 }}  //COMMENT THESE BACK IN FOR AUTO PLAY
               }}
               />
             </div>
           <h1 className="shift-down text-white glow small">Upcoming Gigs:</h1>
-          <div>{gigTileComponents}</div>
-          {editArtistForm}<br className="shift-down-big"></br>
+          <div className="grid-x">
+            {gigTileComponents}
+          </div>
+          {editArtistForm}
+          <br className="shift-down-big"></br>
           {deleteArtistButton}
-
         </div>
     </div>
   )

@@ -6,9 +6,12 @@ import _ from "lodash"
 const NewGigForm = props => {
   const defaultForm = {
     name:"",
-    location:"",
+    address:"",
+    city:"",
+    state:"",
     date:"",
-    time:""
+    startTime:"",
+    endTime:""
   }
   const [newGig, setNewGig] = useState(defaultForm)
   const [shouldRedirect, setShouldRedirect] = useState(false)
@@ -55,23 +58,23 @@ const NewGigForm = props => {
   }
 
   const formInputs = Object.keys(defaultForm).map(input => {
-    if (input!=="date" && input!=="time"){
+    if (input!=="date" && input!=="startTime"&& input!=="endTime"){
       return(
-        <label key={input}>{_.startCase(input)}:
+        <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="text" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
       )
     }
     if (input==="date"){
       return(
-        <label key={input}>{_.startCase(input)}:
+        <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="date" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
       )
     }
-    if (input==="time"){
+    if (input==="startTime" || input==="endTime"){
       return(
-        <label key={input}>{_.startCase(input)}:
+        <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="time" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
       )
@@ -79,12 +82,12 @@ const NewGigForm = props => {
   })
 
   if (shouldRedirect) {
-    return <Redirect push to="/"/>
+    return <Redirect push to="/gigs" />
   }
 
   return(
     <div>
-      <h1 className="centered">Submit An Upcoming Gig!</h1>
+      <h1 className="centered text-white">Submit An Upcoming Gig!</h1>
       <form onSubmit={handleSubmit}>
         {formInputs}
         <input type="submit" value="Submit Gig" className="button" onClick={handleSubmit}/>
