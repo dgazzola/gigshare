@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom"
 import translateServerErrors from "./../services/translateServerErrors.js"
+import ErrorList from "./layout/ErrorList.js";
 import _ from "lodash"
 
 const RegisterArtistForm = props => {
   const defaultForm = {
     artistName:"",
     genre:"",
+    mediaUrl:""
   }
   const [newArtist, setNewArtist] = useState(defaultForm)
   const [errors, setErrors] = useState({})
@@ -52,7 +54,6 @@ const RegisterArtistForm = props => {
       ...newArtist,
       [event.currentTarget.name]: event.currentTarget.value
     })
-    console.log(newArtist)
   }
 
   const formInputs = Object.keys(defaultForm).map(input => {
@@ -73,6 +74,7 @@ const RegisterArtistForm = props => {
     <div className="callout">
       <h1>Register Artist Form</h1>
         <form onSubmit={handleSubmit}>
+          <ErrorList errors={errors} />
           {formInputs}
           <input type="submit" value="submit" className="button" onClick={handleSubmit}/>
         </form>      

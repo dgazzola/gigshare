@@ -13,7 +13,7 @@ const ErrorList = props => {
       )
     })
     return (
-      <div className="callout alert">
+      <div className="callout alert text-white">
         <ul>{listItems}</ul>
       </div>
     )

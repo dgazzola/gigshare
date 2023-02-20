@@ -8,7 +8,7 @@ class Artist extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["artistName"],
+      required: ["artistName", "genre"],
       properties: {
         artistName: {type: "string"},
         genre: {type: "string"},
