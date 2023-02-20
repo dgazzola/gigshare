@@ -4,10 +4,11 @@ import { User } from "../../../models/index.js";
 import { ValidationError } from "objection"
 import UserSerializer from "../../../serializers/UserSerializer.js";
 import userArtistsRouter from "./userArtistsRouter.js"
+import userFavoritesRouter from "./userFavoritesRouter.js";
 
 const usersRouter = new express.Router();
-
 usersRouter.use("/:id/register-as-artist", userArtistsRouter)
+usersRouter.use("/:id/favorites", userFavoritesRouter)
 
 usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params

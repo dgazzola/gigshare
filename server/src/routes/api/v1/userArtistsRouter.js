@@ -6,12 +6,9 @@ import { ValidationError } from "objection"
 const userArtistsRouter = new express.Router({ mergeParams: true })
 
 userArtistsRouter.post("/", async (req, res) => {
-  console.log("POST HIT")
-  console.log("REQUEST BODY", req.body)
   const artistName = req.body.artistName
   const genre = req.body.genre
   const userId = req.user.id
-  console.log("name:",artistName, "genre", genre, "userId:", userId)
   try {
     const newArtist = await Artist.query().insert({ artistName, genre, userId })
     return res.status(201).json({ artist:newArtist })

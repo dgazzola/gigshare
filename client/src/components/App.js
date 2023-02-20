@@ -37,9 +37,11 @@ const App = (props) => {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route exact path="/gigs">
-          <GigsListPage />
-        </Route>
+        <Route 
+          exact 
+          path="/gigs"
+          render= {(props) => <GigsListPage {...props} currentUser={currentUser}/>}
+        />
         <Route exact path="/gigs/new-gig-form">
           <NewGigForm />
         </Route>
