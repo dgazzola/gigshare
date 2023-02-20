@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom"
 import translateServerErrors from "./../services/translateServerErrors.js"
 import _ from "lodash"
+import ErrorList from "./layout/ErrorList.js";
 
 const NewGigForm = props => {
   const defaultForm = {
@@ -15,7 +16,7 @@ const NewGigForm = props => {
   }
   const [newGig, setNewGig] = useState(defaultForm)
   const [shouldRedirect, setShouldRedirect] = useState(false)
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({})
 
   const addNewGig = async () =>{
     try {
@@ -89,6 +90,7 @@ const NewGigForm = props => {
     <div>
       <h1 className="centered text-white">Submit An Upcoming Gig!</h1>
       <form onSubmit={handleSubmit}>
+        <ErrorList errors={errors} />
         {formInputs}
         <input type="submit" value="Submit Gig" className="button" onClick={handleSubmit}/>
       </form>

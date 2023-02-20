@@ -1,6 +1,7 @@
 import express from "express"
 import { Gig, User, Favorite } from "../../../models/index.js"
 import { ValidationError } from "objection"
+import cleanUserInput from "../../../services/cleanUserInput.js"
 
 const gigsRouter = new express.Router()
 
@@ -14,8 +15,9 @@ gigsRouter.get("/", async (req, res) => {
 })
 
 gigsRouter.post("/", async (req, res) => {
+  const body = cleanUserInput(req.body)
+  console.log("REQUEST BODY", body)
   try {
-    const { body } = req
     const newPersistedGig = await Gig.query().insertAndFetch(body)
     return res.status(201).json({ gig:newPersistedGig })
   } catch (error) {
