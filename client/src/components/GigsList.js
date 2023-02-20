@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import GigTile from "./GigTile.js"
 
-const GigsListPage = () => {
+const GigsListPage = (props) => {
   const [gigs, setGigs] = useState([])
 
   const getGigs = async () => {
@@ -29,6 +29,7 @@ const GigsListPage = () => {
       <GigTile
         key={gigObject.id}
         {...gigObject}
+        currentUser={props.currentUser}
       />
     )
   })

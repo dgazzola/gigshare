@@ -19,7 +19,7 @@ class Gig extends Model {
   }
 
   static get relationMappings(){
-    const { Artist, Lineup } = require("./index.js")
+    const { Artist, Lineup, Favorite, User } = require("./index.js")
 
     return {
       artists: {
@@ -41,7 +41,28 @@ class Gig extends Model {
           from: "gigs.id",
           to:"lineups.gigId"
         }
+      },
+      favorites: {
+        relation: Model.HasManyRelation,
+        modelClass: Favorite,
+        join: {
+          from: "gigs.id",
+          to:"favorites.gigId"
+        }
+      },
+      users: {
+        relation: Model.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: "gigs.id",
+          through: {
+            from: "favorites.gigId",
+            to: "favorites.userId"
+          },
+          to: "users.id"
+        }
       }
+
     }
   }
 
