@@ -70,6 +70,12 @@ const UserShowPage = (props) => {
     })
   }
 
+  let gigFormButton = <Link to={`/gigs/new-gig-form`} className="centered">
+                        <button type="button" className="shift-down button">
+                          Register Gig
+                        </button>
+                      </Link>
+
   const DateObject = new Date(user.createdAt)
   const createdDateString= DateObject.toUTCString()
 
@@ -79,6 +85,11 @@ const UserShowPage = (props) => {
       <h3 className="text-white ">Email: {user.email}</h3>
       <h3 className="text-white ">Created At: {createdDateString}</h3>
       {artistInfo}
+      <div className="centered shift-down">
+        {gigFormButton}
+        <h3 className="glow small shift-down">Hosted Gigs:</h3>
+        {/* will need to get hosted gigs from the user, then map gig tiles. Each gig should have a host/hostId on the show page can edit or delete the gig if the host id is the currentuser id */}
+      </div>
       <div className="centered shift-down">
         {gigMessage}
         {gigTileComponents}

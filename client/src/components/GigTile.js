@@ -4,7 +4,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const GigTile = ({ id, name, location, time, date, currentUser}) => {
+const GigTile = ({ id, name, city, address, state, startTime, endTime, date, currentUser}) => {
   const gigUrl = `/gigs/${id}`
   const [currentGig, setCurrentGig] = useState({})
 
@@ -17,6 +17,7 @@ const GigTile = ({ id, name, location, time, date, currentUser}) => {
         throw(error)
       }
       const parsedResponse = await response.json()
+      console.log(parsedResponse.gig)
       setCurrentGig(parsedResponse.gig)
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`)
@@ -43,10 +44,10 @@ const GigTile = ({ id, name, location, time, date, currentUser}) => {
   }
 
   return(
-      <div className="button callout centered tile-box">
+      <div className="button callout tile-box cell">
         <Link to={gigUrl} className = "centered">
         <h4 className="black">{name}</h4>
-        <p className="black">{location}</p>
+        <p className="black">{city}</p>
         <p className="black">{date}</p>
         {favoritedIcon}
         </Link>
