@@ -15,9 +15,13 @@ exports.up = async (knex) => {
     table.string("state").notNullable()
     table.string("startTime").notNullable()
     table.string("endTime").notNullable()
+    // table
+    // .bigInteger("hostId")
+    // .unsigned()
+    // .index()
+    // .references("users.id").onDelete("CASCADE")
     table.timestamp("createdAt").notNullable().defaultTo(knex.fn.now())
     table.timestamp("updatedAt").notNullable().defaultTo(knex.fn.now())
-
   })
 }
 

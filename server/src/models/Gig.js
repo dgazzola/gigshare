@@ -64,7 +64,15 @@ class Gig extends Model {
           },
           to: "users.id"
         }
-      }
+      },
+      // user: {
+      //   relation: Model.BelongsToOneRelation,
+      //   modelClass: User,
+      //   join: {
+      //     from: "gigs.hostId",
+      //     to: "users.id"
+      //   }
+      // }
 
     }
   }
