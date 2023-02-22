@@ -1,5 +1,5 @@
 import express from "express"
-import { Gig, User, Favorite } from "../../../models/index.js"
+import { Gig, User, Favorite, Lineup } from "../../../models/index.js"
 import { ValidationError } from "objection"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 
@@ -23,7 +23,6 @@ gigsRouter.post("/", async (req, res) => {
     if (error instanceof ValidationError){
       return res.status(422).json({ errors:error.data })
     }
-    console.log(error)
     return res.status(500).json({ errors:error })
   }
 })
@@ -94,6 +93,19 @@ gigsRouter.post("/:id/favorites", async (req, res) => {
   try {
     const addedFavorite = await Favorite.query().insertAndFetch({userId:user.id, gigId:gig.id})
     return res.status(201).json({addedFavorite})
+  } catch (error) {
+    return res.status(500).json({errors: error})
+  }
+})
+
+gigsRouter.patch("/:id/lineups", async (req, res) => {
+  const { gigId } = req.body
+  const { artistId } = req.body
+
+  try {
+    const addedLineup = await Lineup.query().insertAndFetch({ gigId, artistId })
+    const returnedGig = await Gig.query().findById(gigId)
+    return res.status(201).json({returnedGig})
   } catch (error) {
     return res.status(500).json({errors: error})
   }
