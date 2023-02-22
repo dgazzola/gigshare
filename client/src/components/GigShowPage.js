@@ -47,9 +47,6 @@ const GigShowPage = (props) => {
   }
 
   let favoriteCount
-  if (gig?.favorited?.length){
-    favoriteCount = gig.favorited.length
-  }
 
   if (gig.isUserFavorite) {
     favoriteMessage = "Unfavorite"
@@ -149,10 +146,11 @@ const GigShowPage = (props) => {
   }
 
   let deleteGigButton=""
-  let signArtistToLineupDropdown=<h2 className="text-white">REPLACE ME W SIGN BUTTON AND INVISIBILITY</h2>
+  let signArtistToLineupDropdown=""
   let editGigForm=""
 
   if (props.currentUser?.id===gig.hostId){
+    signArtistToLineupDropdown=<h2 className="text-white">REPLACE ME W SIGN BUTTON AND INVISIBILITY</h2>
     editGigForm =
     <div>
       <button type="button" className="button shift-down" onClick={handleEdit}>
@@ -286,6 +284,17 @@ const GigShowPage = (props) => {
     getGig()
   }
 
+  let favoriteButton=""
+  let favoritedCountDisplay=""
+
+  if(props.currentUser?.id){
+    if (gig?.favorited?.length){
+      favoriteCount = gig.favorited.length
+      favoritedCountDisplay="Favorited:"
+    }
+    favoriteButton=<button type="button" className="button" onClick={handleFavoriteButton}>{favoriteMessage}</button>
+  }
+
   if (shouldRedirect){
     return <Redirect push to ={`/users/${props.currentUser.id}`} />
   }
@@ -297,8 +306,8 @@ const GigShowPage = (props) => {
       <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
       <h2 className="text-white">Date: {gig.date}</h2>
       <h2 className="text-white">Time: {gig.startTime}-{gig.endTime}</h2>
-      <h2 className="text-white">Favorited: {favoriteCount}</h2>
-      <button type="button" className="button" onClick={handleFavoriteButton}>{favoriteMessage}</button>
+      <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
+      {favoriteButton}
       {lineupMessage}
       {artistTileComponents}
       {signArtistToLineupDropdown}
