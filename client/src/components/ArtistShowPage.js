@@ -179,7 +179,6 @@ const ArtistShowPage = (props) => {
         />
       )
     })
-
   }
 
   if (shouldRedirect) {
@@ -193,8 +192,8 @@ const ArtistShowPage = (props) => {
           <h3 className="glow small">({artist.genre})</h3>
             <div className="player-wrapper">
               <ReactPlayer url={`${artist.mediaUrl}`} config={{
-                // soundcloud: {options: {auto_play: true}},
-                // youtube: {playerVars: { autoplay: 1 }}  //COMMENT THESE BACK IN FOR AUTO PLAY
+                soundcloud: {options: {auto_play: true}},
+                youtube: {playerVars: { autoplay: 1 }}
               }}
               />
             </div>

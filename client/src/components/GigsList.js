@@ -35,7 +35,7 @@ const GigsListPage = (props) => {
   })
 
   return (
-    <div className="centered">
+    <div className="">
       <div className="hero-image">
         <h1 className="glow small shift-down-small">Upcoming Gigs</h1>
       <div className="grid-x">
