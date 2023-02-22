@@ -34,7 +34,6 @@ gigsRouter.get("/:id", async (req, res) => {
     const gig = await Gig.query().findById(id)
     gig.artists = await gig.$relatedQuery("artists")
     gig.favorited = await gig.$relatedQuery("users")
-    console.log("GIG", gig)
     gig.isUserFavorite=false
     for (let i=0; i<gig.favorited?.length; i++){
       if (gig.favorited[i].id === req.user?.id){
