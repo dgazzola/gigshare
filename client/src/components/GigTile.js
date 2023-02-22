@@ -29,7 +29,7 @@ const GigTile = ({ id, name, city, address, state, startTime, endTime, date, cur
     getGig()
   }, [])
 
-  if (currentGig?.favorited?.length){
+  if (currentGig.favorited?.length){
     let k = 0
     let length = currentGig.favorited.length
     for (let i=0; i<length; i++){

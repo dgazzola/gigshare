@@ -16,7 +16,6 @@ gigsRouter.get("/", async (req, res) => {
 
 gigsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
-  console.log("REQUEST BODY", body)
   try {
     const newPersistedGig = await Gig.query().insertAndFetch(body)
     return res.status(201).json({ gig:newPersistedGig })
@@ -35,17 +34,40 @@ gigsRouter.get("/:id", async (req, res) => {
     const gig = await Gig.query().findById(id)
     gig.artists = await gig.$relatedQuery("artists")
     gig.favorited = await gig.$relatedQuery("users")
+    console.log("GIG", gig)
     gig.isUserFavorite=false
     for (let i=0; i<gig.favorited?.length; i++){
-      if (gig.favorited[i].id === req.user.id){
+      if (gig.favorited[i].id === req.user?.id){
         gig.isUserFavorite=true
       }
     }
     return res.status(200).json({ gig })
   } catch(error) {
+    console.log(error)
     return res.status(500).json({ errors:error })
   }
 })
+
+gigsRouter.patch("/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    const gig = await Gig.query().findById(id).patch(req.body)
+    return res.status(200).json({ gig })
+  } catch (error) {
+    return res.status(500).json({errors: error})
+  }
+})
+
+gigsRouter.delete("/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    const deletedGig = await Gig.query().deleteById(id)
+    return res.status(200).json({ deletedGig })
+  } catch (error) {
+    return res.status(500).json({errors: error})
+  }
+})
+
 gigsRouter.delete("/:id/favorites", async (req, res) => {
   const { id } = req.params
   const userId = req.user.id
