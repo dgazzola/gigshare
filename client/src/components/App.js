@@ -42,9 +42,11 @@ const App = (props) => {
           path="/gigs"
           render= {(props) => <GigsListPage {...props} currentUser={currentUser}/>}
         />
-        <Route exact path="/gigs/new-gig-form">
-          <NewGigForm />
-        </Route>
+        <Route 
+          exact 
+          path="/gigs/new-gig-form"
+          render= {(props) => <NewGigForm {...props} currentUser={currentUser}/>}
+        />
         <Route 
           exact 
           path="/gigs/:id"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom"
 import translateServerErrors from "./../services/translateServerErrors.js"
 import _ from "lodash"
@@ -54,8 +54,10 @@ const NewGigForm = props => {
   const handleInput = event => {
     setNewGig({
       ...newGig,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
+      hostId:`${props.currentUser?.id}`
     })
+    console.log(newGig)
   }
 
   const formInputs = Object.keys(defaultForm).map(input => {

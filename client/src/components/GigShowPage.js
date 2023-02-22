@@ -16,7 +16,6 @@ const GigShowPage = (props) => {
         throw error
       }
       const gigData = await response.json()
-      console.log(gigData)
       setGig(gigData.gig)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
@@ -114,7 +113,7 @@ const GigShowPage = (props) => {
       <h1 className="glow small shift-down-small">{gig.name}</h1>
       <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
       <h2 className="text-white">Date: {gig.date}</h2>
-      <h2 className="text-white">Time: {gig.time}</h2>
+      <h2 className="text-white">Time: {gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">Favorited: {favoriteCount}</h2>
       <button type="button" className="button" onClick={handleFavoriteButton}>{favoriteMessage}</button>
       {lineupMessage}

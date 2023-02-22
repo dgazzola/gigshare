@@ -17,7 +17,6 @@ const GigTile = ({ id, name, city, address, state, startTime, endTime, date, cur
         throw(error)
       }
       const parsedResponse = await response.json()
-      console.log(parsedResponse.gig)
       setCurrentGig(parsedResponse.gig)
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`)
