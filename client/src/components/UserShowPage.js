@@ -69,7 +69,20 @@ const UserShowPage = (props) => {
       )
     })
   }
-
+  let hostedMessage =  <h1 className="glow small shift-down"> No Favorited Gigs</h1>
+  let hostedGigTiles
+  if (user.hostedGigs?.length){
+    hostedMessage = <h1 className="glow small"> Hosted Gigs:</h1>
+    hostedGigTiles = user.hostedGigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+          currentUser={user}
+        />
+      )
+    })  
+  }
   let gigFormButton = <Link to={`/gigs/new-gig-form`} className="centered">
                         <button type="button" className="shift-down button">
                           Register Gig
@@ -85,10 +98,12 @@ const UserShowPage = (props) => {
       <h3 className="text-white ">Email: {user.email}</h3>
       <h3 className="text-white ">Created At: {createdDateString}</h3>
       {artistInfo}
-      <div className="centered shift-down">
+      <div className="centered">
         {gigFormButton}
-        <h3 className="glow small shift-down">Hosted Gigs:</h3>
-        {/* will need to get hosted gigs from the user, then map gig tiles. Each gig should have a host/hostId on the show page can edit or delete the gig if the host id is the currentuser id */}
+      </div>
+        {hostedMessage}
+      <div className='centered'>
+        {hostedGigTiles}
       </div>
       <div className="centered shift-down">
         {gigMessage}

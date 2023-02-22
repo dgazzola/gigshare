@@ -24,6 +24,7 @@ gigsRouter.post("/", async (req, res) => {
     if (error instanceof ValidationError){
       return res.status(422).json({ errors:error.data })
     }
+    console.log(error)
     return res.status(500).json({ errors:error })
   }
 })

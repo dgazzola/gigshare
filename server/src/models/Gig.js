@@ -8,7 +8,7 @@ class Gig extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["name", "date", "address", "city", "state", "startTime", "endTime"],
+      required: ["name", "date", "address", "city", "state", "startTime", "endTime", "hostId"],
       properties: {
         name:{type:"string"},
         date:{type:"string"},
@@ -16,7 +16,8 @@ class Gig extends Model {
         city:{type:"string"},
         state:{type:"string"},
         startTime:{type:"string"},
-        endTime:{type:"string"}
+        endTime:{type:"string"},
+        hostId:{type:["string", "integer"]}
       }
     }
   }
@@ -65,15 +66,14 @@ class Gig extends Model {
           to: "users.id"
         }
       },
-      // user: {
-      //   relation: Model.BelongsToOneRelation,
-      //   modelClass: User,
-      //   join: {
-      //     from: "gigs.hostId",
-      //     to: "users.id"
-      //   }
-      // }
-
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: "gigs.hostId",
+          to: "users.id"
+        }
+      }
     }
   }
 
