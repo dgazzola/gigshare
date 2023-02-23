@@ -9,6 +9,7 @@ const GigShowPage = (props) => {
   const [updatedGig,setUpdatedGig] = useState({})
   const [shouldRedirect, setShouldRedirect] = useState(false)
   const [visibility, setVisibility] = useState("invisible")
+  const [dropDown, setDropDown] = useState("")
   const [addArtistDropdown, setAddArtistDropdown] = useState(false)
   const [lineupInfo, setLineupInfo] = useState({})
   const [mapData, setMapData] = useState("")
@@ -133,8 +134,10 @@ const GigShowPage = (props) => {
   const handleEdit = () => {
     if (visibility){
       setVisibility("")
+      setDropDown("drop-down")
     } else {
       setVisibility("invisible")
+      setDropDown("")
       window.scrollTo(0,0)
     }
   }
@@ -276,7 +279,7 @@ const GigShowPage = (props) => {
       <button type="button" className="button shift-down" onClick={handleEdit}>
         Edit
       </button>
-      <div className={`${visibility}`}>
+      <div className={`info-wrap ${visibility}`}>
         <button type="button" className={`button shift-down ${visibility}`} onClick={toggleAddArtistDropdown}>
           Add Artist
         </button>
@@ -353,7 +356,7 @@ const GigShowPage = (props) => {
       </div>
 
     </div>
-    deleteGigButton=<button type="button" className={`button shift-down ${visibility}`} onClick={handleDelete}> Delete Gig</button>
+    deleteGigButton=<button type="button" className={`button ${visibility}`} onClick={handleDelete}> Delete Gig</button>
   }
 
   const handleFavoriteButton = async () =>{
@@ -424,14 +427,18 @@ const GigShowPage = (props) => {
   }
 
   return (
-    <div className="centered text-white page-wrap">
+    <div className="centered text-white">
       <div className="hero-image">
+        <div className="info-wrap">
+
       <h1 className="glow small shift-down-small">{gig.name}</h1>
       <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
-      <h2 className="text-white">Date: {gig.date}</h2>
-      <h2 className="text-white">Time: {gig.startTime}-{gig.endTime}</h2>
+      <h2 className="text-white">{gig.date}</h2>
+      <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
+
       {favoriteButton}
+        </div>
       {lineupMessage}
       <div className="centered grid-x">
       {artistTileComponents}
@@ -440,7 +447,7 @@ const GigShowPage = (props) => {
       {editGigForm}
       {deleteGigButton}
       </div>
-      <div id="map" className="map shift-down-medium">
+      <div id="map" className={`map ${dropDown}`}>
       </div>
 
     </div>
