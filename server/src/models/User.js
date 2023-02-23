@@ -56,7 +56,7 @@ class User extends uniqueFunc(Model) {
           to:"favorites.userId"
         }
       },
-      gigs: {
+      favoritedGigs: {
         relation: Model.ManyToManyRelation,
         modelClass: Gig,
         join: {
@@ -68,7 +68,7 @@ class User extends uniqueFunc(Model) {
           to: "gigs.id"
         }
       },
-      gigs: {
+      hostedGigs: {
         relation: Model.HasManyRelation,
         modelClass: Gig,
         join: {
