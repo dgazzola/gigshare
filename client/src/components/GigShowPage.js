@@ -45,6 +45,7 @@ const GigShowPage = (props) => {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
+
   useEffect(() => {
     getGig(),
     getArtists(),
@@ -53,9 +54,6 @@ const GigShowPage = (props) => {
 
   let artistTileComponents=""
   let lineupMessage = <h1 className="glow small shift-down-small">Lineup TBA</h1>
-
-  let favoriteMessage
-
   if (gig.artists?.length>0){
     lineupMessage = <h1 className="glow small shift-down-small">LineUp:</h1>
     artistTileComponents = gig.artists.map(artistObject => {
@@ -68,6 +66,7 @@ const GigShowPage = (props) => {
     })
   }
 
+  let favoriteMessage
   let favoriteCount
 
   if (gig.isUserFavorite) {
