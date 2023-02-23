@@ -24,7 +24,7 @@ const GigsListPage = (props) => {
     getGigs()
   }, [])
 
-  const gigTileComponenets = gigs.map(gigObject => {
+  const gigTileComponents = gigs.map(gigObject => {
     return (
       <GigTile
         key={gigObject.id}
@@ -39,10 +39,9 @@ const GigsListPage = (props) => {
       <div className="hero-image">
         <h1 className="glow small shift-down-small">Upcoming Gigs</h1>
       <div className="grid-x">
-        {gigTileComponenets}
+        {gigTileComponents}
       </div>
       </div>
-      {/* <Link to="/gigs/new-gig-form" className="button">Share a Gig!</Link> */}
     </div>
   )
 }
