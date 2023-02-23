@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import ArtistTile from "./ArtistTile.js"
 import { Redirect } from "react-router-dom"
+import geocode from "./geocode.js"
 
 const GigShowPage = (props) => {
   const [gig, setGig] = useState({})
@@ -10,6 +11,7 @@ const GigShowPage = (props) => {
   const [visibility, setVisibility] = useState("invisible")
   const [addArtistDropdown, setAddArtistDropdown] = useState(false)
   const [lineupInfo, setLineupInfo] = useState({})
+  const [mapData, setMapData] = useState("")
   const id = props.match.params.id
 
 
@@ -23,6 +25,9 @@ const GigShowPage = (props) => {
       }
       const gigData = await response.json()
       setGig(gigData.gig)
+      setMapData(
+        `${gigData.gig.address}, ${gigData.gig.city}, ${gigData.gig.state}`
+      )
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -43,9 +48,32 @@ const GigShowPage = (props) => {
     }
   }
 
+  let coordinates
+  if (mapData){
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=AIzaSyAk1GxGkBfBaIcNFV-u2PtqdgZiNKmgyHM`)
+    .then((response) => {
+      return response.json();
+    }).then(jsonData => {
+      coordinates={lat:jsonData.results[0].geometry.location.lat, lng:jsonData.results[0].geometry.location.lng}
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: coordinates,
+        zoom: 11,
+      })
+      new google.maps.Marker({
+        position: new google.maps.LatLng(coordinates),
+        map: map,
+      })
+
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  }
+
   useEffect(() => {
     getGig(),
-    getArtists()
+    getArtists(),
+    initMap()
   }, [])
 
   let artistTileComponents=""
@@ -396,7 +424,7 @@ const GigShowPage = (props) => {
   }
 
   return (
-    <div className="centered text-white">
+    <div className="centered text-white page-wrap">
       <div className="hero-image">
       <h1 className="glow small shift-down-small">{gig.name}</h1>
       <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
@@ -406,13 +434,15 @@ const GigShowPage = (props) => {
       {favoriteButton}
       {lineupMessage}
       <div className="centered grid-x">
-
       {artistTileComponents}
       </div>
       {signArtistToLineupDropdown}
       {editGigForm}
       {deleteGigButton}
       </div>
+      <div id="map" className="map shift-down-medium">
+      </div>
+
     </div>
   )
 }

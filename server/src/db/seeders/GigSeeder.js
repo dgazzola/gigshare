@@ -8,7 +8,7 @@ class GigSeeder {
       {name: "FIYAH SHOW", date:"12/3", city:"Cambridge", state:"MA", address:"replace", startTime:"2PM", endTime:"11PM", hostId:1},
       {name: "Coachella", date:"4/3", city:"Los Angeles", state:"CA", address:"replace", startTime:"5PM", endTime:"10PM", hostId:1},
       {name: "Tomorrowland", date:"7/14", city:"Belgium", state:"IDK", address:"replace", startTime:"2PM", endTime:"9PM", hostId:1},
-      {name: "Hard Summer", date:"7/23", city:"Los Angeles", state:"CA", address:"replace", startTime:"6PM", endTime:"7PM", hostId:2},
+      {name: "Hard Summer", date:"7/23", city:"Cambridge", state:"MA", address:"19 Sargent St", startTime:"6PM", endTime:"7PM", hostId:2},
       {name: "Winter Ball", date:"1/3", city:"New York", state:"NY", address:"replace", startTime:"1PM", endTime:"6PM", hostId:2},
       {name: "Cagofest", date:"12/3", city:"Chicago", state:"IL", address:"replace", startTime:"1PM", endTime:"11PM", hostId:2},
       {name: "BeatBash", date:"12/3", city:"Atlanta", state:"GA", address:"replace", startTime:"4PM", endTime:"11PM", hostId:2},
