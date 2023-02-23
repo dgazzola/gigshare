@@ -13,7 +13,7 @@ class UserSerializer {
 
     const relatedArtist = await user.$relatedQuery("artists")
     serializedUser.artist = relatedArtist
-    const favoritedGigs = await user.$relatedQuery("gigs").where('userId', '=', `${user.id}`)
+    const favoritedGigs = await user.$relatedQuery("gigs")/*.where('userId', '=', `${user.id}`)*/
     serializedUser.favoriteGigs = favoritedGigs
 
     const hostedGigs = await Gig.query().where('hostId', '=', `${user.id}`)
