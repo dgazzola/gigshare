@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import ArtistTile from "./ArtistTile.js"
 import { Redirect } from "react-router-dom"
-import geocode from "./geocode.js"
+import GoogleMap from "./GoogleMap.js"
+
 
 const GigShowPage = (props) => {
   const [gig, setGig] = useState({})
@@ -12,7 +13,6 @@ const GigShowPage = (props) => {
   const [dropDown, setDropDown] = useState("")
   const [addArtistDropdown, setAddArtistDropdown] = useState(false)
   const [lineupInfo, setLineupInfo] = useState({})
-  const [mapData, setMapData] = useState("")
   const id = props.match.params.id
 
 
@@ -26,9 +26,6 @@ const GigShowPage = (props) => {
       }
       const gigData = await response.json()
       setGig(gigData.gig)
-      setMapData(
-        `${gigData.gig.address}, ${gigData.gig.city}, ${gigData.gig.state}`
-      )
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -48,29 +45,6 @@ const GigShowPage = (props) => {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
-
-  let coordinates
-  if (mapData){
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=AIzaSyAk1GxGkBfBaIcNFV-u2PtqdgZiNKmgyHM`)
-    .then((response) => {
-      return response.json();
-    }).then(jsonData => {
-      coordinates={lat:jsonData.results[0].geometry.location.lat, lng:jsonData.results[0].geometry.location.lng}
-      const map = new google.maps.Map(document.getElementById("map"), {
-        center: coordinates,
-        zoom: 11,
-      })
-      new google.maps.Marker({
-        position: new google.maps.LatLng(coordinates),
-        map: map,
-      })
-
-    })
-    .catch(error => {
-        console.log(error);
-    })
-  }
-
   useEffect(() => {
     getGig(),
     getArtists(),
@@ -274,7 +248,7 @@ const GigShowPage = (props) => {
   }
 
   if (props.currentUser?.id===gig.hostId){
-    editGigForm =
+    editGigForm = 
     <div>
       <button type="button" className="button shift-down" onClick={handleEdit}>
         Edit
@@ -447,8 +421,7 @@ const GigShowPage = (props) => {
       {editGigForm}
       {deleteGigButton}
       </div>
-      <div id="map" className={`map ${dropDown}`}>
-      </div>
+      <GoogleMap gig={gig}/>
 
     </div>
   )
