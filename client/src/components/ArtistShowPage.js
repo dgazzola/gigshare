@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react"
 import { Link, Redirect } from "react-router-dom"
 import GigTile from "./GigTile.js"
 import ReactPlayer from "react-player"
+import EditArtistForm from "./EditArtistForm.js"
 
 const ArtistShowPage = (props) => {
   const [artist, setArtist] = useState({})
   const [shouldRedirect, setShouldRedirect] = useState(false)
-  const [updatedArtist,setUpdatedArtist] = useState({})
   const id = props.match.params.id
   const userId = props.currentUser?.id
   const [errors, setErrors] = useState({})
-  const [visibility, setVisibility] = useState("invisible")
 
   const getArtist = async() => {
     try {
@@ -31,10 +30,7 @@ const ArtistShowPage = (props) => {
     window.scrollTo(0,0),
     getArtist()
   }, [])
-
-  let editArtistForm=''
-  let deleteArtistButton=''
-
+  
   const deleteArtist = async () => {
     try {
       const response = await fetch(`/api/v1/artists/${artist.id}`, {
@@ -62,7 +58,7 @@ const ArtistShowPage = (props) => {
     }
   }
 
-  const editArtist = async () => {
+  const editArtist = async (updatedArtist) => {
     try {
       const response = await fetch(`/api/v1/artists/${artist.id}`, {
         method: "PATCH",
@@ -91,16 +87,6 @@ const ArtistShowPage = (props) => {
     }
   }
 
-  const handleUpdate = event => {
-    event.preventDefault()
-    if (!updatedArtist.artistName && !updatedArtist.genre && !updatedArtist?.mediaUrl){
-      handleEdit()
-      alert(`No changes have been submitted for ${artist.artistName}'s profile!`)
-    } else {
-      editArtist()
-    }
-  }
-
   const handleDelete = () => {
     if (confirm(`Are you sure you want to delete ${artist.artistName}'s profile? \nThis cannot be undone`) == true) {
       deleteArtist()
@@ -109,65 +95,6 @@ const ArtistShowPage = (props) => {
     }
   }
 
-  const handleEdit = () => {
-    if (visibility){
-      setVisibility("")
-    } else {
-      setVisibility("invisible")
-      window.scrollTo(0,0)
-    }
-  }
-
-  const handleInputChange = event => {
-    setUpdatedArtist({
-      ...updatedArtist,
-      [event.currentTarget.name]: event.currentTarget.value
-    })
-  }
-  
-  if (props.currentUser?.id===artist.userId){
-    editArtistForm =<div>
-      <button type="button" className="button shift-down" onClick={handleEdit}>
-        Edit
-      </button>
-    <div className={`${visibility}`}>
-      <form onSubmit={handleUpdate} className="form-smaller">
-      <label className="text-white">
-          Update Artist Name:
-          <input
-            type="text"
-            name="artistName"
-            onChange={handleInputChange}
-            value={updatedArtist.artistName}
-          />
-        </label>
-      <label className="text-white">
-          Update Genre:
-          <input
-            type="text"
-            name="genre"
-            onChange={handleInputChange}
-            value={updatedArtist.genre}
-          />
-        </label>
-      <label className="text-white">
-          Update Profile Song:
-          <input
-            type="text"
-            name="mediaUrl"
-            onChange={handleInputChange}
-            value={updatedArtist.mediaUrl}
-          />
-        </label>
-        <div className="button-group centered">
-          <input className="button" type="submit" value="Submit Artist Update" />
-        </div>
-      </form>
-    </div>
-
-    </div>
-    deleteArtistButton=<button type="button" className={`button shift-down ${visibility}`} onClick={handleDelete}> Delete Artist</button>
-  }
   let gigTileComponents = ""
   if (artist?.gigs) {
     gigTileComponents = artist.gigs.map(gigObject => {
@@ -201,9 +128,7 @@ const ArtistShowPage = (props) => {
           <div className="grid-x">
             {gigTileComponents}
           </div>
-          {editArtistForm}
-          <br className="shift-down-big"></br>
-          {deleteArtistButton}
+          <EditArtistForm editArtist={editArtist} currentUser={props.currentUser} artist={artist} handleDelete={handleDelete}/>
         </div>
     </div>
   )
