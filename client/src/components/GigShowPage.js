@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import ArtistTile from "./ArtistTile.js"
 import { Redirect } from "react-router-dom"
 import GoogleMap from "./GoogleMap.js"
+import GigFavoriteButton from "./GigFavoriteButton.js"
 
 
 const GigShowPage = (props) => {
@@ -66,15 +67,7 @@ const GigShowPage = (props) => {
     })
   }
 
-  let favoriteMessage
   let favoriteCount
-
-  if (gig.isUserFavorite) {
-    favoriteMessage = "Unfavorite"
-  } else {
-    favoriteMessage = "Favorite"
-  }
-
   const editGig = async () => {
     try {
       const response = await fetch(`/api/v1/gigs/${gig.id}`, {
@@ -384,15 +377,11 @@ const GigShowPage = (props) => {
     getGig()
   }
 
-  let favoriteButton=""
   let favoritedCountDisplay=""
 
-  if(props.currentUser?.id){
-    if (gig?.favorited?.length){
-      favoriteCount = gig.favorited.length
-      favoritedCountDisplay="Favorited:"
-    }
-    favoriteButton=<button type="button" className="button" onClick={handleFavoriteButton}>{favoriteMessage}</button>
+  if (gig?.favorited?.length){
+    favoriteCount = gig.favorited.length
+    favoritedCountDisplay="Favorited:"
   }
 
   if (shouldRedirect){
@@ -403,14 +392,12 @@ const GigShowPage = (props) => {
     <div className="centered text-white">
       <div className="hero-image">
         <div className="info-wrap">
-
       <h1 className="glow small shift-down-small">{gig.name}</h1>
       <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
-
-      {favoriteButton}
+      <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton}/>
         </div>
       {lineupMessage}
       <div className="centered grid-x">
