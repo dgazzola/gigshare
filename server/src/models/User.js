@@ -67,6 +67,14 @@ class User extends uniqueFunc(Model) {
           },
           to: "gigs.id"
         }
+      },
+      gigs: {
+        relation: Model.HasManyRelation,
+        modelClass: Gig,
+        join: {
+          from: "users.id",
+          to: "gigs.hostId"
+        }
       }
     }
   }
