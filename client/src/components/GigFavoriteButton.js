@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 const GigFavoriteButton = ({ currentUser, gig, handleFavoriteButton}) => {
-
-  // let favoriteCount
-  // let favoritedCountDisplay
   let favoriteMessage
 
   if (gig.isUserFavorite) {
@@ -13,12 +10,7 @@ const GigFavoriteButton = ({ currentUser, gig, handleFavoriteButton}) => {
   }
 
   if(currentUser?.id){
-    // if (gig.favorited?.length){
-    //   favoriteCount = gig.favorited.length
-    //   favoritedCountDisplay="Favorited:"
-    // }
     return (
-      
       <button type="button" className="button" onClick={handleFavoriteButton}>{favoriteMessage}</button>
     )  
   } else {

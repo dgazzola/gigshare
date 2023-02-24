@@ -393,7 +393,7 @@ const GigShowPage = (props) => {
       <div className="hero-image">
         <div className="info-wrap">
       <h1 className="glow small shift-down-small">{gig.name}</h1>
-      <h2 className="text-white">Location: {gig.city}, {gig.state}</h2>
+      <h2 className="text-white">{gig.city}, {gig.state}</h2>
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
@@ -407,7 +407,7 @@ const GigShowPage = (props) => {
       {editGigForm}
       {deleteGigButton}
       </div>
-      <GoogleMap gig={gig}/>
+      <GoogleMap gig={gig} dropDown={dropDown}/>
 
     </div>
   )

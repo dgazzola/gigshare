@@ -1,6 +1,6 @@
 import React from "react"
 
-const GoogleMap = ({ gig }) => {
+const GoogleMap = ({ gig, dropDown }) => {
 
   let mapData
   if (gig.address){
@@ -29,7 +29,7 @@ const GoogleMap = ({ gig }) => {
     })
   }
   return (
-    <div id="map" className={`map`}>
+    <div id="map" className={`map ${dropDown}`}>
     </div>
   )
 }

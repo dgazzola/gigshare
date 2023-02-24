@@ -34,6 +34,15 @@ body, html {
   background-size: cover;
   position: relative;
 }
+.hero-image-3 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, .9)), url("https://img.freepik.com/free-vector/studio-with-stage-lights-spotlight-beams-with-smoke_107791-6026.jpg?t=st=1676422096~exp=1676422696~hmac=2c326970ec556d96e222bda98d0bd65de357e8a0ab177080aa48350da990151e");
+  height: 60vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
 .hero-text {
   text-align: center;
   color: white;
@@ -205,6 +214,18 @@ h2{
   border-radius: 4px;
   transform: translate(0%,20%)
 }
-// .drop-down{
-//   transform: translate(0%, 250%);
-// }
+.drop-down{
+  transform: translate(0%, 250%);
+}
+
+.date-string{
+  font-style: italic;
+  font-weight: 300;
+}
+.email-string{
+  font-style: italic;
+  font-weight: 500;
+}
+.username-string{
+  font-weight: 700;
+}
