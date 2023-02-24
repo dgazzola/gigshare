@@ -93,18 +93,19 @@ const UserShowPage = (props) => {
   const createdDateString= DateObject.toUTCString()
 
   return(
-    <div className="centered text-box">
-      <h3 className="text-white ">Username: {user.username}</h3>
-      <h3 className="text-white ">Email: {user.email}</h3>
-      <h3 className="text-white ">Created At: {createdDateString}</h3>
-      {artistInfo}
-      <div className="centered">
+    <div className="centered text-box hero-image-3">
+      <h3 className="text-white glow small username-string">{user.username}</h3>
+      <div className='info-wrap'>
+
+      <h3 className="text-white email-string">{user.email}</h3>
+      <h3 className="text-white date-string">{createdDateString}</h3>
+      </div>
+        {artistInfo}
         {gigFormButton}
-      </div>
         {hostedMessage}
-      <div className='centered'>
+
         {hostedGigTiles}
-      </div>
+
       <div className="centered shift-down">
         {gigMessage}
         {gigTileComponents}
