@@ -48,6 +48,3 @@ class ArtistSeeder {
 }
 
 export default ArtistSeeder
-
-
-
