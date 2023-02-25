@@ -19,6 +19,8 @@ class LineupSeeder {
     const slushii = await Artist.query().findOne("artistName", "Slushii")
     const ghastly = await Artist.query().findOne("artistName", "GHASTLY")
     const muraMasa = await Artist.query().findOne("artistName", "Mura Masa")
+    const baynk = await Artist.query().findOne("artistName", "BAYNK")
+    const fourb = await Artist.query().findOne("artistName", "4B")
 
     const midwxst = await Artist.query().findOne("artistName", "midwxst")
     const juiceWrld = await Artist.query().findOne("artistName", "Juice WRLD")
@@ -59,8 +61,10 @@ class LineupSeeder {
     await Lineup.query().insert({gigId: campBisco.id, artistId: xandor.id})
     await Lineup.query().insert({gigId: campBisco.id, artistId: oliverse.id})
     await Lineup.query().insert({gigId: campBisco.id, artistId: zola.id})
+    await Lineup.query().insert({gigId: campBisco.id, artistId: baynk.id})
 
     await Lineup.query().insert({gigId: grooveCruise.id, artistId: porter.id})
+    await Lineup.query().insert({gigId: grooveCruise.id, artistId: fourb.id})
     await Lineup.query().insert({gigId: grooveCruise.id, artistId: skrillex.id})
     await Lineup.query().insert({gigId: grooveCruise.id, artistId: tisoki.id})
     await Lineup.query().insert({gigId: grooveCruise.id, artistId: xandor.id})
@@ -78,6 +82,7 @@ class LineupSeeder {
     await Lineup.query().insert({gigId: lostLands.id, artistId: formerHero.id})
     await Lineup.query().insert({gigId: lostLands.id, artistId: protohype.id})
     await Lineup.query().insert({gigId: lostLands.id, artistId: hexCougar.id})
+    await Lineup.query().insert({gigId: lostLands.id, artistId: fourb.id})
 
     await Lineup.query().insert({gigId: rollingLoud.id, artistId: midwxst.id})
     await Lineup.query().insert({gigId: rollingLoud.id, artistId: kota.id})
