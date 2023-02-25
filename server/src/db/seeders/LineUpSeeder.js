@@ -134,9 +134,7 @@ class LineupSeeder {
     await Lineup.query().insert({gigId: decadence.id, artistId: muraMasa.id})
     await Lineup.query().insert({gigId: decadence.id, artistId: oliverse.id})
 
-
     console.log("lineups seeded")
-
   }
 }
 
