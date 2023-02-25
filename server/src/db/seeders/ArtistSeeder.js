@@ -13,7 +13,32 @@ class ArtistSeeder {
       {artistName: "glaive", genre: "Hyperpop", mediaUrl: "https://soundcloud.com/1glaive/3-wheels-and-it-still-drives?si=f2c6ffe561c947f5ba10200d590c626a&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
       {artistName: "H4RRIS", genre: "EDM", mediaUrl: "https://soundcloud.com/mkcofficial/h4rris-mkc-worth-it-ft-dianna?si=f2c6ffe561c947f5ba10200d590c626a&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
       {artistName: "Xandor", genre: "EDM", mediaUrl: "https://soundcloud.com/xandor/once-again-x-technologic-x-sticky-xandor-hrly-edit"},
-      {artistName: "midwxst", genre: "Hip-Hop", mediaUrl: "https://www.youtube.com/watch?v=0G7QVPgFDhQ"}
+      {artistName: "midwxst", genre: "Hip-Hop", mediaUrl: "https://www.youtube.com/watch?v=0G7QVPgFDhQ"},
+      {artistName: "Former Hero", genre: "EDM", mediaUrl: "https://soundcloud.com/formerhero/undertow"},
+      {artistName: "Protohype", genre: "EDM", mediaUrl: "https://soundcloud.com/protohype/run-cried-the-crawling"},
+      {artistName: "Shadient", genre: "EDM", mediaUrl: "https://soundcloud.com/shadient/ghostvoices-edit"},
+      {artistName: "Hex Cougar", genre: "EDM", mediaUrl: "https://soundcloud.com/mrsuicidesheep/hex-cougar-sweet-dreams"},
+      {artistName: "k?d", genre: "EDM", mediaUrl: "https://soundcloud.com/whoskid/lose-myself-ft-phil-good"},
+      {artistName: "_chris elrik", genre: "EDM", mediaUrl: "https://soundcloud.com/inextremis/interact"},
+      {artistName: "Lil Uzi Vert", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/liluzivert/lil-uzi-vert-just-wanna-rock"},
+      {artistName: "Tisoki", genre: "EDM", mediaUrl: "https://soundcloud.com/tisoki/noho"},
+      {artistName: "Flux Pavilion", genre: "EDM", mediaUrl: "https://soundcloud.com/flux-pavilion/flux-pavilion-i-cant-stop"},
+      {artistName: "Juice WRLD", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/uiceheidd/fast"},
+      {artistName: "Boombox Cartel", genre: "EDM", mediaUrl: "https://soundcloud.com/maddecent/nghtmre-boombox-cartel-aftershock"},
+      {artistName: "Oliverse", genre: "EDM", mediaUrl: "https://soundcloud.com/oliverse/sets/tisoki-oliverse-new-life-feat"},
+      {artistName: "RL Grime", genre: "EDM", mediaUrl: "https://soundcloud.com/rlgrime/nero-renegade"},
+      {artistName: "4B", genre: "EDM", mediaUrl: "https://soundcloud.com/dj4b/something-just-like-this-4b-remix"},
+      {artistName: "Slushii", genre: "EDM", mediaUrl: "https://soundcloud.com/slushiimusic/i-dont-miss-u"},
+      {artistName: "GHASTLY", genre: "EDM", mediaUrl: "https://soundcloud.com/ghastly/we-might-fall-ghastly-x-matthew-koma"},
+      {artistName: "Papa Khan", genre: "EDM", mediaUrl: "https://soundcloud.com/joytimecollective/papa-khan-rain"},
+      {artistName: "Yung Lean", genre: "Emo", mediaUrl: "https://soundcloud.com/axeluano/yung-lean-summertime-blood"},
+      {artistName: "BAYNK", genre: "Electronic", mediaUrl: "https://soundcloud.com/baynk/water"},
+      {artistName: "Flume", genre: "Electronic", mediaUrl: "https://soundcloud.com/flume/the-difference-feat-toro-y-moi"},
+      {artistName: "Mura Masa", genre: "Electronic", mediaUrl: "https://soundcloud.com/muramasamusic/love-ick"},
+      {artistName: "Chance The Rapper", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/chancetherapper/all-night-feat-knox-fortune"},
+      {artistName: "ericdoa", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/ericdoa/sad4whattt-from-euphoria-an"},
+      {artistName: "347 Aidan", genre: "Indie", mediaUrl: "https://soundcloud.com/aidan-fuller-214446787/dancing-in-my-room"},
+      {artistName: "KOTA The Friend", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/kotathefriend/outside"}
     ]
 
     for (const singleArtistData of artistsData) {

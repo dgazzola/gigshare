@@ -8,7 +8,7 @@ class Gig extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["name", "date", "address", "city", "state", "startTime", "endTime", "hostId"],
+      required: ["name", "date", "city", "state", "startTime", "endTime"],
       properties: {
         name:{type:"string"},
         date:{type:"string"},
