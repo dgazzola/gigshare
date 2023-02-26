@@ -18,14 +18,15 @@ body, html {
   height: 150%;
 }
 
-.hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2) 45%, rgba(0, 0, 0, 1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
-  height: 60vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}
+// .hero-image {
+//   background-image: linear-gradient(rgba(0, 0, 0, 0.2) 45%, rgba(0, 0, 0, 1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
+//   height: 60vh;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   position: relative;
+// }
+
 .hero-image-2 {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, .9)), url("https://thumbs.dreamstime.com/b/concert-stage-illuminated-empty-purple-light-fog-69768402.jpg");
   height: 60vh;
@@ -209,7 +210,7 @@ h2{
 }
 
 .map{
-  // height: 400px;
+  height: 400px;
   margin:8rem;
   border-radius: 4px;
 }
