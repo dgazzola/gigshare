@@ -3,6 +3,7 @@ import ArtistTile from "./ArtistTile.js"
 import { Redirect } from "react-router-dom"
 import GoogleMap from "./GoogleMap.js"
 import GigFavoriteButton from "./GigFavoriteButton.js"
+import GigDelete from "./GigDelete.js"
 
 
 const GigShowPage = (props) => {
@@ -130,33 +131,6 @@ const GigShowPage = (props) => {
       deleteGig()
     } else {
       alert(`${gig.name} has NOT been deleted.`)
-    }
-  }
-  
-  const deleteGig = async () => {
-    try {
-      const response = await fetch(`/api/v1/gigs/${gig.id}`, {
-        method: "DELETE",
-        headers: new Headers({
-          "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(gig)
-      })
-      if (!response.ok) {
-        if (response.status===422) {
-          const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
-        } else {
-          const errorMessage = `${response.status} (${response.statusText})`
-          const error = new Error(errorMessage)
-          throw error         
-        }
-      } else {
-        setShouldRedirect(true)
-      }
-    } catch(err) {
-      console.error(`Error in fetch: ${err.message}`)
     }
   }
 
@@ -322,13 +296,18 @@ const GigShowPage = (props) => {
       </div>
 
     </div>
-    deleteGigButton=<button type="button" className={`button ${visibility}`} onClick={handleDelete}> Delete Gig</button>
   }
 
+  let favoritedCountDisplay=""
+
+  if (gig?.favorited?.length){
+    favoriteCount = gig.favorited.length
+    favoritedCountDisplay="Favorited:"
+  }
   const handleFavoriteButton = async () =>{
     if (gig.isUserFavorite){
       try {
-        const response = await fetch(`/api/v1/gigs/${gig.id}/favorites`, {
+        const response = await fetch(`/api/v1/gigs/${id}/favorites`, {
           method: "DELETE",
           headers: new Headers({
             "Content-Type": "application/json"
@@ -377,13 +356,6 @@ const GigShowPage = (props) => {
     getGig()
   }
 
-  let favoritedCountDisplay=""
-
-  if (gig?.favorited?.length){
-    favoriteCount = gig.favorited.length
-    favoritedCountDisplay="Favorited:"
-  }
-
   if (shouldRedirect){
     return <Redirect push to ={`/users/${props.currentUser.id}`} />
   }
@@ -397,15 +369,15 @@ const GigShowPage = (props) => {
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
-      <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton}/>
+      <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton} setGig={setGig}/>
         </div>
       {lineupMessage}
       <div className="centered grid-x">
       {artistTileComponents}
       </div>
       {signArtistToLineupDropdown}
+      <GigDelete gig={gig} currentUser={props.currentUser} setShouldRedirect={setShouldRedirect}/>
       {editGigForm}
-      {deleteGigButton}
       </div>
       <GoogleMap gig={gig} dropDown={dropDown}/>
 

@@ -209,14 +209,13 @@ h2{
 }
 
 .map{
-  height: 400px;
+  // height: 400px;
   margin:8rem;
   border-radius: 4px;
-  transform: translate(0%,20%)
 }
-.drop-down{
-  transform: translate(0%, 250%);
-}
+// .drop-down{
+//   transform: translate(0%, 250%);
+// }
 
 .date-string{
   font-style: italic;
