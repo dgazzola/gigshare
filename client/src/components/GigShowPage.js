@@ -4,6 +4,8 @@ import { Redirect } from "react-router-dom"
 import GoogleMap from "./GoogleMap.js"
 import GigFavoriteButton from "./GigFavoriteButton.js"
 import GigDelete from "./GigDelete.js"
+import EditGigForm from "./EditGigForm.js"
+import EditGigButton from "./EditGigButton.js"
 
 
 const GigShowPage = (props) => {
@@ -213,91 +215,6 @@ const GigShowPage = (props) => {
     artistDropdown=""
   }
 
-  if (props.currentUser?.id===gig.hostId){
-    editGigForm = 
-    <div>
-      <button type="button" className="button shift-down" onClick={handleEdit}>
-        Edit
-      </button>
-      <div className={`info-wrap ${visibility}`}>
-        <button type="button" className={`button shift-down ${visibility}`} onClick={toggleAddArtistDropdown}>
-          Add Artist
-        </button>
-        {artistDropdown}
-        <form onSubmit={handleUpdate} className="form-smaller">
-          <label className="text-white">
-              Update Gig Name:
-              <input
-                type="text"
-                name="name"
-                onChange={handleInputChange}
-                value={updatedGig.name}
-              />
-          </label>
-          <label className="text-white">
-              Update Gig Date:
-              <input
-                type="date"
-                name="date"
-                onChange={handleInputChange}
-                value={updatedGig.date}
-              />
-          </label>
-          <label className="text-white">
-              Update Gig Address:
-              <input
-                type="text"
-                name="address"
-                onChange={handleInputChange}
-                value={updatedGig.address}
-              />
-          </label>
-          <label className="text-white">
-              Update Gig City:
-              <input
-                type="text"
-                name="city"
-                onChange={handleInputChange}
-                value={updatedGig.city}
-              />
-          </label>
-          <label className="text-white">
-              Update Gig State:
-              <input
-                type="text"
-                name="state"
-                onChange={handleInputChange}
-                value={updatedGig.state}
-              />
-          </label>
-          <label className="text-white">
-              Update Gig Start Time:
-              <input
-                type="time"
-                name="startTime"
-                onChange={handleInputChange}
-                value={updatedGig.startTime}
-              />
-          </label>
-          <label className="text-white">
-              Update Gig End Time:
-              <input
-                type="time"
-                name="endTime"
-                onChange={handleInputChange}
-                value={updatedGig.endTime}
-              />
-          </label>
-        
-          <div className="button-group centered">
-            <input className="button" type="submit" value="Update Gig" />
-          </div>
-        </form>
-      </div>
-
-    </div>
-  }
-
   let favoritedCountDisplay=""
 
   if (gig?.favorited?.length){
@@ -376,8 +293,10 @@ const GigShowPage = (props) => {
       {artistTileComponents}
       </div>
       {signArtistToLineupDropdown}
+      <EditGigButton handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig}/>
       <GigDelete gig={gig} currentUser={props.currentUser} setShouldRedirect={setShouldRedirect}/>
-      {editGigForm}
+      {/* <EditGigForm handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig}/> */}
+      {/* {editGigForm} */}
       </div>
       <GoogleMap gig={gig} dropDown={dropDown}/>
 
