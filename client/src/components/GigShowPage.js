@@ -397,7 +397,7 @@ const GigShowPage = (props) => {
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
-      <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton}/>
+      <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton} getGig={getGig}/>
         </div>
       {lineupMessage}
       <div className="centered grid-x">
