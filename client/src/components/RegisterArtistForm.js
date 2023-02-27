@@ -3,18 +3,10 @@ import { Redirect } from "react-router-dom"
 import translateServerErrors from "./../services/translateServerErrors.js"
 import ErrorList from "./layout/ErrorList.js";
 import _ from "lodash"
+import NewArtistForm from "./NewArtistForm.js";
 
 const RegisterArtistForm = props => {
-  const defaultForm = {
-    artistName:"",
-    genre:"",
-    mediaUrl:""
-  }
-  const [newArtist, setNewArtist] = useState(defaultForm)
-  const [errors, setErrors] = useState({})
   const [shouldRedirect, setShouldRedirect] = useState(false)
-
-  let newArtistForm
 
   const registerNewArtist = async (newArtistData) => {
     const userId = props.currentUser?.id
@@ -44,42 +36,14 @@ const RegisterArtistForm = props => {
     }
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    registerNewArtist(newArtist)
-  }
-
-  const handleInput = event => {
-    setNewArtist({
-      ...newArtist,
-      [event.currentTarget.name]: event.currentTarget.value
-    })
-  }
-
-  const formInputs = Object.keys(defaultForm).map(input => {
-    if (input!=="userId"){
-      return (         
-        <label key={input}>{_.startCase(input)}:
-          <input type="text" name={input} value={newArtist[input]} onChange={handleInput}/>
-        </label>
-      )      
-    }
-  })
-
   if (shouldRedirect) {
     return <Redirect push to={`/users/${props.currentUser.id}`} />
   }
 
   return (
-    <div className="callout">
-      <h1>Register Artist Form</h1>
-        <form onSubmit={handleSubmit}>
-          <ErrorList errors={errors} />
-          {formInputs}
-          <input type="submit" value="submit" className="button" onClick={handleSubmit}/>
-        </form>      
-      {newArtistForm}
-
+    <div className="text-white hero-image-3 centered">
+      <h1 className = "glow small">Register Artist</h1>
+      <NewArtistForm registerNewArtist={registerNewArtist} className="centered" />
     </div>
 
   )
