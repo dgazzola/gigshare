@@ -3,15 +3,15 @@ import { Link, Redirect } from "react-router-dom"
 
 const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
   const [updatedArtist,setUpdatedArtist] = useState({})
-  const [visibility, setVisibility] = useState("invisible")
+  const [showEditForm, setShowEditForm] = useState(false)
 
   const handleEdit = () => {
-    if (visibility){
-      setVisibility("")
+    if (showEditForm){
+      setShowEditForm(false)
     } else {
-      setVisibility("invisible")
-      window.scrollTo(0,0)
+      setShowEditForm(true)
     }
+    console.log(showEditForm)
   }
 
   const handleInputChange = event => {
@@ -31,46 +31,58 @@ const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
     }
   }
 
+  let editForm=""
+
+  if (showEditForm){
+    editForm =
+    <div className="info-wrap">
+    <form onSubmit={handleUpdate} className="form-smaller">
+    <label className="text-white">
+        Update Artist Name:
+        <input
+          type="text"
+          name="artistName"
+          onChange={handleInputChange}
+          value={updatedArtist.artistName}
+        />
+      </label>
+    <label className="text-white">
+        Update Genre:
+        <input
+          type="text"
+          name="genre"
+          onChange={handleInputChange}
+          value={updatedArtist.genre}
+        />
+      </label>
+    <label className="text-white">
+        Update Profile Song:
+        <input
+          type="text"
+          name="mediaUrl"
+          onChange={handleInputChange}
+          value={updatedArtist.mediaUrl}
+        />
+      </label>
+        <input className="button" type="submit" value="Update Artist" />
+        <button type="button" className="button" onClick={handleDelete}> Delete Artist</button>
+    </form>
+
+  </div>
+
+  } else {
+    editForm=""
+  }
+
 
   if (currentUser?.id===artist.userId){
     return (
       <div>
-        <button type="button" className="button shift-down" onClick={handleEdit}>
+        <button type="button" className="button" onClick={handleEdit}>
           Edit
         </button>
-      <div className="info-wrap">
-        <form onSubmit={handleUpdate} className="form-smaller">
-        <label className="text-white">
-            Update Artist Name:
-            <input
-              type="text"
-              name="artistName"
-              onChange={handleInputChange}
-              value={updatedArtist.artistName}
-            />
-          </label>
-        <label className="text-white">
-            Update Genre:
-            <input
-              type="text"
-              name="genre"
-              onChange={handleInputChange}
-              value={updatedArtist.genre}
-            />
-          </label>
-        <label className="text-white">
-            Update Profile Song:
-            <input
-              type="text"
-              name="mediaUrl"
-              onChange={handleInputChange}
-              value={updatedArtist.mediaUrl}
-            />
-          </label>
-            <input className="button" type="submit" value="Update Artist" />
-        </form>
-      </div>
-      <button type="button" className="button" onClick={handleDelete}> Delete Artist</button>
+        {editForm}
+
       </div>
     )
   }

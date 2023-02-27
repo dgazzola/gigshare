@@ -10,7 +10,6 @@ const EditGigButton = ({ currentUser, gig, handleInputChange, handleUpdate, upda
     } else {
       setShowGigForm(true)
     }
-    console.log(showGigForm)
   }
 
   if (currentUser?.id===gig.hostId){

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import AddArtistToLineupButton from "./AddArtistToLineup"
+import GigDelete from "./GigDelete"
 
-const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdate, updatedGig, showGigForm}) => {
+const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdate, updatedGig, showGigForm, setShouldRedirect}) => {
 
   if (currentUser?.id===gig.hostId && showGigForm){
     return(
@@ -73,6 +74,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                 />
             </label>
               <input className="button" type="submit" value="Update Gig" />
+              <GigDelete gig={gig} currentUser={currentUser} setShouldRedirect={setShouldRedirect}/>
           </form>
         </div>
   

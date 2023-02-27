@@ -89,9 +89,9 @@ const NewGigForm = props => {
   }
 
   return(
-    <div className="centered hero-image-2">
-      <h1 className="centered text-white glow small">Submit An Upcoming Gig!</h1>
+    <div className="centered hero-image">
       <div className="info-wrap">
+      <h1 className="centered text-white glow small">Submit An Upcoming Gig!</h1>
       <form onSubmit={handleSubmit} className="form">
         <ErrorList errors={errors} />
         {formInputs}

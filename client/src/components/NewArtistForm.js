@@ -34,14 +34,12 @@ const NewArtistForm = ({ registerNewArtist }) => {
   })
 
   return (
-    <div className="info-wrap">
 
     <form onSubmit={handleSubmit}>
     <ErrorList errors={errors} />
     {formInputs}
-    <input type="submit" value="submit" className="button" onClick={handleSubmit}/>
+    <input type="submit" value="Submit" className="button" onClick={handleSubmit}/>
   </form>
-    </div>
   )
 }
 

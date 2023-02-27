@@ -7,6 +7,7 @@ import NewArtistForm from "./NewArtistForm.js";
 
 const RegisterArtistForm = props => {
   const [shouldRedirect, setShouldRedirect] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const registerNewArtist = async (newArtistData) => {
     const userId = props.currentUser?.id
@@ -42,8 +43,11 @@ const RegisterArtistForm = props => {
 
   return (
     <div className="text-white hero-image-3 centered">
-      <h1 className = "glow small">Register Artist</h1>
-      <NewArtistForm registerNewArtist={registerNewArtist} className="centered" />
+      <div className="info-wrap">
+        <h1 className = "glow small">Register Artist</h1>
+        <ErrorList errors={errors} />
+        <NewArtistForm registerNewArtist={registerNewArtist} className="centered" />
+      </div>
     </div>
 
   )
