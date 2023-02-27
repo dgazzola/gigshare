@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
+import { Redirect } from "react-router-dom"
 
-const GigDelete = ({currentUser, gig, setShouldRedirect}) => {
+const GigDelete = ({currentUser, gig}) => {
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const handleDelete = () => {
     if (confirm(`Are you sure you want to delete ${gig.name}? \nThis cannot be undone`) == true) {
@@ -9,6 +11,7 @@ const GigDelete = ({currentUser, gig, setShouldRedirect}) => {
       alert(`${gig.name} has NOT been deleted.`)
     }
   }
+
   const deleteGig = async () => {
     try {
       const response = await fetch(`/api/v1/gigs/${gig?.id}`, {
@@ -35,6 +38,11 @@ const GigDelete = ({currentUser, gig, setShouldRedirect}) => {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
+
+  if (shouldRedirect){
+    return <Redirect push to ={`/users/${currentUser.id}`} />
+  }
+
   if(currentUser?.id===gig.hostId){
     return(
       <button type="button" className={`button`} onClick={handleDelete}> Delete Gig</button>

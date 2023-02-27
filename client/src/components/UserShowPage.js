@@ -103,12 +103,15 @@ const UserShowPage = (props) => {
         {artistInfo}
         {gigFormButton}
         {hostedMessage}
+        <div className="grid-x">
 
         {hostedGigTiles}
-
-      <div className="centered shift-down">
+        </div>
+      <div className="centered">
         {gigMessage}
+        <div className="grid-x">
         {gigTileComponents}
+        </div>
       </div>
 
     </div>

@@ -3,8 +3,6 @@ import ArtistTile from "./ArtistTile.js"
 import { Redirect } from "react-router-dom"
 import GoogleMap from "./GoogleMap.js"
 import GigFavoriteButton from "./GigFavoriteButton.js"
-import GigDelete from "./GigDelete.js"
-import EditGigForm from "./EditGigForm.js"
 import EditGigButton from "./EditGigButton.js"
 
 
@@ -192,7 +190,6 @@ const GigShowPage = (props) => {
       {artistTileComponents}
       </div>
       <EditGigButton handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig} artists={artists}/>
-      <GigDelete gig={gig} currentUser={props.currentUser} setShouldRedirect={setShouldRedirect}/>
       <GoogleMap gig={gig} dropDown={dropDown}/>
 
     </div>
