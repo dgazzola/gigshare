@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link, Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import GigTile from "./GigTile.js"
 import ReactPlayer from "react-player"
 import EditArtistForm from "./EditArtistForm.js"
