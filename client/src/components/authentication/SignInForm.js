@@ -66,19 +66,20 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="grid-container text-white shift-down" onSubmit={onSubmit}>
+    <div className="grid-container text-white centered hero-image-3" onSubmit={onSubmit}>
+      <div className="info-wrap">
       <h1 className="glow small">Sign In</h1>
       <form>
-        <div>
-          <label className="text-white medium">
-            Email
+
+          <label className="text-white">
+            Email:
             <input type="text" name="email" value={userPayload.email} onChange={onInputChange} />
             <FormError error={errors.email} />
           </label>
-        </div>
-        <div>
-          <label className="text-white medium">
-            Password
+
+
+          <label className="text-white">
+            Password:
             <input
               type="password"
               name="password"
@@ -87,11 +88,12 @@ const SignInForm = () => {
             />
             <FormError error={errors.password} />
           </label>
-        </div>
+
         <div>
           <input type="submit" className="button" value="Sign In" />
         </div>
       </form>
+      </div>
     </div>
   );
 };
