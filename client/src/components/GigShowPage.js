@@ -47,7 +47,8 @@ const GigShowPage = (props) => {
 
   useEffect(() => {
     getGig(),
-    getArtists()
+    getArtists(),
+    initMap()
   }, [])
 
   let artistTileComponents=""
