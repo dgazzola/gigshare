@@ -2,7 +2,6 @@ import { Lineup, Artist, Gig } from "../../models/index.js"
 
 class LineupSeeder {
   static async seed(){
-
     const zola = await Artist.query().findOne("artistName", "ZOLA")
     const porter = await Artist.query().findOne("artistName", "Porter Robinson")
     const skrillex = await Artist.query().findOne("artistName", "Skrillex")
