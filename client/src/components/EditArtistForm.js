@@ -38,7 +38,7 @@ const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
         <button type="button" className="button shift-down" onClick={handleEdit}>
           Edit
         </button>
-      <div className={`${visibility}`}>
+      <div className="info-wrap">
         <form onSubmit={handleUpdate} className="form-smaller">
         <label className="text-white">
             Update Artist Name:
@@ -67,12 +67,10 @@ const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
               value={updatedArtist.mediaUrl}
             />
           </label>
-          <div className="button-group centered">
-            <input className="button" type="submit" value="Submit Artist Update" />
-          </div>
+            <input className="button" type="submit" value="Update Artist" />
         </form>
       </div>
-      <button type="button" className={`button shift-down ${visibility}`} onClick={handleDelete}> Delete Artist</button>
+      <button type="button" className="button" onClick={handleDelete}> Delete Artist</button>
       </div>
     )
   }
