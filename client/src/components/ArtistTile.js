@@ -4,15 +4,14 @@ import { Link } from "react-router-dom"
 const ArtistTile = ({ id, artistName, genre}) => {
   const artistUrl = `/artists/${id}`
   return(
-    <button type="button" className="centered small-4">
-    <div className=" callout centered tile-box">
+
+    <div className="button callout tile-box centered cell small-3">
       <Link to={artistUrl} className = "centered">
       <h4 className="black">{artistName}</h4>
       <p className="black">{genre}</p>
       </Link>
     </div>
 
-    </button>
   )
 }
 
