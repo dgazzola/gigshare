@@ -15,7 +15,6 @@
 
 body, html {
   background: linear-gradient(#000000 50%,#fff);
-  // background-size: cover;
   background-repeat: no-repeat;
   height: 150%;
   
@@ -158,13 +157,6 @@ h2{
   font-size:50px;
 }
 
-.invisible{
-  opacity:0%;
-}
-
-.form-smaller{
-  margin:8vw;
-}
 
 .react-player {
   position: absolute;
@@ -209,4 +201,10 @@ h2{
 }
 .username-string{
   font-weight: 700;
+}
+
+form{
+  width:50%;
+  text-align: center;
+  display: inline-block;
 }

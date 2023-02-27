@@ -8,7 +8,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
       <div>
         <AddArtistToLineupButton gig={gig} artists={artists}/>
         <div className={`info-wrap`}>
-          <form onSubmit={handleUpdate} className="form-smaller">
+          <form onSubmit={handleUpdate}>
             <label className="text-white">
                 Update Gig Name:
                 <input
