@@ -47,14 +47,13 @@ const GigShowPage = (props) => {
 
   useEffect(() => {
     getGig(),
-    getArtists(),
-    initMap()
+    getArtists()
   }, [])
 
   let artistTileComponents=""
-  let lineupMessage = <h1 className="glow small shift-down-small">Lineup TBA</h1>
+  let lineupMessage = <h1 className="glow small">Lineup TBA</h1>
   if (gig.artists?.length>0){
-    lineupMessage = <h1 className="glow small shift-down-small">LineUp:</h1>
+    lineupMessage = <h1 className="glow small">LineUp:</h1>
     artistTileComponents = gig.artists.map(artistObject => {
       return (
         <ArtistTile
