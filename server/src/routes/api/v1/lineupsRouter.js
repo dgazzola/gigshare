@@ -9,7 +9,6 @@ lineupsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
   console.log(body)
   try {
-    // const newPersistedGig = await Lineup.query().insertAndFetch(body)
     return res.status(201).json({ })
   } catch (error) {
     if (error instanceof ValidationError){
