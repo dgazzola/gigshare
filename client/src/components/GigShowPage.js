@@ -13,10 +13,7 @@ const GigShowPage = (props) => {
   const [artists, setArtists] = useState({})
   const [updatedGig,setUpdatedGig] = useState({})
   const [shouldRedirect, setShouldRedirect] = useState(false)
-  const [visibility, setVisibility] = useState("invisible")
   const [dropDown, setDropDown] = useState("")
-  const [addArtistDropdown, setAddArtistDropdown] = useState(false)
-  const [lineupInfo, setLineupInfo] = useState({})
   const id = props.match.params.id
 
 
@@ -117,91 +114,12 @@ const GigShowPage = (props) => {
     }
   }
 
-  let deleteGigButton=""
-  let signArtistToLineupDropdown=""
-  let editGigForm=""
-  let artistDropdown
-
-  const toggleAddArtistDropdown = event => {
-    if (addArtistDropdown){
-      setAddArtistDropdown(false)
-    }
-    if (!addArtistDropdown){
-      setAddArtistDropdown(true)
-    }
-  }
-  if (addArtistDropdown){
-    let artistOptionsArray=[]
-    for (let i=0; i<artists.length; i++){
-      artistOptionsArray.push(<option key={artists[i].artistName} value={artists[i].id}>{artists[i].artistName}</option>)
-    }
-    const updateLineup = async () => {
-      let shouldUpdate = true
-      for (let i = 0; i<gig.artists?.length; i++){
-        if (gig.artists[i].id===lineupInfo.artistId){
-          shouldUpdate=false
-        }
-      }
-      if (shouldUpdate){
-        try {
-          const response = await fetch(`/api/v1/gigs/${gig.id}/lineups`, {
-            method: "PATCH",
-            headers: new Headers({
-              "Content-Type": "application/json"
-            }),
-            body: JSON.stringify(lineupInfo)
-          })
-          if (!response.ok) {
-            if (response.status === 422) {
-              const body = await response.json()
-              const newErrors = translateServerErrors(body.errors)
-              return setErrors(newErrors)
-            } else {
-              const errorMessage = `${response.status} (${response.statusText})`
-              const error = new Error(errorMessage)
-              throw error
-            }
-          } else {
-            const body = await response.json()
-            const returnedGig = body.gig   
-            setShouldRedirect(true)      
-            setGig(returnedGig)
-          }
-        } catch(err) {
-        }
-      } else {
-        alert(`Artist is already in lineup!`)
-      }
-    }
-
-    const artistFormSelect = event => {
-      setLineupInfo({
-        gigId: `${gig.id}`,
-        artistId:event.currentTarget.value
-      })
-    }
-    
-    artistDropdown =
-      <div className="shift-down">
-        <form onSubmit={updateLineup}>
-          <select onChange={artistFormSelect}>
-            <option></option>
-            {artistOptionsArray}
-          </select>   
-          <input type="submit" value="Submit" className="button" />    
-        </form>
-      </div>
-  }
-  if (!addArtistDropdown){
-    artistDropdown=""
-  }
-
   let favoritedCountDisplay=""
-
   if (gig?.favorited?.length){
     favoriteCount = gig.favorited.length
     favoritedCountDisplay="Favorited:"
   }
+
   const handleFavoriteButton = async () =>{
     if (gig.isUserFavorite){
       try {
@@ -259,24 +177,22 @@ const GigShowPage = (props) => {
   }
 
   return (
-    <div className="centered text-white">
-      <div className="hero-image">
-        <div className="info-wrap">
+    <div className="centered text-white hero-image">
+      <div className="info-wrap">
       <h1 className="glow small shift-down-small">{gig.name}</h1>
       <h2 className="text-white">{gig.city}, {gig.state}</h2>
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
       <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton} setGig={setGig}/>
-        </div>
+
+      </div>
       {lineupMessage}
       <div className="centered grid-x">
       {artistTileComponents}
       </div>
-      {signArtistToLineupDropdown}
-      <EditGigButton handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig}/>
+      <EditGigButton handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig} artists={artists}/>
       <GigDelete gig={gig} currentUser={props.currentUser} setShouldRedirect={setShouldRedirect}/>
-      </div>
       <GoogleMap gig={gig} dropDown={dropDown}/>
 
     </div>

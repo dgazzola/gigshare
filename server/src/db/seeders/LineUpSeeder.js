@@ -111,7 +111,6 @@ class LineupSeeder {
     await Lineup.query().insert({gigId: hardSummer.id, artistId: oliverse.id})
     await Lineup.query().insert({gigId: hardSummer.id, artistId: slushii.id})
     await Lineup.query().insert({gigId: hardSummer.id, artistId: ghastly.id})
-    await Lineup.query().insert({gigId: hardSummer.id, artistId: ghastly.id})
 
     await Lineup.query().insert({gigId: electricZoo.id, artistId: porter.id})
     await Lineup.query().insert({gigId: electricZoo.id, artistId: protohype.id})

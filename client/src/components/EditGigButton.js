@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import EditGigForm from "./EditGigForm.js"
 
-const EditGigButton = ({ currentUser, gig, handleInputChange, handleUpdate, updatedGig }) => {
+const EditGigButton = ({ currentUser, gig, handleInputChange, handleUpdate, updatedGig, artists }) => {
   const [showGigForm, setShowGigForm] = useState(false)
 
   const handleEdit = () => {
@@ -19,7 +19,7 @@ const EditGigButton = ({ currentUser, gig, handleInputChange, handleUpdate, upda
         <button type="button" className="button" onClick={handleEdit}>
               Edit
         </button>
-        <EditGigForm handleInputChange={handleInputChange} currentUser={currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig} showGigForm={showGigForm}/>
+        <EditGigForm handleInputChange={handleInputChange} currentUser={currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig} showGigForm={showGigForm} artists={artists}/>
       </div>
     )
   } else {

@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react"
+import AddArtistToLineupButton from "./AddArtistToLineup"
 
-const EditGigForm = ({ handleInputChange, currentUser, gig, handleUpdate, updatedGig, showGigForm}) => {
+const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdate, updatedGig, showGigForm}) => {
 
   if (currentUser?.id===gig.hostId && showGigForm){
     return(
       <div>
-        {/* <button type="button" className="button" onClick={handleEdit}>
-          Edit
-        </button> */}
+        <AddArtistToLineupButton gig={gig} artists={artists}/>
         <div className={`info-wrap`}>
-          {/* <button type="button" className={`button`} onClick={toggleAddArtistDropdown}>
-            Add Artist
-          </button>
-          {artistDropdown} */}
           <form onSubmit={handleUpdate} className="form-smaller">
             <label className="text-white">
                 Update Gig Name:
@@ -77,10 +72,7 @@ const EditGigForm = ({ handleInputChange, currentUser, gig, handleUpdate, update
                   value={updatedGig.endTime}
                 />
             </label>
-          
-            <div className="button-group centered">
               <input className="button" type="submit" value="Update Gig" />
-            </div>
           </form>
         </div>
   
