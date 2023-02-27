@@ -100,17 +100,6 @@ const GigShowPage = (props) => {
     }
   }
 
-  const handleEdit = () => {
-    if (visibility){
-      setVisibility("")
-      setDropDown("drop-down")
-    } else {
-      setVisibility("invisible")
-      setDropDown("")
-      window.scrollTo(0,0)
-    }
-  }
-
   const handleInputChange = event => {
     setUpdatedGig({
       ...updatedGig,
@@ -125,14 +114,6 @@ const GigShowPage = (props) => {
       alert(`No changes have been submitted for ${gig.name}!`)
     } else {
       editGig()
-    }
-  }
-
-  const handleDelete = () => {
-    if (confirm(`Are you sure you want to delete ${gig.name}? \nThis cannot be undone`) == true) {
-      deleteGig()
-    } else {
-      alert(`${gig.name} has NOT been deleted.`)
     }
   }
 
@@ -295,8 +276,6 @@ const GigShowPage = (props) => {
       {signArtistToLineupDropdown}
       <EditGigButton handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig}/>
       <GigDelete gig={gig} currentUser={props.currentUser} setShouldRedirect={setShouldRedirect}/>
-      {/* <EditGigForm handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig}/> */}
-      {/* {editGigForm} */}
       </div>
       <GoogleMap gig={gig} dropDown={dropDown}/>
 

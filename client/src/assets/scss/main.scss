@@ -16,6 +16,7 @@
 body, html {
   background: linear-gradient(#000000 50%,#fff);
   height: 150%;
+  
 }
 
 // .hero-image {
@@ -23,7 +24,7 @@ body, html {
 //   height: 60vh;
 //   background-position: center;
 //   background-repeat: no-repeat;
-//   background-size: cover;
+//   background-size: contain;
 //   position: relative;
 // }
 
@@ -68,24 +69,6 @@ body, html {
     text-shadow: 0 0 20px #fff, 0 0 30px #9500ffb3, 0 0 40px #9500ffb3, 0 0 50px #9500ffb3, 0 0 60px #9500ffb3, 0 0 70px #9500ffb3, 0 0 100px #9500ffb3;
   }
 }
-
-// .shift-down-huge{
-//   transform: translate(0%, 400%);
-// }
-// .shift-down-big{
-//   transform: translate(0%, 200%);
-// }
-
-// .shift-down{
-//   transform: translate(0%, 30%);
-// }
-// .shift-down-small{
-//   transform: translate(0%, 10%);
-// }
-// .shift-down-medium{
-//   transform: translate(0%, 50%);
-// }
-
 .huge{
   font-size: 120px;
 }
@@ -214,9 +197,6 @@ h2{
   margin:8rem;
   border-radius: 4px;
 }
-// .drop-down{
-//   transform: translate(0%, 250%);
-// }
 
 .date-string{
   font-style: italic;
