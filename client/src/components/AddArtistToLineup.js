@@ -13,7 +13,7 @@ const AddArtistToLineupButton = ({ gig, artists }) => {
 
   let artistDropdown
 
-  const test = event => {
+  const handleToggle = event => {
     if (showLineupDropdown){
       setShowLineupDropdown(false)
     } else {
@@ -66,13 +66,16 @@ const AddArtistToLineupButton = ({ gig, artists }) => {
       artistOptionsArray.push(<option key={artists[i].artistName} value={artists[i].id}>{artists[i].artistName}</option>)
     }
     artistDropdown =
-    <div className="shift-down">
+    <div className="info-wrap">
       <form onSubmit={updateLineup}>
+        <label className="text-white">
+          Select Artist:
         <select onChange={artistFormSelect}>
           <option></option>
           {artistOptionsArray}
         </select>   
-        <input type="submit" value="Submit" className="button" />    
+        </label>
+        <input type="submit" value="Submit" className="button inline" />    
       </form>
     </div>
   } else {
@@ -81,7 +84,7 @@ const AddArtistToLineupButton = ({ gig, artists }) => {
 
   return (
     <div>
-      <button type="button" className={`button`} onClick={test}>
+      <button type="button" className={`button`} onClick={handleToggle}>
         Add Artist
       </button>
       {artistDropdown}

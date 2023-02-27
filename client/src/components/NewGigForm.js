@@ -89,13 +89,15 @@ const NewGigForm = props => {
   }
 
   return(
-    <div>
-      <h1 className="centered text-white">Submit An Upcoming Gig!</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="centered hero-image-2">
+      <h1 className="centered text-white glow small">Submit An Upcoming Gig!</h1>
+      <div className="info-wrap">
+      <form onSubmit={handleSubmit} className="form">
         <ErrorList errors={errors} />
         {formInputs}
         <input type="submit" value="Submit Gig" className="button" onClick={handleSubmit}/>
       </form>
+      </div>
     </div>
   )
 }

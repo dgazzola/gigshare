@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom"
-import translateServerErrors from "./../services/translateServerErrors.js"
 import ErrorList from "./layout/ErrorList.js";
 import _ from "lodash"
 

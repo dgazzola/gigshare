@@ -204,7 +204,19 @@ h2{
 }
 
 form{
-  width:50%;
+  width:70%;
   text-align: center;
   display: inline-block;
+}
+
+label{
+  font-weight: 500;
+  font-size: large;
+}
+
+input{
+  text-align: center;
+}
+.inline{
+  display: inline;
 }
