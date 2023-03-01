@@ -70,16 +70,22 @@ const NewGigForm = props => {
     }
     if (input==="date"){
       return(
+      <div className="left-thirty">
+
         <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="date" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
+      </div>
       )
     }
     if (input==="startTime" || input==="endTime"){
       return(
+        <div className="left-thirty">
+
         <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="time" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
+        </div>
       )
     }
   })
@@ -91,10 +97,11 @@ const NewGigForm = props => {
   return(
     <div className="centered hero-image">
       <div className="info-wrap">
-      <h1 className="centered text-white glow small">Submit An Upcoming Gig!</h1>
-      <form onSubmit={handleSubmit} className="form">
+      <h1 className="centered text-white glow small">Submit A Gig!</h1>
+      <form onSubmit={handleSubmit} className="form new-gig-form">
         <ErrorList errors={errors} />
         {formInputs}
+        <div className="clear"></div>
         <input type="submit" value="Submit Gig" className="button" onClick={handleSubmit}/>
       </form>
       </div>

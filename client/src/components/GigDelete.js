@@ -45,7 +45,7 @@ const GigDelete = ({currentUser, gig}) => {
 
   if(currentUser?.id===gig.hostId){
     return(
-      <button type="button" className={`button`} onClick={handleDelete}> Delete Gig</button>
+      <button type="button" className={`button right-forty`} onClick={handleDelete}> Delete Gig</button>
     )
   } else {
     return(null)

@@ -11,7 +11,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
         <div className={`info-wrap`}>
           <form onSubmit={handleUpdate}>
             <label className="text-white">
-                Update Gig Name:
+                Name:
                 <input
                   type="text"
                   name="name"
@@ -20,16 +20,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                 />
             </label>
             <label className="text-white">
-                Update Gig Date:
-                <input
-                  type="date"
-                  name="date"
-                  onChange={handleInputChange}
-                  value={updatedGig.date}
-                />
-            </label>
-            <label className="text-white">
-                Update Gig Address:
+                Address:
                 <input
                   type="text"
                   name="address"
@@ -38,7 +29,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                 />
             </label>
             <label className="text-white">
-                Update Gig City:
+                City:
                 <input
                   type="text"
                   name="city"
@@ -47,7 +38,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                 />
             </label>
             <label className="text-white">
-                Update Gig State:
+                State:
                 <input
                   type="text"
                   name="state"
@@ -55,8 +46,17 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                   value={updatedGig.state}
                 />
             </label>
-            <label className="text-white">
-                Update Gig Start Time:
+            <label className="text-white left-thirty">
+                Date:
+                <input
+                  type="date"
+                  name="date"
+                  onChange={handleInputChange}
+                  value={updatedGig.date}
+                />
+            </label>
+            <label className="text-white left-thirty">
+                Start Time:
                 <input
                   type="time"
                   name="startTime"
@@ -64,8 +64,8 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                   value={updatedGig.startTime}
                 />
             </label>
-            <label className="text-white">
-                Update Gig End Time:
+            <label className="text-white left-thirty">
+                End Time:
                 <input
                   type="time"
                   name="endTime"
@@ -73,7 +73,7 @@ const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdat
                   value={updatedGig.endTime}
                 />
             </label>
-              <input className="button" type="submit" value="Update Gig" />
+              <input className="button left-forty" type="submit" value="Update Gig" />
               <GigDelete gig={gig} currentUser={currentUser} setShouldRedirect={setShouldRedirect}/>
           </form>
         </div>

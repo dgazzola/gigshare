@@ -211,7 +211,7 @@ h4{
 }
 
 form{
-  width:70%;
+  width:60%;
   text-align: center;
   display: inline-block;
 }
@@ -223,9 +223,41 @@ label{
 
 input{
   text-align: center;
+  display: inline-block;
 }
 
+.left-thirty{
+  width: 30%;
+  float:left;
+  margin: 1.6%;
+}
+.left-forty{
+  width: 45%;
+  float:left;
+  margin: 1.6%;
+}
+.left-fifty{
+  width: 50%;
+  float:left;
+  margin: 1.6%;
+}
 
-.inline{
-  display: inline;
+.right-thirty{
+  width: 30%;
+  float:right;
+  margin: 1.6%;
+}
+.right-forty{
+  width: 45%;
+  float:right;
+  margin: 1.6%;
+}
+.right-fifty{
+  width: 50%;
+  float:right;
+  margin: 1.6%;
+}
+
+.clear{
+  clear:both;
 }

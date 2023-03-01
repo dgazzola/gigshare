@@ -66,7 +66,7 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="grid-container text-white centered hero-image-3" onSubmit={onSubmit}>
+    <div className="text-white centered hero-image-3" onSubmit={onSubmit}>
       <div className="info-wrap">
       <h1 className="glow small">Sign In</h1>
       <form>
