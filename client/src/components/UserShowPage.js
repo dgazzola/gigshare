@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
-import GigTile from './GigTile.js';
+import GigTile from './GigTile.js'
+import Dropzone from "react-dropzone"
 
 const UserShowPage = (props) => {
   const { id } = props.match.params
+  const currentUser = props.currentUser
   const [user, setUser] = useState({
     artist:"",
-    favoriteGigs:""
+    favoriteGigs:"",
+    profileImage:""
   })
-
-  const currentUser = props.currentUser
+  const [newProfileImage, setNewProfileImage] = useState({
+    image: {}
+  })
+  const [uploadedImage, setUploadedImage] = useState({
+    preview: ""
+  })
 
   const getUser = async () => {
     try {
@@ -29,13 +36,55 @@ const UserShowPage = (props) => {
     window.scrollTo(0,0),
     getUser()
   }, [])
+  
+  const handleImageUpload = (acceptedImage) => {
+    setNewProfileImage({
+      ...newProfileImage,
+      image: acceptedImage[0]
+    })
+
+    setUploadedImage({
+      preview: URL.createObjectURL(acceptedImage[0])
+    })
+  }
+
+  const addProfileImage = async (event) => {
+    event.preventDefault()
+    const imageAddToProfile = new FormData()
+    imageAddToProfile.append("image", newProfileImage.image)
+    try {
+      const response = await fetch(`/api/v1/users/${user.id}`, {
+        method: "PATCH",
+        headers: {
+        "Accept": "image/jpeg"
+        },
+        body: imageAddToProfile
+      })
+      if (!response.ok) {
+        throw new Error(`${response.status} (${response.statusText})`)
+      }
+      const body = await response.json()
+      setUser(body.serializedUser)
+      setUploadedImage({
+        preview: ""
+      })
+    } catch (error) {
+      console.error(`Error in add profile image: ${error.message}`)
+    }
+  }
+  let dropzoneComponent = ""
+  let previewComponent = ""
+
+  if (uploadedImage.preview) {
+    previewComponent = <img src={uploadedImage.preview} className="profile-image-preview" />
+  }
 
   let artistInfo ="replace with user artist button"
 
   if (user.artist.length!==0){
     artistInfo =
     <div className="shift-down">
-        <Link to={`/artists/${user.artist[0].id}`} className="centered">
+        <Link to={`/artists/${user?.artist[0].id}`} className="centered">
           <button type="button" className="button">
             {user.artist[0].artistName}'s Artist Page
           </button>
@@ -54,10 +103,33 @@ const UserShowPage = (props) => {
     </div>
   }
 
+
+  if(currentUser?.id === user.id){
+    dropzoneComponent = (
+      <div className="dropzone white-bg">
+        <h3>Click below to upload image</h3>
+        <form onSubmit={addProfileImage}>
+          <Dropzone onDrop={handleImageUpload}>
+            {({getRootProps, getInputProps}) => (
+              <section>
+                <div {...getRootProps()}>
+                  <input type="text" {...getInputProps()} />
+                  <p className = "centered">Input your profile image here</p>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+          <input className='button' type='submit' value='save profile' />
+        </form>
+        {previewComponent}
+      </div>
+    )
+  }
+
   let gigTileComponents
   let gigMessage = <h1 className="glow small shift-down"> No Favorited Gigs</h1>
 
-  if(user.favoriteGigs.length) {
+  if(user.favoriteGigs?.length) {
     gigMessage = <h1 className="glow small"> Favorited Gigs:</h1>
     gigTileComponents = user.favoriteGigs.map(gigObject => {
       return (
@@ -99,6 +171,8 @@ const UserShowPage = (props) => {
 
       <h3 className="text-white email-string">{user.email}</h3>
       <h3 className="text-white date-string">{createdDateString}</h3>
+      <img src={user.profileImage} className='profile-image' alt='profile-image' />
+      {dropzoneComponent}
       </div>
         {artistInfo}
         {gigFormButton}

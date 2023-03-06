@@ -4,7 +4,7 @@ import { Gig, Favorite}  from "../models/index.js"
 
 class UserSerializer {
   static async getSummary(user) {
-    const allowedAttributes = ["id", "email", "username", "createdAt"]
+    const allowedAttributes = ["id", "email", "username", "createdAt", "profileImage"]
     const serializedUser={}
 
     for (const attribute of allowedAttributes) {

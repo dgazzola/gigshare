@@ -182,6 +182,7 @@ const GigShowPage = (props) => {
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
       <h2 className="text-white">{favoritedCountDisplay} {favoriteCount}</h2>
+      <GoogleMap gig={gig} dropDown={dropDown}/>
       <GigFavoriteButton currentUser={props.currentUser} gig={gig} handleFavoriteButton={handleFavoriteButton} setGig={setGig}/>
 
       <EditGigButton handleInputChange={handleInputChange} currentUser={props.currentUser} gig={gig} handleUpdate={handleUpdate} updatedGig={updatedGig} artists={artists}/>
@@ -190,7 +191,6 @@ const GigShowPage = (props) => {
       <div className="centered grid-x">
       {artistTileComponents}
       </div>
-      <GoogleMap gig={gig} dropDown={dropDown}/>
 
     </div>
   )

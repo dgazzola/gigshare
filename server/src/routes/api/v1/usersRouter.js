@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "passport";
+import uploadImage from "../../../services/uploadImage.js";
 import { User } from "../../../models/index.js";
 import { ValidationError } from "objection"
 import UserSerializer from "../../../serializers/UserSerializer.js";
@@ -9,6 +10,19 @@ import userFavoritesRouter from "./userFavoritesRouter.js";
 const usersRouter = new express.Router();
 usersRouter.use("/:id/register-as-artist", userArtistsRouter)
 usersRouter.use("/:id/favorites", userFavoritesRouter)
+
+usersRouter.patch("/:id", uploadImage.single("image"), async (req, res) => {
+  const { id } = req.params
+  const { location } = req.file
+  try {
+    const user = await User.query().findById(id)
+    await user.$query().patch({ ...user, profileImage: location })
+    const serializedUser = await UserSerializer.getSummary(user)
+    return res.status(200).json({ serializedUser })
+  } catch (error) {
+    return res.status(500).json({ errors: error })
+  }
+})
 
 usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params
