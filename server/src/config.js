@@ -21,6 +21,4 @@ const production = {
 
 const config = { development, test, production }
 
-console.log("CONFIG", config)
-
 export default config[getNodeEnv()]
