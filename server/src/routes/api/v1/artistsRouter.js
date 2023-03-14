@@ -1,4 +1,5 @@
 import express from "express"
+import ArtistSerializer from "../../../serializers/ArtistSerializer.js"
 import { Artist } from "../../../models/index.js"
 import { ValidationError } from "objection"
 
@@ -27,8 +28,8 @@ artistsRouter.get("/:id", async (req, res) => {
   const { id } = req.params
   try {
     const artist = await Artist.query().findById(id)
-    artist.gigs = await artist.$relatedQuery("gigs")
-    return res.status(200).json({ artist })
+    const serializedArtist = await ArtistSerializer.getDetail(artist)
+    return res.status(200).json({ artist:serializedArtist })
   } catch (error) {
     return res.status(500).json({errors: error})
   }
@@ -43,8 +44,5 @@ artistsRouter.patch("/:id", async (req, res) => {
     return res.status(500).json({errors: error})
   }
 })
-
-
-
 
 export default artistsRouter

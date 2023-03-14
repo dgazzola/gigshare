@@ -12,8 +12,8 @@ class ArtistSerializer {
     const serializedGigs = await Promise.all(
       relatedGigs.map(async(gig) => await GigSerializer.getDetail(gig))
     )
-
     serializedArtist.gigs = serializedGigs
+    return serializedArtist
   }
 }
 
