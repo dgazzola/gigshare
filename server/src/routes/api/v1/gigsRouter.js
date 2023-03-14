@@ -1,4 +1,5 @@
 import express from "express"
+import GigSerializer from "../../../serializers/GigSerializer.js"
 import { Gig, User, Favorite, Lineup } from "../../../models/index.js"
 import { ValidationError } from "objection"
 import cleanUserInput from "../../../services/cleanUserInput.js"
@@ -8,7 +9,12 @@ const gigsRouter = new express.Router()
 gigsRouter.get("/", async (req, res) => {
   try {
     const gigs = await Gig.query()
-    return res.status(200).json({ gigs:gigs })
+    const serializedGigs = await Promise.all(
+      gigs.map(async (gig) => {
+        return await GigSerializer.getDetail(gig)
+      })
+    )
+    return res.status(200).json({ gigs:serializedGigs })
   } catch (error) {
     return res.status(500).json({errors: error})
   }
@@ -31,17 +37,14 @@ gigsRouter.get("/:id", async (req, res) => {
   const { id } = req.params
   try {
     const gig = await Gig.query().findById(id)
-    gig.artists = await gig.$relatedQuery("artists")
-    gig.favorited = await gig.$relatedQuery("users")
-    gig.isUserFavorite=false
-    for (let i=0; i<gig.favorited?.length; i++){
-      if (gig.favorited[i].id === req.user?.id){
-        gig.isUserFavorite=true
+    const serializedGig = await GigSerializer.getDetail(gig)
+    for (let i=0; i<serializedGig.favorited?.length; i++){
+      if (serializedGig.favorited[i].id === req.user?.id){
+        serializedGig.isUserFavorite=true
       }
     }
-    return res.status(200).json({ gig })
+    return res.status(200).json({ gig:serializedGig })
   } catch(error) {
-    console.log(error)
     return res.status(500).json({ errors:error })
   }
 })
@@ -110,6 +113,5 @@ gigsRouter.patch("/:id/lineups", async (req, res) => {
     return res.status(500).json({errors: error})
   }
 })
-
 
 export default gigsRouter
