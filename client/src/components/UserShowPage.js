@@ -106,7 +106,7 @@ const UserShowPage = (props) => {
 
   if(currentUser?.id === user.id){
     dropzoneComponent = (
-      <div className="dropzone white-bg">
+      <div className="dropzone">
         <h3>Upload new profile image</h3>
         <form onSubmit={addProfileImage}>
           <Dropzone onDrop={handleImageUpload}>
