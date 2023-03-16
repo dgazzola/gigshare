@@ -14,32 +14,19 @@
 }
 
 body, html {
-  background: linear-gradient(#000000 50%,#fff);
-  background-repeat: no-repeat;
-  height: 150%;
-  
+  background: white;
 }
 
+h1{
+  color: rgba(149, 0, 255, 0.8);
+  text-align: center;
+}
+h4, p{
+  color:white
+}
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2) 45%, rgba(0, 0, 0, 1)), url("https://www.specialevents.com/sites/specialevents.com/files/styles/article_featured_standard/public/Music_Festival_2017_0.jpg?itok=8LE-EaXr");
-  height: 60vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}
-
-.hero-image-2 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, .9)), url("https://thumbs.dreamstime.com/b/concert-stage-illuminated-empty-purple-light-fog-69768402.jpg");
-  height: 60vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}
-.hero-image-3 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, .9)), url("https://img.freepik.com/free-vector/studio-with-stage-lights-spotlight-beams-with-smoke_107791-6026.jpg?t=st=1676422096~exp=1676422696~hmac=2c326970ec556d96e222bda98d0bd65de357e8a0ab177080aa48350da990151e");
-  height: 60vh;
+  background-image: url("../../../../images/background-image.jpg");
+  height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -51,26 +38,10 @@ body, html {
   color: white;
   top:50%;
   left:50%;
-  transform: translate(0%, 100%);
+  transform: translate(0%, 50%);
 }
 
-.glow {
-  font-size: 120px;
-  color: #fff;
-  text-align: center;
-  -webkit-animation: glow 1s ease-in-out infinite alternate;
-  -moz-animation: glow 1s ease-in-out infinite alternate;
-  animation: glow 1s ease-in-out infinite alternate;
-}
-@keyframes glow {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #9500ffb3, 0 0 40px #9500ffb3, 0 0 50px #9500ffb3, 0 0 60px #9500ffb3, 0 0 90px #9500ffb3;
-  }
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #9500ffb3, 0 0 40px #9500ffb3, 0 0 50px #9500ffb3, 0 0 60px #9500ffb3, 0 0 70px #9500ffb3, 0 0 100px #9500ffb3;
-  }
-}
-.huge{
+.header{
   font-size: 120px;
 }
 
@@ -84,7 +55,7 @@ body, html {
 
 .button {
   border-radius: 4px;
-  background-color: rgba(149, 0, 255, 0.7);
+  background-color: rgba(149, 0, 255, 0.8);
   border: none;
   color: white;
   text-align: center;
@@ -127,33 +98,18 @@ body, html {
   text-align: center;
 }
 
-.white{
-  color:white;
-  background:white
-}
-
-.text-white{
-  color:white;
-}
-
 .tile-box{
-  opacity:90%;
-  background-image: linear-gradient(#9500ffb3 1%
-  , rgb(255,255,255) 25%);
-  border-radius: 2rem;
+  background-color: white;
+  // button hover color orange instead of black rgba(253, 164, 0, 0.25)
+  // border-style: groove;
+  // border-color: black;
+  // border-width: 5px;
   text-emphasis-color: black;
-  margin:2vw;
+  margin:1vw;
+  // height: 15rem;
+  border-radius: 2rem;
 }
 
-h2{
-  color: black;
-}
-p{
-  font-weight: 400;
-}
-h4{
-  font-weight: 500;
-}
 
 .black{
   color:black;
@@ -164,28 +120,42 @@ h4{
 }
 
 
-.react-player {
-  position: absolute;
-  top: 0;
-  left: 0;
+
+div.scroll {
+  height: 60vh;
+  // width: 40vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+div.scroll-half {
+  height: 30vh;
+  // width: 40vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
 }
 
-.player-wrapper {
-  margin: auto;
-  width: 50%;
-  opacity: 90%;
-}
-
-.info-wrap{
-  background-color: black;
-  color: black;
-  margin-left: 6rem;
-  margin-right: 6rem;
+.text-wrap{
+  background-color: rgba(253, 164, 0, 0.45);
+  margin-left: 37vw;
+  margin-right: 37vw;
+  margin-bottom: 2rem;
+  padding:10px;
   border-radius: 2rem;
   opacity: 90%;
 
 }
 
+.bg-clear{
+  background-color: rgba(255, 255, 255, 0)
+}
+.bg-orange{
+  background-color:rgba(253, 164, 0, 0.45);
+}
+.rounded{
+  border-radius: 2rem;
+}
 .white-bg{
   background-color: white;
   opacity: 80%;
@@ -225,37 +195,9 @@ input{
   text-align: center;
   display: inline-block;
 }
+a{
+  color: rgba(149, 0, 255, 0.7);
 
-.left-thirty{
-  width: 30%;
-  float:left;
-  margin: 1.6%;
-}
-.left-forty{
-  width: 45%;
-  float:left;
-  margin: 1.6%;
-}
-.left-fifty{
-  width: 50%;
-  float:left;
-  margin: 1.6%;
-}
-
-.right-thirty{
-  width: 30%;
-  float:right;
-  margin: 1.6%;
-}
-.right-forty{
-  width: 45%;
-  float:right;
-  margin: 1.6%;
-}
-.right-fifty{
-  width: 50%;
-  float:right;
-  margin: 1.6%;
 }
 
 .clear{
@@ -277,6 +219,14 @@ input{
   width:50%;
   margin: auto;
 }
-.white-bg{
-  background-color: white;
+.react-player {
+  position: relative;
+  
+  top: 0;
+  left: 0;
+}
+
+.player-wrapper {
+  width: 20vw;
+  opacity: 90%;
 }

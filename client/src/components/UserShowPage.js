@@ -107,7 +107,7 @@ const UserShowPage = (props) => {
   if(currentUser?.id === user.id){
     dropzoneComponent = (
       <div className="dropzone white-bg">
-        <h3>Click below to upload image</h3>
+        <h3>Upload new profile image</h3>
         <form onSubmit={addProfileImage}>
           <Dropzone onDrop={handleImageUpload}>
             {({getRootProps, getInputProps}) => (
@@ -165,29 +165,44 @@ const UserShowPage = (props) => {
   const createdDateString= DateObject.toUTCString()
 
   return(
-    <div className="centered text-box hero-image-3">
-      <h3 className="text-white glow small username-string">{user.username}</h3>
-      <div className='info-wrap'>
+    <div className="hero-image centered text-box">
 
-      <h3 className="text-white email-string">{user.email}</h3>
-      <h3 className="text-white date-string">{createdDateString}</h3>
-      <img src={user.profileImage} className='profile-image' alt='profile-image' />
-      {dropzoneComponent}
-      </div>
+
+
+<div className='grid-x'>
+  
+    <div className="small-5 scroll callout bg-clear">
+        <h3 className="date-string">{createdDateString}</h3>
+        <img src={user.profileImage} className='profile-image' alt='profile-image' />
+        <h3 className="username-string">{user.username}</h3>
+        <h3 className="email-string">{user.email}</h3>
         {artistInfo}
         {gigFormButton}
+        {dropzoneComponent}
+    </div>
+    
+
+        <div className="scroll small-7 callout bg-clear">
+          <div className='callout bg-clear'>
+
         {hostedMessage}
-        <div className="grid-x">
-
+          <div className='grid-x'>
         {hostedGigTiles}
-        </div>
-      <div className="centered">
-        {gigMessage}
-        <div className="grid-x">
-        {gigTileComponents}
-        </div>
-      </div>
+          </div>
+          </div>
 
+
+        <div className="scroll small-7 callout bg-clear">
+        {gigMessage}
+          <div className='grid-x'>
+        {gigTileComponents}
+          </div>
+        </div>
+
+
+        </div>
+
+</div>
     </div>
   )
 }

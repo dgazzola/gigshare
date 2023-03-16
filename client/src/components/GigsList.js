@@ -35,12 +35,19 @@ const GigsListPage = (props) => {
   })
 
   return (
-    <div className="">
-      <div className="hero-image">
-        <h1 className="glow small shift-down-small">Upcoming Gigs</h1>
+    <div className="hero-image bg-clear">
       <div className="grid-x">
+        <div className="small-5 callout bg-clear">
+          <h1>Search For A Gig/Search Results Functionality
+          </h1>
+        </div>
+        <div className="small-7 scroll callout bg-clear">
+          <h1 className="centered">Filtered By :</h1>
+          <div className="grid-x">
+
         {gigTileComponents}
-      </div>
+          </div>
+        </div>
       </div>
     </div>
   )

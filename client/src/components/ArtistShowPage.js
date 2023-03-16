@@ -113,23 +113,28 @@ const ArtistShowPage = (props) => {
   }
 
   return(
-    <div className="centered hero-image-2">
-        <div className="text-box">
+    <div className="centered hero-image">
+      <div className="grid-x bg-clear">
+
+
+
+        <div className="text-box cell small-5 bg-clear callout bg-orange rounded">
           <h1 className="glow huge">{artist.artistName}</h1>
           <h3 className="glow small">({artist.genre})</h3>
-            <div className="player-wrapper">
-              <ReactPlayer url={`${artist.mediaUrl}`} config={{
-                soundcloud: {options: {auto_play: true}},
-                youtube: {playerVars: { autoplay: 1 }}
-              }}
+            <div className="player-wrapper centered">
+              <ReactPlayer
+                width="38vw"
+                height="20vh"
+                url={`${artist.mediaUrl}`}
               />
             </div>
-          <h1 className="shift-down text-white glow small">Upcoming Gigs:</h1>
-          <div className="grid-x">
-            {gigTileComponents}
-          </div>
           <EditArtistForm editArtist={editArtist} currentUser={props.currentUser} artist={artist} handleDelete={handleDelete}/>
         </div>
+          <div className="small-5">
+          <h1 className="shift-down text-white glow small">Upcoming Gigs:</h1>
+            {gigTileComponents}
+          </div>
+      </div>
     </div>
   )
 }

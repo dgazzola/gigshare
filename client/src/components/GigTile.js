@@ -38,16 +38,16 @@ const GigTile = ({ id, name, city, address, state, startTime, endTime, date, cur
       }
     }
     if (k>0){
-      favoritedIcon = <FontAwesomeIcon className = "black"  key ={`font-awesome ${id}`} icon={faHeart} />
+      favoritedIcon = <FontAwesomeIcon  key ={`font-awesome ${id}`} icon={faHeart} />
     }
   }
 
   return(
-      <div className="button callout tile-box cell">
+      <div className="button callout cell tile-box bg-orange">
         <Link to={gigUrl} className = "centered">
-        <h4 className="black">{name}</h4>
-        <p className="black">{city}</p>
-        <p className="black">{date}</p>
+        <h4>{name}</h4>
+        <p>{city}</p>
+        <p>{date}</p>
         {favoritedIcon}
         </Link>
       </div>
