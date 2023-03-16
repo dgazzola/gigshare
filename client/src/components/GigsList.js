@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import GigTile from "./GigTile.js"
+import SearchBar from "../services/SearchBar.js"
 
 const GigsListPage = (props) => {
   const [gigs, setGigs] = useState([])
+  const [searchResults, setSearchResults] = useState([])
 
   const getGigs = async () => {
     try {
@@ -34,12 +36,22 @@ const GigsListPage = (props) => {
     )
   })
 
+  const searchTileComponents = searchResults.map(gigObject => {
+    return (
+      <GigTile
+      key={gigObject.id}
+      {...gigObject}
+      currentUser={props.currentUser}
+    />
+    )
+  })
+
   return (
     <div className="hero-image bg-clear">
       <div className="grid-x">
-        <div className="small-5 callout bg-clear">
-          <h1>Search For A Gig/Search Results Functionality
-          </h1>
+        <div className="small-5 callout bg-clear scroll">
+      <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
+      {searchTileComponents}
         </div>
         <div className="small-7 scroll callout bg-clear">
           <h1 className="centered">Filtered By :</h1>
