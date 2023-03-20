@@ -4,7 +4,7 @@ gigshare is an application which helps artists and fans spread word of upcoming 
 
 [View Here](https://gigshare.herokuapp.com/)
 
-<img align="center" src="https://github.com/dgazzola/gigshare/blob/main/images/gigshare.png" width="400" alt="gigshare homepage display."/>
+<img align="center" src="https://github.com/dgazzola/gigshare/blob/main/images/background-image.jpg" width="400" alt="gigshare homepage display."/>
 
 ## Features: 
 
