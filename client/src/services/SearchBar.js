@@ -18,18 +18,21 @@ const SearchBar = ({gigs, setSearchResults}) => {
   }
 
   return(
-      <form className="search" onSubmit={handleSubmit}>
+      <form className="search bg-orange rounded" onSubmit={handleSubmit}>
 
-        <FontAwesomeIcon icon={faMagnifyingGlass} className="black"/>
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="black icon"/>
+        <h3>
+        Search:
+        </h3>
 
         <input
-        icon={faMagnifyingGlass}
+          // icon={faMagnifyingGlass}
           className="search__input"
-          placeholder="Search for a gig by name or city"
+          placeholder={`Search for a gig by name, or city:`}
           type="text"
           id="search"
           onChange={handleChange}
-      /> 
+        /> 
       </form>
 
 
