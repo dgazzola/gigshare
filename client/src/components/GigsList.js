@@ -51,6 +51,7 @@ const GigsListPage = (props) => {
       <div className="grid-x">
         <div className="small-5 callout bg-clear scroll">
       <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
+      <br/>
       {searchTileComponents}
         </div>
         <div className="small-7 scroll callout bg-clear">
