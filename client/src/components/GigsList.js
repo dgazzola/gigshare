@@ -1,11 +1,42 @@
 import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import GigTile from "./GigTile.js"
 import SearchBar from "../services/SearchBar.js"
+import GigSortDropdown from "./GigSortDropdown.js"
 
 const GigsListPage = (props) => {
   const [gigs, setGigs] = useState([])
   const [searchResults, setSearchResults] = useState([])
+  const [filterFunction, setFilterFunction] = useState("")
+    
+  const sortAlphabeticallyAscending = (a,b) => {
+    if (a?.name<b?.name){
+      return -1
+    }
+    if (a?.name>b?.name){
+      return 1
+    }
+    return 0
+  }
+  
+  const sortAlphabeticallyDescending = (a,b) => {
+    if (a?.name>b?.name){
+      return -1
+    }
+    if (a?.name<b?.name){
+      return 1
+    }
+    return 0
+  }
+  
+  const createdAt = (a,b) => {
+    if (a?.createdAt>b?.createdAt){
+      return -1
+    }
+    if (a?.createdAt<b?.createdAt){
+      return 1
+    }
+    return 0
+  }
 
   const getGigs = async () => {
     try {
@@ -24,17 +55,46 @@ const GigsListPage = (props) => {
 
   useEffect(() => {
     getGigs()
-  }, [])
+  },[])
 
-  const gigTileComponents = gigs.map(gigObject => {
-    return (
-      <GigTile
-        key={gigObject.id}
-        {...gigObject}
-        currentUser={props.currentUser}
-      />
-    )
-  })
+  let sortedTileComponents
+  if (!filterFunction){
+    const sortedGigs = gigs.sort( createdAt )
+    console.log(sortedGigs)
+    sortedTileComponents =sortedGigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+          currentUser={props.currentUser}
+        />
+      )    
+    })
+  }
+  if (filterFunction==="alphabeticallyAscending"){
+    const sortedGigs = gigs.sort( sortAlphabeticallyAscending )
+    sortedTileComponents = sortedGigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+          currentUser={props.currentUser}
+        />
+      )    
+    })
+  }
+  if (filterFunction==="alphabeticallyDescending"){
+    const sortedGigs = gigs.sort( sortAlphabeticallyDescending )
+    sortedTileComponents = sortedGigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+          currentUser={props.currentUser}
+        />
+      )    
+    })
+  }
 
   const searchTileComponents = searchResults.map(gigObject => {
     return (
@@ -55,10 +115,10 @@ const GigsListPage = (props) => {
       {searchTileComponents}
         </div>
         <div className="small-7 scroll callout bg-clear">
-          <h1 className="centered">Filtered By :</h1>
+          <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction}/>
           <div className="grid-x">
 
-        {gigTileComponents}
+        {sortedTileComponents}
           </div>
         </div>
       </div>

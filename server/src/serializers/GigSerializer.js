@@ -1,6 +1,6 @@
 class GigSerializer {
   static async getDetail(gig) {
-    const allowedAttributes = ["id", "name", "date", "startTime", "endTime", "address", "city", "state", "hostId"]
+    const allowedAttributes = ["id", "name", "date", "startTime", "endTime", "address", "city", "state", "hostId", "createdAt"]
     const serializedGig = {}
 
     for (const attribute of allowedAttributes) {

@@ -12,7 +12,6 @@ const SearchBar = ({gigs, setSearchResults}) => {
     } else {
       const resultsArray = gigs.filter(gig => gig.name.toLowerCase().includes(event.target.value.toLowerCase()) || gig.city.toLowerCase().includes(event.target.value.toLowerCase()))
         setSearchResults(resultsArray)
-        console.log(resultsArray)
     }
 
   }
@@ -26,7 +25,6 @@ const SearchBar = ({gigs, setSearchResults}) => {
         </h3>
 
         <input
-          // icon={faMagnifyingGlass}
           className="search__input"
           placeholder={`Search for a gig by name, or city:`}
           type="text"
