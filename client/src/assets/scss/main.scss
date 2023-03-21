@@ -65,7 +65,7 @@ h4, p{
   width: 200px;
   transition: all .7s;
   cursor: pointer;
-  margin: 5px;
+  margin: .5rem; //was 5px
 }
 
 .button span {
@@ -123,21 +123,19 @@ h4, p{
 
 div.scroll {
   height: 60vh;
-  // width: 40vw;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: center;
 }
 div.scroll-half {
   height: 30vh;
-  // width: 40vw;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: center;
 }
 
 .text-wrap{
-  background-color: rgba(253, 164, 0, 0.45);
+  background-color: rgba(253, 164, 0, 0.4);
   margin-left: 37vw;
   margin-right: 37vw;
   margin-bottom: 2rem;
@@ -151,7 +149,7 @@ div.scroll-half {
   background-color: rgba(255, 255, 255, 0)
 }
 .bg-orange{
-  background-color:rgba(253, 164, 0, 0.45);
+  background-color:rgba(253, 164, 0, 0.4);
 }
 .rounded{
   border-radius: 2rem;
@@ -196,9 +194,15 @@ input{
   text-align: center;
   display: inline-block;
 }
-a{
+a, h2{
   color: rgba(149, 0, 255, 0.7);
 
+}
+.purple{
+  color: rgba(149, 0, 255, 0.7);
+}
+.white{
+  color:white
 }
 
 .clear{
@@ -212,17 +216,18 @@ a{
 
 .profile-image-preview {
   height: 200px;
-  width: 200px
+  width: 200px;
+  margin: auto;
 }
 
 .dropzone {
-  background-color: #e6e6e6;
+  background-color:rgba(253, 164, 0, 0.4);
   width:50%;
   margin: auto;
+  border-radius: 4px;
 }
 .react-player {
   position: relative;
-  
   top: 0;
   left: 0;
 }
@@ -233,8 +238,7 @@ a{
 }
 
 path{
-  // color:white;
-  color: black;
+  color: rgba(149, 0, 255, 0.7);
 }
 
 select{

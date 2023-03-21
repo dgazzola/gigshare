@@ -17,12 +17,12 @@ const SearchBar = ({gigs, setSearchResults}) => {
   }
 
   return(
-      <form className="search bg-orange rounded" onSubmit={handleSubmit}>
+      <form className="search rounded" onSubmit={handleSubmit}>
 
+        <h2 className="purple">
         <FontAwesomeIcon icon={faMagnifyingGlass} className="black icon"/>
-        <h3>
         Search:
-        </h3>
+        </h2>
 
         <input
           className="search__input"
