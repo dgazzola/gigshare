@@ -109,12 +109,12 @@ const GigsListPage = (props) => {
   return (
     <div className="hero-image bg-clear">
       <div className="grid-x">
-        <div className="small-5 callout bg-clear scroll">
+        <div className="small-5 bg-clear scroll">
       <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
       <br/>
       {searchTileComponents}
         </div>
-        <div className="small-7 scroll callout bg-clear">
+        <div className="small-7 scroll bg-clear">
           <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction}/>
           <div className="grid-x">
 

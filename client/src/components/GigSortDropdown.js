@@ -9,7 +9,7 @@ const GigSortDropdown = ({setFilterFunction}) => {
     <>
 
       <label>
-        <h1 className="centered">{`Filter By :`}</h1>
+        <h2 className="centered">{`Filter By :`}</h2>
       </label>
       <select id="gigs" onChange={handleChange}>
         <option value=""></option>

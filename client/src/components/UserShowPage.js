@@ -106,20 +106,20 @@ const UserShowPage = (props) => {
 
   if(currentUser?.id === user.id){
     dropzoneComponent = (
-      <div className="dropzone">
-        <h3>Upload new profile image</h3>
-        <form onSubmit={addProfileImage}>
+      <div className="grid-x dropzone">
+        <h3 className='white'>Upload profile image</h3>
+        <form onSubmit={addProfileImage} className="centered">
           <Dropzone onDrop={handleImageUpload}>
             {({getRootProps, getInputProps}) => (
-              <section>
-                <div {...getRootProps()}>
+     
+                <div className=''{...getRootProps()}>
                   <input type="text" {...getInputProps()} />
-                  <p className = "centered">Input your profile image here</p>
+                  <p className='button'>Add Image</p>
                 </div>
-              </section>
+          
             )}
           </Dropzone>
-          <input className='button' type='submit' value='save profile' />
+          <input className='button' type='submit' value='Save Profile' />
         </form>
         {previewComponent}
       </div>
@@ -171,7 +171,7 @@ const UserShowPage = (props) => {
 
 <div className='grid-x'>
   
-    <div className="small-5 scroll callout bg-clear">
+    <div className="small-5 scroll bg-clear">
         <h3 className="date-string">{createdDateString}</h3>
         <img src={user.profileImage} className='profile-image' alt='profile-image' />
         <h3 className="username-string">{user.username}</h3>
@@ -182,8 +182,8 @@ const UserShowPage = (props) => {
     </div>
     
 
-        <div className="scroll small-7 callout bg-clear">
-          <div className='callout bg-clear'>
+        <div className="scroll small-7 bg-clear">
+          <div className='bg-clear'>
 
         {hostedMessage}
           <div className='grid-x'>
@@ -192,7 +192,7 @@ const UserShowPage = (props) => {
           </div>
 
 
-        <div className="scroll small-7 callout bg-clear">
+        <div className="scroll small-7 bg-clear">
         {gigMessage}
           <div className='grid-x'>
         {gigTileComponents}
