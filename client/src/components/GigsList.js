@@ -9,20 +9,20 @@ const GigsListPage = (props) => {
   const [filterFunction, setFilterFunction] = useState("")
     
   const sortAlphabeticallyAscending = (a,b) => {
-    if (a?.name<b?.name){
+    if (a?.name.toLowerCase()<b?.name.toLowerCase()){
       return -1
     }
-    if (a?.name>b?.name){
+    if (a?.name.toLowerCase()>b?.name.toLowerCase()){
       return 1
     }
     return 0
   }
   
   const sortAlphabeticallyDescending = (a,b) => {
-    if (a?.name>b?.name){
+    if (a?.name.toLowerCase()>b?.name.toLowerCase()){
       return -1
     }
-    if (a?.name<b?.name){
+    if (a?.name.toLowerCase()<b?.name.toLowerCase()){
       return 1
     }
     return 0
@@ -33,6 +33,32 @@ const GigsListPage = (props) => {
       return -1
     }
     if (a?.createdAt<b?.createdAt){
+      return 1
+    }
+    return 0
+  }
+
+  const sortChronologicallyClosest = (a,b) => {
+    const dateA = new Date(`${a?.date[6]+a?.date[7]+a?.date[8]+a?.date[9]}-${a?.date[0]+a?.date[1]}-${a?.date[3]+a?.date[4]}`)
+    const dateB = new Date(`${b?.date[6]+b?.date[7]+b?.date[8]+b?.date[9]}-${b?.date[0]+b?.date[1]}-${b?.date[3]+b?.date[4]}`)
+    if (dateA>dateB){
+      return 1
+    }
+    if (dateA<dateB){
+      return -1
+    }
+    return 0
+  }
+  
+  const sortChronologicallyFurthest = (a,b) => {
+    const dateA = new Date(`${a?.date[6]+a?.date[7]+a?.date[8]+a?.date[9]}-${a?.date[0]+a?.date[1]}-${a?.date[3]+a?.date[4]}`)
+    const dateB = new Date(`${b?.date[6]+b?.date[7]+b?.date[8]+b?.date[9]}-${b?.date[0]+b?.date[1]}-${b?.date[3]+b?.date[4]}`)
+    console.log(dateA)
+    console.log(dateB)
+    if (dateA>dateB){
+      return -1
+    }
+    if (dateA<dateB){
       return 1
     }
     return 0
@@ -60,7 +86,6 @@ const GigsListPage = (props) => {
   let sortedTileComponents
   if (!filterFunction){
     const sortedGigs = gigs.sort( createdAt )
-    console.log(sortedGigs)
     sortedTileComponents =sortedGigs.map(gigObject => {
       return (
         <GigTile
@@ -85,6 +110,30 @@ const GigsListPage = (props) => {
   }
   if (filterFunction==="alphabeticallyDescending"){
     const sortedGigs = gigs.sort( sortAlphabeticallyDescending )
+    sortedTileComponents = sortedGigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+          currentUser={props.currentUser}
+        />
+      )    
+    })
+  }
+  if (filterFunction==="chronologicallyClosest"){
+    const sortedGigs = gigs.sort( sortChronologicallyClosest )
+    sortedTileComponents = sortedGigs.map(gigObject => {
+      return (
+        <GigTile
+          key={gigObject.id}
+          {...gigObject}
+          currentUser={props.currentUser}
+        />
+      )    
+    })
+  }
+  if (filterFunction==="chronologicallyFurthest"){
+    const sortedGigs = gigs.sort( sortChronologicallyFurthest )
     sortedTileComponents = sortedGigs.map(gigObject => {
       return (
         <GigTile
