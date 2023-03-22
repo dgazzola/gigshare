@@ -13,10 +13,10 @@ const GigSortDropdown = ({setFilterFunction}) => {
       </label>
       <select id="gigs" onChange={handleChange}>
         <option value=""></option>
-        <option value="alphabeticallyAscending">{`Alphabetically (a-z)`}</option>
-        <option value="alphabeticallyDescending">{`Alphabetically (z-a)`}</option>
-        <option value="chronologicallyClosest">{`Chronologically (closest first)`} </option>
-        <option value="chronologicallyFurthest">{`Chronologically (furthest first)`}</option>
+        <option value="alphabeticallyAscending">{`Alphabetically (A-Z)`}</option>
+        <option value="alphabeticallyDescending">{`Alphabetically (Z-A)`}</option>
+        <option value="chronologicallyClosest">{`Chronologically (Closest)`} </option>
+        <option value="chronologicallyFurthest">{`Chronologically (Furthest)`}</option>
       </select>
     </>
   )

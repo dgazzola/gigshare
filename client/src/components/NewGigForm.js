@@ -52,12 +52,18 @@ const NewGigForm = props => {
   }
 
   const handleInput = event => {
-    setNewGig({
-      ...newGig,
-      [event.currentTarget.name]: event.currentTarget.value,
-      hostId:`${props.currentUser?.id}`
-    })
-    console.log(newGig)
+    if (event.currentTarget.name==="date"){
+      setNewGig({
+        ...newGig,
+        date: new Date(event.currentTarget.value).toISOString().slice(0,10)
+      })
+    } else {
+      setNewGig({
+        ...newGig,
+        [event.currentTarget.name]: event.currentTarget.value,
+        hostId:`${props.currentUser?.id}`
+      })
+    }
   }
 
   const formInputs = Object.keys(defaultForm).map(input => {
@@ -70,22 +76,18 @@ const NewGigForm = props => {
     }
     if (input==="date"){
       return(
-      <div className="left-thirty">
 
         <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="date" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
-      </div>
       )
     }
     if (input==="startTime" || input==="endTime"){
       return(
-        <div className="left-thirty">
 
         <label className="text-white" key={input}>{_.startCase(input)}:
           <input type="time" name={input} value={newGig[input]} onChange={handleInput}/>
         </label>
-        </div>
       )
     }
   })
@@ -110,4 +112,3 @@ const NewGigForm = props => {
 }
 
 export default NewGigForm
-
