@@ -130,7 +130,7 @@ const UserShowPage = (props) => {
   let gigMessage = <h1 className="glow small shift-down"> No Favorited Gigs</h1>
 
   if(user.favoriteGigs?.length) {
-    gigMessage = <h1 className="glow small"> Favorited Gigs:</h1>
+    gigMessage = <h1 className="glow small"> Favorited Gigs</h1>
     gigTileComponents = user.favoriteGigs.map(gigObject => {
       return (
         <GigTile
@@ -144,7 +144,7 @@ const UserShowPage = (props) => {
   let hostedMessage =  <h1 className="glow small shift-down"> No Favorited Gigs</h1>
   let hostedGigTiles
   if (user.hostedGigs?.length){
-    hostedMessage = <h1 className="glow small"> Hosted Gigs:</h1>
+    hostedMessage = <h1 className="glow small"> Hosted Gigs</h1>
     hostedGigTiles = user.hostedGigs.map(gigObject => {
       return (
         <GigTile

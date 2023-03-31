@@ -1,4 +1,6 @@
 import React from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
 const GigSortDropdown = ({setFilterFunction}) => {
   const handleChange = event => {
@@ -9,7 +11,8 @@ const GigSortDropdown = ({setFilterFunction}) => {
     <>
 
       <label>
-        <h2 className="centered">{`Filter By :`}</h2>
+      
+        <h2 className="centered"><FontAwesomeIcon icon={faListUl} />{` Filter`}</h2>
       </label>
       <select id="gigs" onChange={handleChange}>
         <option value=""></option>
