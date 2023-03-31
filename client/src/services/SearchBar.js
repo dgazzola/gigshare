@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 const SearchBar = ({gigs, setSearchResults}) => {
   const handleSubmit = event => {
@@ -21,7 +21,7 @@ const SearchBar = ({gigs, setSearchResults}) => {
 
         <h2 className="purple">
         <FontAwesomeIcon icon={faMagnifyingGlass} className="black icon"/>
-        Search:
+        {` Search`}
         </h2>
 
         <input
