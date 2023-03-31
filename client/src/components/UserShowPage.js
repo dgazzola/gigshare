@@ -107,8 +107,9 @@ const UserShowPage = (props) => {
   if(currentUser?.id === user.id){
     dropzoneComponent = (
       <div className="grid-x dropzone">
-        <h3 className='white'>Upload profile image</h3>
-        <form onSubmit={addProfileImage} className="centered">
+        <h3 className='white cell'>Upload profile image</h3>
+        <form onSubmit={addProfileImage} className='cell' >
+            {previewComponent}
           <Dropzone onDrop={handleImageUpload}>
             {({getRootProps, getInputProps}) => (
      
@@ -121,7 +122,6 @@ const UserShowPage = (props) => {
           </Dropzone>
           <input className='button' type='submit' value='Save Profile' />
         </form>
-        {previewComponent}
       </div>
     )
   }
