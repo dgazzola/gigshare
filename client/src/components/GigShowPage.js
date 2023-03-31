@@ -14,6 +14,15 @@ const GigShowPage = (props) => {
   const [dropDown, setDropDown] = useState("")
   const id = props.match.params.id
 
+  const sortAlphabeticallyAscending = (a,b) => {
+    if (a?.artistName.toLowerCase()<b?.artistName.toLowerCase()){
+      return -1
+    }
+    if (a?.artistName.toLowerCase()>b?.artistName.toLowerCase()){
+      return 1
+    }
+    return 0
+  }
 
   const getGig = async() => {
     try {
@@ -55,7 +64,7 @@ const GigShowPage = (props) => {
   let lineupMessage = <h1 className="glow small">Lineup TBA</h1>
   if (gig.artists?.length>0){
     lineupMessage = <h1 className="glow small">LineUp:</h1>
-    artistTileComponents = gig.artists.map(artistObject => {
+    artistTileComponents = gig.artists.sort( sortAlphabeticallyAscending ).map(artistObject => {
       return (
         <ArtistTile
           key={artistObject.id}
