@@ -44,9 +44,9 @@ const GigTile = ({ id, name, city, address, state, startTime, endTime, date, cur
   return(
       <div className="button callout cell tile-box bg-orange">
         <Link to={gigUrl} className = "centered">
-        <h4>{name}</h4>
-        <p>{city}</p>
-        <p>{date}</p>
+        <h4 className="title-bold">{name}</h4>
+        <p className="descriptor">{city}</p>
+        <p className="descriptor">{date}</p>
         {favoritedIcon}
         </Link>
       </div>
