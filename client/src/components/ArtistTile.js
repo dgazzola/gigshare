@@ -7,8 +7,8 @@ const ArtistTile = ({ id, artistName, genre}) => {
 
     <div className="button callout tile-box centered cell small-3 bg-orange">
       <Link to={artistUrl} className = "centered">
-      <h4 className="black">{artistName}</h4>
-      <p className="black">{genre}</p>
+      <h4 className="title-bold">{artistName}</h4>
+      <p className="descriptor">{genre}</p>
       </Link>
     </div>
 

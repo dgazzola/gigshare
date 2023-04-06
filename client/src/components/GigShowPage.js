@@ -186,7 +186,7 @@ const GigShowPage = (props) => {
   return (
     <div className="hero-image grid-x">
       <div className="bg-orange rounded small-5 scroll">
-      <h1 className="glow small">{gig.name}</h1>
+      <h1 className="glow small title-bold">{gig.name}</h1>
       <h2 className="text-white">{gig.city}, {gig.state}</h2>
       <h2 className="text-white">{gig.date}</h2>
       <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
