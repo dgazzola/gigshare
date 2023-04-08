@@ -11,7 +11,6 @@ class FavoriteSeeder {
 
     const coachella = await Gig.query().findOne("name", "Coachella")
     const hardSummer = await Gig.query().findOne("name", "Hard Summer")
-    const edc = await Gig.query().findOne("name", "EDC Orlando")
 
     await Favorite.query().insert({gigId: coachella.id, userId: dan.id})
     await Favorite.query().insert({gigId: hardSummer.id, userId: dan.id})
@@ -19,7 +18,6 @@ class FavoriteSeeder {
     await Favorite.query().insert({gigId: hardSummer.id, userId: kate.id})
     await Favorite.query().insert({gigId: hardSummer.id, userId: amanda.id})
     await Favorite.query().insert({gigId: hardSummer.id, userId: john.id})
-    await Favorite.query().insert({gigId: edc.id, userId: sonny.id})
 
 
     console.log("favorites seeded")
