@@ -160,8 +160,9 @@ const GigsListPage = (props) => {
       <div className="grid-x">
         <div className="small-5 bg-clear scroll">
       <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
-      <br/>
-      {searchTileComponents}
+      <div className="grid-x">
+        {searchTileComponents}
+      </div>
         </div>
         <div className="small-7 scroll bg-clear">
           <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction}/>
