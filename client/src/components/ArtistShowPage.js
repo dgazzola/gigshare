@@ -115,9 +115,6 @@ const ArtistShowPage = (props) => {
   return(
     <div className="centered hero-image">
       <div className="grid-x bg-clear">
-
-
-
         <div className="text-box cell small-5 bg-clear callout bg-orange rounded">
           <h1 className="glow huge">{artist.artistName}</h1>
           <h3 className="glow small">({artist.genre})</h3>
@@ -132,7 +129,10 @@ const ArtistShowPage = (props) => {
         </div>
           <div className="small-5">
           <h1 className="shift-down text-white glow small">Upcoming Gigs:</h1>
+          <div className="grid-x">
+
             {gigTileComponents}
+          </div>
           </div>
       </div>
     </div>
