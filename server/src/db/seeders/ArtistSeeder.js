@@ -5,6 +5,7 @@ class ArtistSeeder {
   static async seed() {
     const artistsData = [
       {artistName: "100 Gecs", genre: "Hyperpop", mediaUrl: "https://soundcloud.com/100gecs/torture-me-feat-skrillex"},
+      {artistName: "347 Aidan", genre: "Indie", mediaUrl: "https://soundcloud.com/aidan-fuller-214446787/memories?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
       {artistName: "ZOLA", genre: "EDM", userId:1, mediaUrl: "https://soundcloud.com/zolamusicofficial/said-done-zola-x-savesomeone-1"},
       {artistName: "Skrillex", genre: "EDM", userId:2, mediaUrl: "https://soundcloud.com/skrillex/skrillex-bibi-bourelly-sonny-moore-dont-get-too-close"},
       {artistName: "Porter Robinson", genre: "EDM", mediaUrl: "https://www.youtube.com/watch?v=4SZEDBFPpgw"},
@@ -37,7 +38,19 @@ class ArtistSeeder {
       {artistName: "Mura Masa", genre: "Electronic", mediaUrl: "https://soundcloud.com/muramasamusic/love-ick"},
       {artistName: "Chance The Rapper", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/chancetherapper/all-night-feat-knox-fortune"},
       {artistName: "ericdoa", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/ericdoa/sad4whattt-from-euphoria-an"},
-      {artistName: "347 Aidan", genre: "Indie", mediaUrl: "https://soundcloud.com/aidan-fuller-214446787/dancing-in-my-room"},
+      {artistName: "Trippz Michaud", genre: "Emo", mediaUrl: "https://soundcloud.com/trippzmichaud/ignite?si=4f1a6ccd105f4c8ab6d614c1ba3d371c&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "PMP", genre: "Hip-hop", mediaUrl: "https://soundcloud.com/hyprmode/pmp-dvps-acuerdate?si=4f1a6ccd105f4c8ab6d614c1ba3d371c&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Dabin", genre: "EDM", mediaUrl: "https://soundcloud.com/kaiwachi/dabin-x-kai-wachi-hollow-feat-lo-spirit?si=4f1a6ccd105f4c8ab6d614c1ba3d371c&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Kenny Beats", genre: "Hip-hop", mediaUrl: "https://www.youtube.com/watch?v=C_k1dZxrYuI"},
+      {artistName: "Fred again...", genre: "House", mediaUrl: "https://soundcloud.com/fredagain/turn-on-the-lights-again-feat?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Slow Magic", genre: "Electronic", mediaUrl: "https://soundcloud.com/slowmagic/human-nature?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Whethan", genre: "EDM", mediaUrl: "https://soundcloud.com/whethan/savage?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Louis The Child", genre: "EDM", mediaUrl: "https://soundcloud.com/louisthechild/slowdownlove?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Biicla", genre: "EDM", mediaUrl: "https://soundcloud.com/biicla/avicii-silhouettes-biicla-remixfree-download?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Zed's Dead", genre: "EDM", mediaUrl: "https://soundcloud.com/zedsdead/imanu-empress-zeds-dead-remix?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Pauline Herr", genre: "EDM", mediaUrl: "https://soundcloud.com/alisonwonderland/alison-wonderland-pauline-herr?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "Rossy", genre: "EDM", mediaUrl: "https://soundcloud.com/rossykate/heavens-door?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
+      {artistName: "San Holo", genre: "EDM", mediaUrl: "https://soundcloud.com/sanholobeats/light?si=a7051682fd1d42d9b5bc5ec643cc49a2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"},
       {artistName: "KOTA The Friend", genre: "Hip-Hop", mediaUrl: "https://soundcloud.com/kotathefriend/outside"}
     ]
 
