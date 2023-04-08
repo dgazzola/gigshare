@@ -63,7 +63,7 @@ const GigShowPage = (props) => {
   let artistTileComponents=""
   let lineupMessage = <h1 className="glow small">Lineup TBA</h1>
   if (gig.artists?.length>0){
-    lineupMessage = <h1 className="glow small">LineUp:</h1>
+    lineupMessage = <h1 className="glow small title-bold">LineUp:</h1>
     artistTileComponents = gig.artists.sort( sortAlphabeticallyAscending ).map(artistObject => {
       return (
         <ArtistTile
