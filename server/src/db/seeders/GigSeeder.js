@@ -7,7 +7,7 @@ class GigSeeder {
       {name: "Lollapalooza", date:"11-27-2024", city:"Chicago", state:"IL", address:"Grant Park", startTime:"5PM", endTime:"11PM", hostId:1},
       {name: "Rolling Loud", date:"12-03-2024", city:"Inglewood", state:"CA", address:"Hollywood Park Grounds", startTime:"2PM", endTime:"11PM", hostId:1},
       {name: "Coachella", date:"04-03-2024", city:"Indio", state:"CA", address:"Empire Polo Club", startTime:"5PM", endTime:"10PM", hostId:1},
-      {name: "Hard Summer", date:"07-23-2024", city:"Los Angeles", state:"CA", address:"", startTime:"6PM", endTime:"7PM", hostId:2},
+      {name: "Hard Summer", date:"07-23-2024", city:"Los Angeles", state:"CA", address:"Exposition Park", startTime:"6PM", endTime:"7PM", hostId:2},
       {name: "Austin City Limits", date:"12-03-2024", city:"Austin", state:"TX", address:"Zilker Park", startTime:"1PM", endTime:"11PM", hostId:2},
       {name: "Bonnaroo", date:"12-03-2024", city:"Manchester", state:"TN", address:"Great Stage Park", startTime:"4PM", endTime:"11PM", hostId:2},
       {name: "Electric Zoo", date:"09-02-2024", city:"New York", state:"NY", address:"Randall's Island Park", startTime:"1PM", endTime:"9PM", hostId:2},
