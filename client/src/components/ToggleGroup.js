@@ -11,16 +11,16 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
       setAlignment(newAlignment);
     }
   };
-  const onClick = () => {
-    if (selectedComponent==="allGigs"){
-      setSelectedComponent("searchGigs")
-    } else {
+  const allGigsClick = () => {
+    if (selectedComponent==="searchGigs"){
       setSelectedComponent("allGigs")
     }
   }
-  // this component needs to be handled at the gigs route and then import the other components and passing the props along for gig search and gig filter
-
-  // also need to figure out how to filter the results in both view
+  const searchClick = () => {
+    if (selectedComponent==="allGigs"){
+      setSelectedComponent("searchGigs")
+    }
+  }
 
   return (
     <ToggleButtonGroup
@@ -29,10 +29,10 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
       onChange={handleAlignmentChange}
       aria-label="text alignment"
     >
-      <ToggleButton value="left" aria-label="left aligned" onClick={onClick}>
+      <ToggleButton value="left" aria-label="left aligned" onClick={allGigsClick}>
         All Gigs
       </ToggleButton>
-      <ToggleButton value="center" aria-label="centered" onClick={onClick}>
+      <ToggleButton value="center" aria-label="centered" onClick={searchClick}>
         Search Gigs
       </ToggleButton>
     </ToggleButtonGroup>
