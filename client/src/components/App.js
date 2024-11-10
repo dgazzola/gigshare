@@ -14,6 +14,7 @@ import NewGigForm from "./NewGigForm.js";
 import UserShowPage from "./UserShowPage.js";
 import RegisterArtistForm from "./RegisterArtistForm.js";
 import ArtistShowPage from "./ArtistShowPage.js"
+import ToggleGroup from "./ToggleGroup.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);

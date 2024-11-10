@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react"
 import GigTile from "./GigTile.js"
 import SearchBar from "../services/SearchBar.js"
 import GigSortDropdown from "./GigSortDropdown.js"
+import ToggleGroup from "./ToggleGroup.js"
 
 const GigsListPage = (props) => {
   const [gigs, setGigs] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [filterFunction, setFilterFunction] = useState("")
+  const [selectedComponent, setSelectedComponent] = useState("allGigs")
     
   const sortAlphabeticallyAscending = (a,b) => {
     if (a?.name.toLowerCase()<b?.name.toLowerCase()){
@@ -159,17 +161,28 @@ const GigsListPage = (props) => {
     <div className="hero-image bg-clear">
       <div className="grid-x">
         <div className="small-5 bg-clear scroll">
-      <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
-      <div className="grid-x">
-        {searchTileComponents}
-      </div>
-        </div>
-        <div className="small-7 scroll bg-clear">
-          <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction}/>
-          <div className="grid-x">
+          <ToggleGroup setSelectedComponent={setSelectedComponent} selectedComponent={selectedComponent}/>
 
-        {sortedTileComponents}
-          </div>
+          {
+            selectedComponent==="allGigs" &&
+              <div className="small-7 scroll bg-clear">
+                <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction}/>
+                <div className="grid-x">
+
+              {sortedTileComponents}
+                </div>
+              </div>
+          }
+          {
+            selectedComponent==="searchGigs" &&
+              <div className="small-7 scroll bg-clear">
+                <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
+                <div className="grid-x">
+                  {searchTileComponents}
+                </div>
+              </div>
+          }
+
         </div>
       </div>
     </div>

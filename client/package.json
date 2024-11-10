@@ -8,7 +8,7 @@
   "name": "gigshare-client",
   "version": "0.0.1",
   "engines": {
-    "node": "^16.18"
+    "node": ">=16.18"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "~16.13",
