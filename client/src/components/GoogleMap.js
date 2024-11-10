@@ -1,6 +1,7 @@
 import React from "react"
 
 const GoogleMap = ({ gig, dropDown }) => {
+  const apiKeu = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
   let mapData
   if (gig.address){
@@ -9,7 +10,7 @@ const GoogleMap = ({ gig, dropDown }) => {
   let coordinates
 
   if (mapData){
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=AIzaSyAk1GxGkBfBaIcNFV-u2PtqdgZiNKmgyHM`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=${apiKey}`)
     .then((response) => {
       return response.json();
     }).then(jsonData => {
