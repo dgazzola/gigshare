@@ -74,7 +74,6 @@ const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
     editForm=""
   }
 
-
   if (currentUser?.id===artist.userId){
     return (
       <div>

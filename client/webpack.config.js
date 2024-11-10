@@ -1,28 +1,24 @@
 const path = require("path");
 const webpack = require("webpack");
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const isDevelopment = ["development", "test", "e2e"].includes(
   process.env.NODE_ENV || "development"
 );
 
-const initialEntryPoints = isDevelopment ? ["webpack-hot-middleware/client?reload=true"] : [];
-
-let reactDomAlias = {};
-if (isDevelopment) {
-  reactDomAlias = {
-    "react-dom": "@hot-loader/react-dom",
-  };
-}
 module.exports = {
-  entry: [...initialEntryPoints, path.join(__dirname, "./src/main.js")],
+  entry: [path.join(__dirname, "./src/main.js")],
   context: path.resolve(__dirname),
   devtool: isDevelopment ? "source-map" : false,
   mode: isDevelopment ? "development" : "production",
   plugins: [
+    isDevelopment && new ReactRefreshWebpackPlugin(), // Add react-refresh plugin for development
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_GOOGLE_MAPS_API': JSON.stringify(process.env.REACT_APP_GOOGLE_MAPS_API),
+    }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? "[name].css" : "[name].[hash].css",
       chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
@@ -31,14 +27,20 @@ module.exports = {
       title: "Engage",
       template: path.join(__dirname, "public/index.template.html"),
     }),
-  ],
+  ].filter(Boolean), // Filter out false values to avoid adding undefined plugins
   module: {
     rules: [
       {
         test: /\.(js)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env"], cwd: path.resolve(__dirname) },
+        options: {
+          presets: ["@babel/env"],
+          plugins: [
+            isDevelopment && require.resolve("react-refresh/babel"), // Add react-refresh plugin for Babel
+          ].filter(Boolean),
+          cwd: path.resolve(__dirname),
+        },
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -54,7 +56,6 @@ module.exports = {
               modules: true,
               sourceMap: isDevelopment,
               esModule: true,
-              hmr: isDevelopment,
             },
           },
           {
@@ -83,7 +84,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      ...reactDomAlias,
       "@Components": path.resolve(__dirname, "src/components/"),
       "@Providers": path.resolve(__dirname, "src/providers/"),
     },
@@ -95,11 +95,10 @@ module.exports = {
     filename: "bundle.js",
   },
   devServer: {
-    contentBase: path.join(__dirname, "public/"),
+    static: path.join(__dirname, "public/"),
     historyApiFallback: true,
     port: 3000,
-    publicPath: "http://localhost:3000/dist/",
-    hotOnly: true,
+    hot: true, // Enable hot reloading
     proxy: [
       {
         context: ["/auth", "/api"],

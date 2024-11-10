@@ -1,7 +1,13 @@
 import React from "react"
 
-const GoogleMap = ({ gig, dropDown }) => {
 
+const GoogleMap = ({ gig, dropDown }) => {
+  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API || '';
+  
+  if (!apiKey) {
+    console.error("Google Maps API key is not defined.");
+  }
+  
   let mapData
   if (gig.address){
     mapData=`${gig.address}, ${gig.city}, ${gig.state}`
@@ -9,10 +15,11 @@ const GoogleMap = ({ gig, dropDown }) => {
   let coordinates
 
   if (mapData){
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=AIzaSyAk1GxGkBfBaIcNFV-u2PtqdgZiNKmgyHM`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=${apiKey}`)
     .then((response) => {
       return response.json();
     }).then(jsonData => {
+      console.log('map response:', jsonData)
       coordinates={lat:jsonData.results[0].geometry.location.lat, lng:jsonData.results[0].geometry.location.lng}
       const map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,

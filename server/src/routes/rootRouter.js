@@ -12,6 +12,5 @@ rootRouter.use("/api/v1/artists", artistsRouter);
 rootRouter.use("/api/v1/user-sessions", userSessionsRouter);
 rootRouter.use("/api/v1/users", usersRouter);
 
-//place your server-side routes here
 
 export default rootRouter;

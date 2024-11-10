@@ -17,10 +17,15 @@
     "e2e:run": "yarn workspace gigshare-e2e e2e:run"
   },
   "engines": {
-    "node": "^16.18",
+    "node": ">=16.18",
     "yarn": "1.22.10"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.6",
     "react-player": "^2.11.2"
   }
 }

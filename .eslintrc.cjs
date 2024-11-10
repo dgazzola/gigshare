@@ -8,5 +8,7 @@ module.exports = {
     "prettier/prettier": "error",
     "eslint no-param-reassign": ["error", { props: false }]
   },
-  plugins: ["prettier"]
+  plugins: ["prettier",
+    process.env.NODE_ENV === 'development' && new ReactRefreshWebpackPlugin().filter(Boolean),
+  ]
 };
