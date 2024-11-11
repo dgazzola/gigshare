@@ -1,7 +1,37 @@
 import React from "react"
+import {useState, useEffect} from "react"
+
 
 const GoogleMap = ({ gig, dropDown }) => {
+  // const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API || '';
+  const [apiKey, setApiKey] = useState('');
+  // const [coordinates, setCoordinates] = useState(null);
 
+  useEffect(() => {
+    // Fetch the API key from the server-side endpoint
+    const fetchApiKey = async () => {
+      try {
+        const response = await fetch('/api/v1/getApiKey');
+        const data = await response.json();
+        console.log('api response data:', data)
+        if (response.ok) {
+          setApiKey(data.apiKey);
+        } else {
+          console.error("Failed to fetch API key:", data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching API key:", error);
+      }
+    };
+
+    fetchApiKey();
+  }, []);
+  console.log('apiKey:', apiKey)
+  
+  if (!apiKey) {
+    console.error("Google Maps API key is not defined.");
+  }
+  
   let mapData
   if (gig.address){
     mapData=`${gig.address}, ${gig.city}, ${gig.state}`
@@ -9,10 +39,11 @@ const GoogleMap = ({ gig, dropDown }) => {
   let coordinates
 
   if (mapData){
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=AIzaSyAk1GxGkBfBaIcNFV-u2PtqdgZiNKmgyHM`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${mapData}&key=${apiKey}`)
     .then((response) => {
       return response.json();
     }).then(jsonData => {
+      console.log('map response:', jsonData)
       coordinates={lat:jsonData.results[0].geometry.location.lat, lng:jsonData.results[0].geometry.location.lng}
       const map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,

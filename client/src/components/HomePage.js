@@ -3,16 +3,13 @@ import { Link } from "react-router-dom"
 import ToggleGroup from "./ToggleGroup"
 
 const HomePage = () => {
-  
   return (
     <div className="hero-image">
       <div className="hero-text">
         <h1 className="header">GIGSHARE</h1>
-        <div className="text-wrap">
-        <h4> helping artists and fans connect about upcoming shows</h4>
-
-        </div>
-
+          <div className="text-wrap">
+            <h4> helping artists and fans connect about upcoming shows</h4>
+          </div>
         <Link to="/gigs">
         <button className="button big shift-down">See Gigs</button>
         </Link>
