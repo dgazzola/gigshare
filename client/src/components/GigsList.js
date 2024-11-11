@@ -159,34 +159,29 @@ const GigsListPage = (props) => {
 
   return (
     <div className="hero-image bg-clear">
-      <div className="grid-x">
-        <div className="small-5 bg-clear scroll">
-          <ToggleGroup setSelectedComponent={setSelectedComponent} selectedComponent={selectedComponent}/>
+        <div className="small-2 bg-clear scroll" style={{  flexDirection: 'column', alignItems: 'center' }}>
+          <ToggleGroup setSelectedComponent={setSelectedComponent} selectedComponent={selectedComponent} />
+  
+          {selectedComponent === "allGigs" && (
+            <div style={{ maxWidth: '70%', margin: '0 auto' }}>
 
-          {
-            selectedComponent==="allGigs" &&
-              <div className="small-7 scroll bg-clear">
-                <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction}/>
-                <div className="grid-x">
-
-              {sortedTileComponents}
-                </div>
+              <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction} />
+              <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                {sortedTileComponents}
               </div>
-          }
-          {
-            selectedComponent==="searchGigs" &&
-              <div className="small-7 scroll bg-clear">
-                <SearchBar gigs={gigs} setSearchResults={setSearchResults}/>
-                <div className="grid-x">
-                  {searchTileComponents}
-                </div>
+            </div>
+          )}
+          {selectedComponent === "searchGigs" && (
+            <div style={{ maxWidth: '70%', margin: '0 auto' }}>
+              <SearchBar gigs={gigs} setSearchResults={setSearchResults} />
+              <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                {searchTileComponents}
               </div>
-          }
-
+            </div>
+          )}
         </div>
-      </div>
     </div>
-  )
+  );
 }
 
 export default GigsListPage
