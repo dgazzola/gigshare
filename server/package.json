@@ -22,7 +22,7 @@
   "version": "0.0.1",
   "name": "gigshare-server",
   "engines": {
-    "node": ">=16.18"
+    "node": "16.x"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

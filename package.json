@@ -17,7 +17,7 @@
     "e2e:run": "yarn workspace gigshare-e2e e2e:run"
   },
   "engines": {
-    "node": ">=16.18",
+    "node": "16.x",
     "yarn": "1.22.10"
   },
   "dependencies": {
@@ -27,5 +27,8 @@
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.6",
     "react-player": "^2.11.2"
+  },
+  "resolutions": {
+    "foundation-sites": "6.7.5"
   }
 }
