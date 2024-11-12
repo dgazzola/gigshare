@@ -1,7 +1,6 @@
 {
   "scripts": {
     "start": "node src/app.js",
-    "heroku-postbuild": "yarn install",
     "clean": "rm -rf ./public/dist",
     "dev": "yarn run clean && ./node_modules/.bin/nodemon src/app.js",
     "dev:debug": "./node_modules/.bin/nodemon --inspect-brk src/app.js",
@@ -23,7 +22,8 @@
   "version": "0.0.1",
   "name": "gigshare-server",
   "engines": {
-    "node": "16.x"
+    "node": "16.x",
+    "yarn": "1.x"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

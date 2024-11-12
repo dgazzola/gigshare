@@ -1,1 +1,1 @@
-web: yarn run start
+web: yarn install && yarn workspace gigshare-client build && yarn workspace gigshare-server start
