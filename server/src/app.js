@@ -7,6 +7,7 @@ import cors from "cors";
 import "./boot.js";
 import rootRouter from "./routes/rootRouter.js";
 import hbsMiddleware from "express-handlebars";
+import session from "express-session";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,22 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Configure CORS to allow all origins for testing purposes
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? "https://your-heroku-app.herokuapp.com" : "*",
+  credentials: true
+}));
+
+// Set up session middleware after CORS
+app.use(session({
+  secret: process.env.SESSION_SECRET,  // make sure SESSION_SECRET is defined in your .env and on Heroku
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // ensures secure cookies on production
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // appropriate cross-site settings
+    httpOnly: true, // makes cookie accessible only to HTTP(S), not JavaScript
+  }
+}));
 
 // Set up Handlebars for server-side rendering (if used)
 app.set("views", path.join(__dirname, "../views"));

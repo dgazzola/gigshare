@@ -18,7 +18,10 @@ module.exports = {
   },
   production: {
     client: "pg",
-    connection: getDatabaseUrl("production"),
+    connection: {
+      connectionString: getDatabaseUrl("production"),
+      ssl: { rejectUnauthorized: false }, // Ensures SSL connection is allowed
+    },
     migrations: {
       directory: migrationPath,
       extension: "cjs",
