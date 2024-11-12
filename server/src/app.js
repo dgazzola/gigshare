@@ -36,15 +36,13 @@ app.use(bodyParser.json());
 // API routes
 app.use(rootRouter);
 
-// Serve static files from client/build in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../../client/build")));
+// Serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, "../public")));
 
-  // Serve the frontend for non-API routes only
-  app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
-  });
-}
+// Serve the frontend for non-API routes
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/dist", "index.html"));
+});
 
 // Error-handling middleware for unhandled routes and errors
 app.use((err, req, res, next) => {

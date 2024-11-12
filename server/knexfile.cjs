@@ -1,7 +1,10 @@
+// At the top of knexfile.cjs
+
 const path = require("path");
 const getDatabaseUrl = require("./src/config/getDatabaseUrl.cjs");
 
-const migrationPath = path.join(__dirname, "src/db/migrations");
+const migrationPath = "src/db/migrations";
+// console.log(getDatabaseUrl("development"));
 
 module.exports = {
   development: {

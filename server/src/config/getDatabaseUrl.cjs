@@ -4,7 +4,6 @@ const getDatabaseUrl = (nodeEnv) => {
       development: "postgres://postgres:postgres@localhost:5432/gigshare_development",
       test: "postgres://postgres:postgres@localhost:5432/gigshare_test",
       e2e: "postgres://postgres:postgres@localhost:5432/gigshare_e2e",
-      production: process.env.DATABASE_URL + "?sslmode=require", // Appends SSL requirement for production
     }[nodeEnv] || process.env.DATABASE_URL
   );
 };
