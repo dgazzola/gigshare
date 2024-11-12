@@ -10,20 +10,15 @@ import addMiddlewares from "./middlewares/addMiddlewares.js";
 import rootRouter from "./routes/rootRouter.js";
 import hbsMiddleware from "express-handlebars";
 
-console.log("Database URL:", process.env.DATABASE_URL);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// const corsOptions = {
-//   origin: process.env.CLIENT_URL || "http://localhost:3000",
-//   credentials: true,
-// };
-// app.use(cors(corsOptions));
+// Configure CORS
 app.use(cors({ origin: "*", credentials: true }));
 
+// Set up Handlebars for server-side rendering (if used)
 app.set("views", path.join(__dirname, "../views"));
 app.engine(
   "hbs",
@@ -34,9 +29,9 @@ app.engine(
 );
 app.set("view engine", "hbs");
 
+// Logger, JSON, and URL-encoded parser setup
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "../public")));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -44,23 +39,29 @@ app.use(
 );
 app.use(bodyParser.json());
 
+// Add additional middlewares if needed
 addMiddlewares(app);
-app.use(rootRouter);
 
-app.use((err, req, res, next) => {
-  console.error("Server error:", err);
-  res.status(500).json({ error: "Internal Server Error" });
-});
+// API routes
+app.use(rootRouter);
 
 // Serve static files from client/build in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../client/build")));
 
-  app.get("*", (req, res) => {
+  // Serve the frontend for non-API routes only
+  app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
   });
 }
 
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+// Start the server
 app.listen(configuration.web.port, configuration.web.host, () => {
   console.log("Server is listening...");
 });
