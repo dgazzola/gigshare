@@ -14,5 +14,10 @@ rootRouter.use("/api/v1/artists", artistsRouter);
 rootRouter.use("/api/v1/user-sessions", userSessionsRouter);
 rootRouter.use("/api/v1/users", usersRouter);
 
+rootRouter.get("/api/v1/test", (req, res) => { // test endpoint
+  res.json({ message: "Test route working" });
+});
+
+
 
 export default rootRouter;

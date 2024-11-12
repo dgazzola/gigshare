@@ -10,6 +10,8 @@ import addMiddlewares from "./middlewares/addMiddlewares.js";
 import rootRouter from "./routes/rootRouter.js";
 import hbsMiddleware from "express-handlebars";
 
+console.log("Database URL:", process.env.DATABASE_URL);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -44,6 +46,11 @@ app.use(bodyParser.json());
 
 addMiddlewares(app);
 app.use(rootRouter);
+
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
 // Serve static files from client/build in production
 if (process.env.NODE_ENV === "production") {
