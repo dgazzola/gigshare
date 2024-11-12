@@ -15,11 +15,12 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-const corsOptions = {
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: process.env.CLIENT_URL || "http://localhost:3000",
+//   credentials: true,
+// };
+// app.use(cors(corsOptions));
+app.use(cors({ origin: "*", credentials: true }));
 
 app.set("views", path.join(__dirname, "../views"));
 app.engine(
