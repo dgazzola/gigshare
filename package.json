@@ -10,7 +10,7 @@
     "build:client": "yarn workspace gigshare-client build",
     "dev": "yarn workspace gigshare-server dev",
     "dev:debug": "yarn workspace gigshare-server dev:debug",
-    "heroku-postbuild": "yarn workspace gigshare-client build",
+    "heroku-postbuild": "yarn install && yarn workspace gigshare-client build",
     "start": "yarn workspace gigshare-server start",
     "dev:cypress": "yarn workspace gigshare-server dev:e2e",
     "e2e:open": "yarn workspace gigshare-e2e e2e:open",
