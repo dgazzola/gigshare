@@ -3,6 +3,7 @@ import path from "path";
 import logger from "morgan";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
+import cors from "cors";
 import "./boot.js";
 import configuration from "./config.js";
 import addMiddlewares from "./middlewares/addMiddlewares.js";
@@ -13,6 +14,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.set("views", path.join(__dirname, "../views"));
 app.engine(
