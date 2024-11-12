@@ -2,8 +2,9 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack",
     "dev": "./node_modules/.bin/webpack-dev-server",
-    "start": "yarn dev",
-    "local": "yarn workspace gigshare-client start && yarn workspace gigshare-server dev"
+    "start": "serve -s build",
+    "local": "yarn workspace gigshare-client start && yarn workspace gigshare-server dev",
+    "heroku-postbuild": "yarn install && yarn build"
   },
   "license": "UNLICENSED",
   "private": true,
@@ -49,6 +50,7 @@
     "react-router-dom": "5.2",
     "redbox-react": "~1.6",
     "sass-loader": "^6.0.7",
+    "serve": "^14.2.4",
     "style-loader": "^1.2.1",
     "webpack": "^5.3.2",
     "webpack-cli": "^4.1.0",
