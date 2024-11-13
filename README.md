@@ -2,7 +2,7 @@
 
 gigshare is an application which helps artists and fans spread word of upcoming underground shows.
 
-[View Here](https://gigshare.herokuapp.com/)
+[View Here](https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com/)
 
 <img align="center" src="https://github.com/dgazzola/gigshare/blob/main/images/gigshare-screenshot.png" width="400" alt="gigshare homepage display."/>
 
