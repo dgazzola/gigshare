@@ -3,9 +3,6 @@ import { Link } from "react-router-dom"
 import GigTile from './GigTile.js'
 import Dropzone from "react-dropzone"
 
-console.log("Component is rendering");  // Add this outside of functions
-
-
 const UserShowPage = (props) => {
   const { id } = props.match.params
   const currentUser = props.currentUser
@@ -41,7 +38,6 @@ const UserShowPage = (props) => {
   }, [])
 
   const handleImageUpload = (acceptedFiles) => {
-    // Check if files were accepted
     if (acceptedFiles && acceptedFiles[0]) {
       setNewProfileImage({
         image: acceptedFiles[0]
