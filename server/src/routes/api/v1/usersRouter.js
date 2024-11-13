@@ -11,21 +11,39 @@ const usersRouter = new express.Router();
 usersRouter.use("/:id/register-as-artist", userArtistsRouter)
 usersRouter.use("/:id/favorites", userFavoritesRouter)
 
-usersRouter.patch("/:id", async (req, res) => {
-  // below this goes after the id,
-  // , uploadImage.single("image")
-  const { id } = req.params
-  // const { location } = req.file
-  const location = "https://www.researchgate.net/profile/Mahmoud-Abu-Shawish/publication/368055625/figure/tbl1/AS:11431281117295975@1675420425337/Microsoft-Windows-Explorer-File-Size-Classification-22.png"
-  try {
-    const user = await User.query().findById(id)
-    await user.$query().patch({ ...user, profileImage: location })
-    const serializedUser = await UserSerializer.getSummary(user)
-    return res.status(200).json({ serializedUser })
-  } catch (error) {
-    return res.status(500).json({ errors: error })
+// usersRouter.patch("/:id", uploadImage.single("image"), async (req, res) => {
+//   const { id } = req.params
+//   const { location } = req.file
+//   // const location = "https://www.researchgate.net/profile/Mahmoud-Abu-Shawish/publication/368055625/figure/tbl1/AS:11431281117295975@1675420425337/Microsoft-Windows-Explorer-File-Size-Classification-22.png"
+//   try {
+//     const user = await User.query().findById(id)
+//     await user.$query().patch({ ...user, profileImage: location })
+//     const serializedUser = await UserSerializer.getSummary(user)
+//     return res.status(200).json({ serializedUser })
+//   } catch (error) {
+//     return res.status(500).json({ errors: error })
+//   }
+// })
+
+usersRouter.patch("/:id", uploadImage, async (req, res) => {
+  const { id } = req.params;
+  const { location } = req.file; // This is the S3 file URL after upload
+  if (!location) {
+    return res.status(400).json({ errors: "No file uploaded." });
   }
-})
+
+  try {
+    const user = await User.query().findById(id);
+    await user.$query().patch({ ...user, profileImage: location });
+
+    const serializedUser = await UserSerializer.getSummary(user);
+    console.log('backend serialiedUser:', serializedUser)
+    return res.status(200).json({ user: serializedUser });
+  } catch (error) {
+    console.error("Error in PATCH /users/:id", error);
+    return res.status(500).json({ errors: error });
+  }
+});
 
 usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params

@@ -3,11 +3,14 @@ import { Link } from "react-router-dom"
 import GigTile from './GigTile.js'
 import Dropzone from "react-dropzone"
 
+console.log("Component is rendering");  // Add this outside of functions
+
+
 const UserShowPage = (props) => {
   const { id } = props.match.params
   const currentUser = props.currentUser
   const [user, setUser] = useState({
-    artist:"",
+    artist:[],
     favoriteGigs:"",
     profileImage:""
   })
@@ -64,6 +67,7 @@ const UserShowPage = (props) => {
         throw new Error(`${response.status} (${response.statusText})`)
       }
       const body = await response.json()
+      console.log('user return body after uploading:', body)
       setUser(body.serializedUser)
       setUploadedImage({
         preview: ""
@@ -79,7 +83,7 @@ const UserShowPage = (props) => {
     previewComponent = <img src={uploadedImage.preview} className="profile-image-preview" />
   }
 
-  let artistInfo ="replace with user artist button"
+  let artistInfo ="replace with user artist button" // can handle this better
 
   if (user.artist.length!==0){
     artistInfo =
@@ -112,12 +116,10 @@ const UserShowPage = (props) => {
             {previewComponent}
           <Dropzone onDrop={handleImageUpload}>
             {({getRootProps, getInputProps}) => (
-     
                 <div className=''{...getRootProps()}>
                   <input type="text" {...getInputProps()} />
                   <p className='button'>Add Image</p>
                 </div>
-          
             )}
           </Dropzone>
           <input className='button' type='submit' value='Save Profile' />
