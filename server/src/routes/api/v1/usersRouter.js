@@ -11,20 +11,6 @@ const usersRouter = new express.Router();
 usersRouter.use("/:id/register-as-artist", userArtistsRouter)
 usersRouter.use("/:id/favorites", userFavoritesRouter)
 
-// usersRouter.patch("/:id", uploadImage.single("image"), async (req, res) => {
-//   const { id } = req.params
-//   const { location } = req.file
-//   // const location = "https://www.researchgate.net/profile/Mahmoud-Abu-Shawish/publication/368055625/figure/tbl1/AS:11431281117295975@1675420425337/Microsoft-Windows-Explorer-File-Size-Classification-22.png"
-//   try {
-//     const user = await User.query().findById(id)
-//     await user.$query().patch({ ...user, profileImage: location })
-//     const serializedUser = await UserSerializer.getSummary(user)
-//     return res.status(200).json({ serializedUser })
-//   } catch (error) {
-//     return res.status(500).json({ errors: error })
-//   }
-// })
-
 usersRouter.patch("/:id", uploadImage, async (req, res) => {
   const { id } = req.params;
   const { location } = req.file; // This is the S3 file URL after upload
@@ -58,8 +44,9 @@ usersRouter.get("/:id", async (req, res) => {
 
 usersRouter.post("/", async (req, res) => {
   const { username, email, password } = req.body;
+  const profileImage = "https://gigshare-production.s3.us-east-1.amazonaws.com/default+image.jpg";
   try {
-    const persistedUser = await User.query().insertAndFetch({ email, password, username });
+    const persistedUser = await User.query().insertAndFetch({ email, password, username, profileImage });
 
     return req.login(persistedUser, (err) => {
       if (err) {
