@@ -4,7 +4,8 @@
     "dev": "./node_modules/.bin/webpack-dev-server",
     "start": "serve -s build",
     "local": "yarn workspace gigshare-client start && yarn workspace gigshare-server dev",
-    "heroku-postbuild": "yarn install && yarn build"
+    "heroku-postbuild": "yarn install && yarn build",
+    "heroku-start-dev": "NODE_ENV=development node server.js"
   },
   "license": "UNLICENSED",
   "private": true,
