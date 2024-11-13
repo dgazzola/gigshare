@@ -25,9 +25,6 @@ node_modules
 
 # Coveralls
 **/coverage
-
-.env
-.env.local
-server/.env
-
+# Ignore all .env files
+*.env
 /server/public
