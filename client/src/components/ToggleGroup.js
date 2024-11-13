@@ -36,3 +36,5 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
     </Container>
   );
 };
+
+export default ToggleGroup
