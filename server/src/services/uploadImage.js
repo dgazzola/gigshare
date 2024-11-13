@@ -10,6 +10,8 @@ AWS.config.update({
   region: "us-east-1"
 });
 
+AWS.config.logger = console;
+
 const s3 = new AWS.S3();
 
 const uploadImage = multer({
