@@ -3,9 +3,15 @@ import getNodeEnv from "./config/getNodeEnv.js";
 import getDatabaseUrl from "./config/getDatabaseUrl.cjs";
 
 const development = {
-  awsAccess: { key: process.env.AWS_ACCESS_KEY_ID },
-  awsSecret: { key: process.env.AWS_SECRET_ACCESS_KEY },
-  s3Bucket: { name: process.env.S3_BUCKET_DEVELOPMENT },
+  awsAccess: {
+    key: process.env.AWS_ACCESS_KEY_ID,
+  },
+  awsSecret: {
+    key: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+  s3Bucket: {
+    name: process.env.NODE_ENV === "production" ? process.env.S3_BUCKET_PRODUCTION : process.env.S3_BUCKET_DEVELOPMENT,
+  },
   databaseUrl: getDatabaseUrl(getNodeEnv()),
   nodeEnv: getNodeEnv(),
   session: { secret: process.env.SESSION_SECRET },
