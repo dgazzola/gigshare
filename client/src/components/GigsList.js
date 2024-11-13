@@ -73,6 +73,7 @@ const GigsListPage = (props) => {
         throw(error)
       }
       const parsedResponse = await response.json()
+      console.log('setting gigs:', parsedResponse.gigs)
       setGigs(parsedResponse.gigs)
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`)

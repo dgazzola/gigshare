@@ -99,6 +99,13 @@ h4, p, h2{
   right: 0;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none; /* Prevents mouse events when disabled */
+}
+
+
 .centered{
   text-align: center;
 }

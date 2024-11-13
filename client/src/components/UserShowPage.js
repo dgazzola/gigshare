@@ -39,17 +39,21 @@ const UserShowPage = (props) => {
     window.scrollTo(0,0),
     getUser()
   }, [])
-  
-  const handleImageUpload = (acceptedImage) => {
-    setNewProfileImage({
-      ...newProfileImage,
-      image: acceptedImage[0]
-    })
 
-    setUploadedImage({
-      preview: URL.createObjectURL(acceptedImage[0])
-    })
-  }
+  const handleImageUpload = (acceptedFiles) => {
+    // Check if files were accepted
+    if (acceptedFiles && acceptedFiles[0]) {
+      setNewProfileImage({
+        image: acceptedFiles[0]
+      });
+      setUploadedImage({
+        preview: URL.createObjectURL(acceptedFiles[0])
+      });
+    }
+    console.log("File uploaded:", acceptedFiles[0]);
+    console.log('preview set to:', uploadedImage.preview)
+  };
+  
 
   const addProfileImage = async (event) => {
     event.preventDefault()
@@ -67,8 +71,8 @@ const UserShowPage = (props) => {
         throw new Error(`${response.status} (${response.statusText})`)
       }
       const body = await response.json()
-      console.log('user return body after uploading:', body)
-      setUser(body.serializedUser)
+      setUser(body.user)
+
       setUploadedImage({
         preview: ""
       })
@@ -112,17 +116,23 @@ const UserShowPage = (props) => {
     dropzoneComponent = (
       <div className="grid-x dropzone">
         <h3 className='white cell'>Upload profile image</h3>
-        <form onSubmit={addProfileImage} className='cell' >
-            {previewComponent}
+        <form onSubmit={addProfileImage} className='cell'>
+          {previewComponent} {/* Show image preview if available */}
           <Dropzone onDrop={handleImageUpload}>
-            {({getRootProps, getInputProps}) => (
-                <div className=''{...getRootProps()}>
-                  <input type="text" {...getInputProps()} />
-                  <p className='button'>Add Image</p>
-                </div>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()}>
+                <input type="file" {...getInputProps()} />
+                <p className="button">Add Image</p>
+              </div>
             )}
           </Dropzone>
-          <input className='button' type='submit' value='Save Profile' />
+          <button 
+            type="submit" 
+            className="button" 
+            disabled={!uploadedImage.preview} // Disable if no image is selected
+          >
+            Save Profile
+          </button>
         </form>
       </div>
     )
@@ -143,7 +153,7 @@ const UserShowPage = (props) => {
       )
     })
   }
-  let hostedMessage =  <h1 className="glow small shift-down"> No Favorited Gigs</h1>
+  let hostedMessage =  <h1 className="glow small shift-down"> No Hosted Gigs</h1>
   let hostedGigTiles
   if (user.hostedGigs?.length){
     hostedMessage = <h1 className="glow small"> Hosted Gigs</h1>
@@ -157,11 +167,6 @@ const UserShowPage = (props) => {
       )
     })  
   }
-  let gigFormButton = <Link to={`/gigs/new-gig-form`} className="centered">
-                        <button type="button" className="shift-down button">
-                          Register Gig
-                        </button>
-                      </Link>
 
   const DateObject = new Date(user.createdAt)
   const createdDateString= DateObject.toUTCString()
@@ -179,7 +184,13 @@ const UserShowPage = (props) => {
         <h3 className="username-string">{user.username}</h3>
         <h3 className="email-string">{user.email}</h3>
         {artistInfo}
-        {gigFormButton}
+        { currentUser?.id === user.id &&
+          <Link to={`/gigs/new-gig-form`} className="centered">
+            <button type="button" className="shift-down button">
+              Register Gig
+            </button>
+          </Link>
+        }
         {dropzoneComponent}
     </div>
     

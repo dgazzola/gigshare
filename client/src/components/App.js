@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import getCurrentUser from "../services/getCurrentUser";
 import "../assets/scss/main.scss";
@@ -13,7 +13,6 @@ import NewGigForm from "./NewGigForm.js";
 import UserShowPage from "./UserShowPage.js";
 import RegisterArtistForm from "./RegisterArtistForm.js";
 import ArtistShowPage from "./ArtistShowPage.js"
-import ToggleGroup from "./ToggleGroup.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -52,10 +51,16 @@ const App = (props) => {
           path="/gigs/:id"
           render= {(props) => <GigShowPage {...props} currentUser={currentUser}/>}
         />
-        <Route 
-          exact 
+        <Route
+          exact
           path="/users/:id/register-as-artist"
-          render= {(props) => <RegisterArtistForm {...props} currentUser={currentUser}/>}
+          render={(props) =>
+            currentUser ? (
+              <RegisterArtistForm {...props} currentUser={currentUser} />
+            ) : (
+              <Redirect to="/user-sessions/new" />
+            )
+          }
         />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />

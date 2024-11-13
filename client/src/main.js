@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (reactElement) {
     const root = createRoot(reactElement);
+
+    // Render the app
     if (config.nodeEnv === "development") {
       try {
         root.render(<App />);
@@ -17,6 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } else {
       root.render(<App />);
+    }
+
+    // Enable Hot Module Replacement (HMR) in development
+    if (module.hot) {
+      module.hot.accept("./components/App", () => {
+        // If App.js changes, re-render the App component
+        root.render(<App />);
+      });
     }
   }
 });

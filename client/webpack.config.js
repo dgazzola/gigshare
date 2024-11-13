@@ -95,14 +95,14 @@ module.exports = {
     filename: "bundle.js",
   },
   devServer: {
-    static: path.join(__dirname, "public/"),
+    static: path.join(__dirname, "../server/public/dist"), // Serve from the server's dist folder
     historyApiFallback: true,
     port: 3000,
     hot: true, // Enable hot reloading
     proxy: [
       {
         context: ["/auth", "/api"],
-        target: "http://localhost:4000",
+        target: "http://localhost:4000", // Proxy API requests to your backend
       },
     ],
   },
