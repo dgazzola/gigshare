@@ -7,18 +7,28 @@ import cleanUserInput from "../../../services/cleanUserInput.js"
 const gigsRouter = new express.Router()
 
 gigsRouter.get("/", async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1 if no page is provided
+  const limit = parseInt(req.query.limit) || 8; // Default to 8 items per page
+
   try {
     const gigs = await Gig.query()
+      .page(page - 1, limit); // `page` is 0-indexed, so subtract 1
     const serializedGigs = await Promise.all(
-      gigs.map(async (gig) => {
-        return await GigSerializer.getDetail(gig)
+      gigs.results.map(async (gig) => {
+        return await GigSerializer.getDetail(gig);
       })
-    )
-    return res.status(200).json({ gigs: serializedGigs })
+    );
+    
+    return res.status(200).json({
+      gigs: serializedGigs,
+      totalCount: gigs.total,  // Total number of gigs (used for calculating pages)
+      totalPages: Math.ceil(gigs.total / limit),
+      currentPage: page
+    });
   } catch (error) {
-    return res.status(500).json({ errors: error })
+    return res.status(500).json({ errors: error });
   }
-})
+});
 
 gigsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
