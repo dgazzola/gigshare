@@ -1,6 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
-
+import { createRoot } from "react-dom/client";
 import App from "./components/App";
 import config from "./config";
 import RedBox from "redbox-react";
@@ -9,14 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let reactElement = document.getElementById("app");
 
   if (reactElement) {
+    const root = createRoot(reactElement);
     if (config.nodeEnv === "development") {
       try {
-        render(<App />, reactElement);
+        root.render(<App />);
       } catch (e) {
-        render(<RedBox error={e} />, reactElement);
+        root.render(<RedBox error={e} />);
       }
     } else {
-      render(<App />, reactElement);
+      root.render(<App />);
     }
   }
 });

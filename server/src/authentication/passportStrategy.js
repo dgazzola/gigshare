@@ -1,5 +1,4 @@
-import local from "passport-local";
-
+import { Strategy as LocalStrategy } from "passport-local";
 import User from "../models/User.js";
 
 const authHandler = (email, password, done) => {
@@ -10,11 +9,11 @@ const authHandler = (email, password, done) => {
         if (user.authenticate(password)) {
           return done(null, user);
         }
-
         return done(null, false, { message: "Invalid credentials" });
       }
       return done(null, false, { message: "Invalid credentials" });
-    });
+    })
+    .catch((err) => done(err));
 };
 
-export default new local.Strategy({ usernameField: "email" }, authHandler);
+export default new LocalStrategy({ usernameField: "email" }, authHandler);

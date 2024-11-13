@@ -4,10 +4,14 @@ import logger from "morgan";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import cors from "cors";
-import "./boot.js";
+import passport from "passport";
 import rootRouter from "./routes/rootRouter.js";
 import hbsMiddleware from "express-handlebars";
 import session from "express-session";
+import "./boot.js";
+import User from "./models/User.js";
+
+import LocalStrategy from "./authentication/passportStrategy.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +35,20 @@ app.use(session({
     httpOnly: true, // makes cookie accessible only to HTTP(S), not JavaScript
   }
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Use the custom local strategy
+passport.use(LocalStrategy);
+
+// Configure serialization and deserialization
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser((id, done) => {
+  User.query().findById(id)
+    .then(user => done(null, user))
+    .catch(err => done(err));
+});
 
 // Set up Handlebars for server-side rendering (if used)
 app.set("views", path.join(__dirname, "../views"));

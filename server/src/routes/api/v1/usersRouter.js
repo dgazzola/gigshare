@@ -37,17 +37,26 @@ usersRouter.get("/:id", async (req, res) => {
 
 usersRouter.post("/", async (req, res) => {
   const { username, email, password } = req.body;
+  console.log('Backend hit for user creation:', req.body);
   try {
     const persistedUser = await User.query().insertAndFetch({ email, password, username });
-    return req.login(persistedUser, () => {
+    console.log("User created:", persistedUser);
+
+    return req.login(persistedUser, (err) => {
+      if (err) {
+        console.error("Error during req.login:", err);
+        return res.status(500).json({ errors: err });
+      }
       return res.status(201).json({ user: persistedUser });
     });
   } catch (error) {
-		if (error instanceof ValidationError) {
-			return res.status(422).json({ errors: error.data })
-		}
+    console.error("Signup error:", error);
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ errors: error.data });
+    }
     return res.status(500).json({ errors: error });
   }
 });
+
 
 export default usersRouter;

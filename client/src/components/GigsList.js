@@ -3,8 +3,9 @@ import GigTile from "./GigTile.js"
 import SearchBar from "../services/SearchBar.js"
 import GigSortDropdown from "./GigSortDropdown.js"
 import ToggleGroup from "./ToggleGroup.js"
-
+console.log('gigs list root')
 const GigsListPage = (props) => {
+  console.log("Rendering GigsListPage");
   const [gigs, setGigs] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [filterFunction, setFilterFunction] = useState("")
@@ -67,6 +68,7 @@ const GigsListPage = (props) => {
   }
 
   const getGigs = async () => {
+    console.log("Fetching gigs");
     try {
       const response = await fetch('/api/v1/gigs')
       if (!response.ok) {
@@ -84,6 +86,11 @@ const GigsListPage = (props) => {
   useEffect(() => {
     getGigs()
   },[])
+  
+  useEffect(() => {
+    console.log("Filter function changed:", filterFunction); // Log filterFunction changes
+  }, [filterFunction]);
+  
 
   let sortedTileComponents
   if (!filterFunction){
@@ -159,6 +166,7 @@ const GigsListPage = (props) => {
 
   return (
     <div className="hero-image bg-clear">
+      {console.log("Rendering GigsListPage UI")}
         <div className="small-2 bg-clear scroll" style={{  flexDirection: 'column', alignItems: 'center' }}>
           <ToggleGroup setSelectedComponent={setSelectedComponent} selectedComponent={selectedComponent} />
   

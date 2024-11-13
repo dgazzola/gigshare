@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Container } from '@mui/material';
-
 const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
+  console.log("Rendering ToggleGroup");
   const [alignment, setAlignment] = useState(selectedComponent === "allGigs" ? "left" : "center");
+  console.log('test')
 
-  // Synchronize alignment state with selectedComponent when it changes
+  useEffect(() => {
+    console.log("Selected component changed:", selectedComponent); // Log when selectedComponent changes
+    setAlignment(selectedComponent === "allGigs" ? "left" : "center");
+  }, [selectedComponent]);
+  
+
   useEffect(() => {
     setAlignment(selectedComponent === "allGigs" ? "left" : "center");
   }, [selectedComponent]);
 
   const handleAlignmentChange = (event, newAlignment) => {
+    event.preventDefault()
+    console.log("Alignment changed:", newAlignment); // Check if this fires
     if (newAlignment !== null) {
       setAlignment(newAlignment);
       setSelectedComponent(newAlignment === "left" ? "allGigs" : "searchGigs");
@@ -20,6 +24,7 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
+      {console.log("Rendering ToggleGroup UI")}
       <ToggleButtonGroup
         value={alignment}
         exclusive
@@ -36,5 +41,3 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
     </Container>
   );
 };
-
-export default ToggleGroup;
