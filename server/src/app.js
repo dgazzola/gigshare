@@ -19,28 +19,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com" : "*",
-  credentials: true // Allows cookies and session data to be sent
+  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com/" : "*",
+  credentials: true
 }));
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     secure: process.env.NODE_ENV === 'production',
-//     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-//     httpOnly: true,
-//   }
-// }));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Ensures cookies are secure only in production
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Required for cross-origin in production
-    httpOnly: true, // Prevents client-side JavaScript access to the cookie
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    httpOnly: true,
   }
 }));
 
