@@ -28,9 +28,13 @@ sessionRouter.get("/current", async (req, res) => {
   }
 });
 
-sessionRouter.delete("/", (req, res) => {
-  req.logout();
-  res.status(200).json({ message: "User signed out" });
+sessionRouter.delete("/", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.status(200).json({ message: "User signed out" });
+  });
 });
 
 export default sessionRouter;
