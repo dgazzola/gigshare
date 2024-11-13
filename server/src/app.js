@@ -10,6 +10,7 @@ import hbsMiddleware from "express-handlebars";
 import session from "express-session";
 import "./boot.js";
 import User from "./models/User.js";
+
 import LocalStrategy from "./authentication/passportStrategy.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,89 +18,69 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Enforce HTTPS in production
-// if (process.env.NODE_ENV === 'production') {
-//   app.use((req, res, next) => {
-//     if (req.headers['x-forwarded-proto'] !== 'https') {
-//       return res.redirect(`https://${req.headers.host}${req.url}`);
-//     }
-//     next();
-//   });
-// }
-
-// CORS setup
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com" : "*",
-  credentials: true  // Required for cross-origin cookies
+  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com/" : "*",
+  credentials: true
 }));
 
-// Session setup with secure cookies in production
 app.use(session({
-  secret: process.env.SESSION_SECRET || "default_secret",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',  // Secure cookies in production
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Cross-site setting
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
     httpOnly: true,
   }
 }));
 
-// Initialize Passport and session management
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(LocalStrategy);
 
-// Serialize and deserialize user
 passport.serializeUser((user, done) => done(null, user.id));
-
 passport.deserializeUser((id, done) => {
-  console.log("Deserializing user with ID:", id);
   User.query().findById(id)
-    .then(user => {
-      console.log("User found:", user);
-      done(null, user);
-    })
-    .catch(err => {
-      console.error("Error deserializing user:", err);
-      done(err);
-    });
+    .then(user => done(null, user))
+    .catch(err => done(err));
 });
 
-// Set up Handlebars view engine
 app.set("views", path.join(__dirname, "../views"));
-app.engine("hbs", hbsMiddleware({
-  defaultLayout: "default",
-  extname: ".hbs",
-}));
+app.engine(
+  "hbs",
+  hbsMiddleware({
+    defaultLayout: "default",
+    extname: ".hbs",
+  })
+);
 app.set("view engine", "hbs");
 
-// Middleware setup
+// Logger, JSON, and URL-encoded parser setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Main router
+// API routes
 app.use(rootRouter);
 
-// Serve static files
+// Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Serve frontend for non-API routes
+// Serve the frontend for non-API routes
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/dist", "index.html"));
 });
 
-// Error-handling middleware
+// Error-handling middleware for unhandled routes and errors
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Use Heroku's $PORT or default to 3000 for local development
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
