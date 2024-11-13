@@ -11,9 +11,12 @@ const usersRouter = new express.Router();
 usersRouter.use("/:id/register-as-artist", userArtistsRouter)
 usersRouter.use("/:id/favorites", userFavoritesRouter)
 
-usersRouter.patch("/:id", uploadImage.single("image"), async (req, res) => {
+usersRouter.patch("/:id", async (req, res) => {
+  // below this goes after the id,
+  // , uploadImage.single("image")
   const { id } = req.params
-  const { location } = req.file
+  // const { location } = req.file
+  const location = "https://www.researchgate.net/profile/Mahmoud-Abu-Shawish/publication/368055625/figure/tbl1/AS:11431281117295975@1675420425337/Microsoft-Windows-Explorer-File-Size-Classification-22.png"
   try {
     const user = await User.query().findById(id)
     await user.$query().patch({ ...user, profileImage: location })
