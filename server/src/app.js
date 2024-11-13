@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com/" : "*",
+  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com" : "*",
   credentials: true
 }));
 
@@ -40,10 +40,18 @@ app.use(passport.session());
 passport.use(LocalStrategy);
 
 passport.serializeUser((user, done) => done(null, user.id));
+
 passport.deserializeUser((id, done) => {
+  console.log("Deserializing user with ID:", id);
   User.query().findById(id)
-    .then(user => done(null, user))
-    .catch(err => done(err));
+    .then(user => {
+      console.log("User found:", user);
+      done(null, user);
+    })
+    .catch(err => {
+      console.error("Error deserializing user:", err);
+      done(err);
+    });
 });
 
 app.set("views", path.join(__dirname, "../views"));

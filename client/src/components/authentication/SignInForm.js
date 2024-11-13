@@ -36,6 +36,7 @@ const SignInForm = () => {
       if (Object.keys(errors).length === 0) {
         const response = await fetch("/api/v1/user-sessions", {
           method: "post",
+          credentials: 'include',
           body: JSON.stringify(userPayload),
           headers: new Headers({
             "Content-Type": "application/json",
