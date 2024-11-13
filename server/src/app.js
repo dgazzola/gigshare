@@ -34,7 +34,7 @@ app.use(cors({
 //   }
 // }));
 app.use(session({
-  secret: process.env.SESSION_SECRET || "default_secret",
+  secret: "976ce97a-4767-44ab-9620-d59a77979344", // REMOVE THIS SECRET AND USE ENV VARIABLE
   resave: false,
   saveUninitialized: false,
   cookie: {
