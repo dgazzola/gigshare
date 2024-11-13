@@ -7,7 +7,6 @@ const lineupsRouter = new express.Router()
 
 lineupsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
-  console.log(body)
   try {
     return res.status(201).json({ })
   } catch (error) {

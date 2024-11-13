@@ -37,13 +37,17 @@ usersRouter.patch("/:id", uploadImage, async (req, res) => {
 
 usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
+  const favoritePage = parseInt(req.query.favoritePage) || 1;
+  const hostedPage = parseInt(req.query.hostedPage) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+
   try {
     const user = await User.query().findById(id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const serializedUser = await UserSerializer.getSummary(user);
+    const serializedUser = await UserSerializer.getSummary(user, favoritePage, hostedPage, limit);
     return res.status(200).json({ user: serializedUser });
   } catch (error) {
     console.error(error);

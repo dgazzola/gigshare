@@ -102,7 +102,7 @@ h4, p, h2{
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  pointer-events: none; /* Prevents mouse events when disabled */
+  pointer-events: none;
 }
 
 
@@ -112,13 +112,8 @@ button:disabled {
 
 .tile-box{
   background-color: white;
-  // button hover color orange instead of black rgba(253, 164, 0, 0.25)
-  // border-style: groove;
-  // border-color: black;
-  // border-width: 5px;
   text-emphasis-color: black;
   margin:1vw;
-  // height: 15rem;
   border-radius: 2rem;
 }
 
@@ -267,22 +262,21 @@ select{
 }
 
 
-/* Pagination Controls */
 .pagination-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px; /* Space between the buttons and page info */
+  gap: 16px;
   margin-top: 20px;
 }
 
 .pagination-button {
-  background-color: rgba(149, 0, 255, 0.8);  /* Use your main purple color */
+  background-color: rgba(149, 0, 255, 0.8);
   color: white;
   border: none;
   padding: 8px 16px;
   font-size: 16px;
-  font-family: Spectral, serif; /* Ensures consistent font */
+  font-family: Spectral, serif;
   font-weight: 500;
   border-radius: 5px;
   cursor: pointer;
@@ -292,19 +286,54 @@ select{
 }
 
 .pagination-button:hover {
-  background-color: rgba(149, 0, 255, 1); /* Darker shade of purple on hover */
+  background-color: rgba(149, 0, 255, 1);
 }
 
 .pagination-button:disabled {
-  background-color: rgba(0, 0, 0, 0.1); /* Light gray for disabled state */
-  color: rgba(149, 0, 255, 0.5); /* Slightly transparent purple */
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(149, 0, 255, 0.5);
   cursor: not-allowed;
 }
 
 .pagination-info {
   font-size: 16px;
   font-weight: bold;
-  color: rgba(149, 0, 255, 0.8);  /* Matching your main purple color */
-  font-family: Spectral, serif; /* Consistent font */
+  color: rgba(149, 0, 255, 0.8);
+  font-family: Spectral, serif;
   text-align: center;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.toggle-group {
+  background-color: transparent;
+}
+
+.toggle-button {
+  color: rgba(149, 0, 255, 0.8);
+  border: 2px solid rgba(149, 0, 255, 0.8);
+  border-radius: 5px;
+  font-family: Spectral, serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  margin: 0 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.toggle-button.active,
+.toggle-button:hover {
+  background-color: rgba(149, 0, 255, 0.8);
+  color: white;
+}
+
+.toggle-button.Mui-selected {
+  background-color: rgba(149, 0, 255, 0.8);
+  color: white;
 }

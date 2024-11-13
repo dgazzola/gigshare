@@ -3,6 +3,7 @@ import GigTile from "./GigTile.js";
 import SearchBar from "../services/SearchBar.js";
 import GigSortDropdown from "./GigSortDropdown.js";
 import ToggleGroup from "./ToggleGroup.js";
+import '../assets/scss/main.scss';
 
 const GigsListPage = (props) => {
   const [gigs, setGigs] = useState([]);
@@ -15,9 +16,8 @@ const GigsListPage = (props) => {
 
   const [searchPage, setSearchPage] = useState(1);
   const [searchTotalPages, setSearchTotalPages] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); // New state for storing search query
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Sorting Functions
   const sortAlphabeticallyAscending = (a, b) => {
     if (a?.name.toLowerCase() < b?.name.toLowerCase()) return -1;
     if (a?.name.toLowerCase() > b?.name.toLowerCase()) return 1;
@@ -52,7 +52,6 @@ const GigsListPage = (props) => {
     return 0;
   };
 
-  // Fetch gigs with pagination
   const getGigs = async (page) => {
     try {
       const response = await fetch(`/api/v1/gigs?page=${page}&limit=8`);
@@ -135,9 +134,9 @@ const GigsListPage = (props) => {
               {sortedTileComponents}
             </div>
             <div className="pagination-controls">
-              <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
-              <span>Page {currentPage} of {totalPages}</span>
-              <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+              <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
+              <span className="pagination-info">Page {currentPage} of {totalPages}</span>
+              <button className="pagination-button" onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
             </div>
           </div>
         )}
@@ -145,7 +144,7 @@ const GigsListPage = (props) => {
         {selectedComponent === "searchGigs" && (
           <div style={{ maxWidth: '70%', margin: '0 auto' }}>
             <SearchBar 
-              setSearchQuery={setSearchQuery} // Pass setSearchQuery for updating search query
+              setSearchQuery={setSearchQuery} 
               searchGigs={searchGigs} 
               setSearchPage={setSearchPage} 
             />
@@ -153,9 +152,9 @@ const GigsListPage = (props) => {
               {searchTileComponents}
             </div>
             <div className="pagination-controls">
-              <button onClick={handlePreviousPage} disabled={searchPage === 1}>Previous</button>
-              <span>Page {searchPage} of {searchTotalPages}</span>
-              <button onClick={handleNextPage} disabled={searchPage === searchTotalPages}>Next</button>
+              <button className="pagination-button" onClick={handlePreviousPage} disabled={searchPage === 1}>Previous</button>
+              <span className="pagination-info">Page {searchPage} of {searchTotalPages}</span>
+              <button className="pagination-button" onClick={handleNextPage} disabled={searchPage === searchTotalPages}>Next</button>
             </div>
           </div>
         )}

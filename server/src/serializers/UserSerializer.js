@@ -1,26 +1,29 @@
-import Artist from "../models/index.js"
-import User from "../models/index.js"
-import { Gig, Favorite}  from "../models/index.js"
+import Artist from "../models/index.js";
+import User from "../models/index.js";
+import { Gig, Favorite } from "../models/index.js";
 
 class UserSerializer {
-  static async getSummary(user) {
-    const allowedAttributes = ["id", "email", "username", "createdAt", "profileImage"]
-    const serializedUser={}
+  static async getSummary(user, favoritePage = 1, hostedPage = 1, limit = 8) {
+    const allowedAttributes = ["id", "email", "username", "createdAt", "profileImage"];
+    const serializedUser = {};
 
     for (const attribute of allowedAttributes) {
-      serializedUser[attribute] = user[attribute]
+      serializedUser[attribute] = user[attribute];
     }
 
-    const relatedArtist = await user.$relatedQuery("artists")
-    serializedUser.artist = relatedArtist
-    const favoritedGigs = await user.$relatedQuery("favoritedGigs")
-    serializedUser.favoriteGigs = favoritedGigs
+    const relatedArtist = await user.$relatedQuery("artists");
+    serializedUser.artist = relatedArtist;
 
-    const hostedGigs = await user.$relatedQuery("hostedGigs")
-    serializedUser.hostedGigs = hostedGigs
+    const favoriteGigs = await user.$relatedQuery("favoritedGigs").page(favoritePage - 1, limit);
+    serializedUser.favoriteGigs = favoriteGigs.results;
+    serializedUser.favoriteGigsTotalPages = Math.ceil(favoriteGigs.total / limit);
 
-    return serializedUser
+    const hostedGigs = await user.$relatedQuery("hostedGigs").page(hostedPage - 1, limit);
+    serializedUser.hostedGigs = hostedGigs.results;
+    serializedUser.hostedGigsTotalPages = Math.ceil(hostedGigs.total / limit);
+
+    return serializedUser;
   }
 }
 
-export default UserSerializer
+export default UserSerializer;

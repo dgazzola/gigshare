@@ -9,18 +9,16 @@ const SearchBar = ({ setSearchQuery, searchGigs, setSearchPage }) => {
   const handleChange = (event) => {
     const newQuery = event.target.value;
     setQuery(newQuery);
-    setSearchPage(1); // Reset to the first page when the query changes
+    setSearchPage(1);
 
-    // Clear previous timer and set a new one
     if (debounceTimer) clearTimeout(debounceTimer);
     const newTimer = setTimeout(() => {
-      setSearchQuery(newQuery); // Update the search query in GigsListPage
-      searchGigs(newQuery, 1); // Trigger search with page 1
+      setSearchQuery(newQuery);
+      searchGigs(newQuery, 1);
     }, 500);
     setDebounceTimer(newTimer);
   };
 
-  // Clear the debounce timer on component unmount
   useEffect(() => {
     return () => {
       if (debounceTimer) clearTimeout(debounceTimer);

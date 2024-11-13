@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node --inspect src/app.js",
+    "start": "node src/app.js",
     "clean": "rm -rf ./public/dist",
     "dev": "yarn run clean && ./node_modules/.bin/nodemon src/app.js",
     "dev:debug": "./node_modules/.bin/nodemon --inspect-brk src/app.js",

@@ -1,5 +1,3 @@
-// At the top of knexfile.cjs
-
 const path = require("path");
 const getDatabaseUrl = require("./src/config/getDatabaseUrl.cjs");
 
