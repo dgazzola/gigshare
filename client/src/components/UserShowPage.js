@@ -83,7 +83,7 @@ const UserShowPage = (props) => {
     previewComponent = <img src={uploadedImage.preview} className="profile-image-preview" />
   }
 
-  let artistInfo ="replace with user artist button" // can handle this better
+  let artistInfo ="replace with user artist button"
 
   if (user.artist.length!==0){
     artistInfo =
