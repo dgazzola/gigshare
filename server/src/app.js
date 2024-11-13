@@ -18,31 +18,27 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Configure CORS to allow all origins for testing purposes
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? "https://your-heroku-app.herokuapp.com" : "*",
+  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com/" : "*",
   credentials: true
 }));
 
-// Set up session middleware after CORS
 app.use(session({
-  secret: process.env.SESSION_SECRET,  // make sure SESSION_SECRET is defined in your .env and on Heroku
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // ensures secure cookies on production
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // appropriate cross-site settings
-    httpOnly: true, // makes cookie accessible only to HTTP(S), not JavaScript
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    httpOnly: true,
   }
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Use the custom local strategy
 passport.use(LocalStrategy);
 
-// Configure serialization and deserialization
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((id, done) => {
   User.query().findById(id)
@@ -50,7 +46,6 @@ passport.deserializeUser((id, done) => {
     .catch(err => done(err));
 });
 
-// Set up Handlebars for server-side rendering (if used)
 app.set("views", path.join(__dirname, "../views"));
 app.engine(
   "hbs",
@@ -61,31 +56,26 @@ app.engine(
 );
 app.set("view engine", "hbs");
 
-// Logger, JSON, and URL-encoded parser setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// API routes
 app.use(rootRouter);
 
-// Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Serve the frontend for non-API routes
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/dist", "index.html"));
 });
 
-// Error-handling middleware for unhandled routes and errors
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000; // Use Heroku's $PORT or default to 3000 for local development
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });

@@ -1,10 +1,7 @@
 const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
-  console.log("Rendering ToggleGroup");
   const [alignment, setAlignment] = useState(selectedComponent === "allGigs" ? "left" : "center");
-  console.log('test')
 
   useEffect(() => {
-    console.log("Selected component changed:", selectedComponent); // Log when selectedComponent changes
     setAlignment(selectedComponent === "allGigs" ? "left" : "center");
   }, [selectedComponent]);
   
@@ -15,7 +12,6 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
 
   const handleAlignmentChange = (event, newAlignment) => {
     event.preventDefault()
-    console.log("Alignment changed:", newAlignment); // Check if this fires
     if (newAlignment !== null) {
       setAlignment(newAlignment);
       setSelectedComponent(newAlignment === "left" ? "allGigs" : "searchGigs");
@@ -24,7 +20,6 @@ const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
-      {console.log("Rendering ToggleGroup UI")}
       <ToggleButtonGroup
         value={alignment}
         exclusive

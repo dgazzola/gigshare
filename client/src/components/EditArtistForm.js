@@ -11,7 +11,6 @@ const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
     } else {
       setShowEditForm(true)
     }
-    console.log(showEditForm)
   }
 
   const handleInputChange = event => {

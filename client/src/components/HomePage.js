@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import ToggleGroup from "./ToggleGroup"
 
 const HomePage = () => {
-  console.log('hello from homepage')
   return (
     <div className="hero-image">
       <div className="hero-text">

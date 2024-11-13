@@ -37,10 +37,8 @@ usersRouter.get("/:id", async (req, res) => {
 
 usersRouter.post("/", async (req, res) => {
   const { username, email, password } = req.body;
-  console.log('Backend hit for user creation:', req.body);
   try {
     const persistedUser = await User.query().insertAndFetch({ email, password, username });
-    console.log("User created:", persistedUser);
 
     return req.login(persistedUser, (err) => {
       if (err) {

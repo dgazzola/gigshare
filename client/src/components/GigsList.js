@@ -3,9 +3,8 @@ import GigTile from "./GigTile.js"
 import SearchBar from "../services/SearchBar.js"
 import GigSortDropdown from "./GigSortDropdown.js"
 import ToggleGroup from "./ToggleGroup.js"
-console.log('gigs list root')
+
 const GigsListPage = (props) => {
-  console.log("Rendering GigsListPage");
   const [gigs, setGigs] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [filterFunction, setFilterFunction] = useState("")
@@ -56,8 +55,6 @@ const GigsListPage = (props) => {
   const sortChronologicallyFurthest = (a,b) => {
     const dateA = new Date(`${a?.date[6]+a?.date[7]+a?.date[8]+a?.date[9]}-${a?.date[0]+a?.date[1]}-${a?.date[3]+a?.date[4]}`)
     const dateB = new Date(`${b?.date[6]+b?.date[7]+b?.date[8]+b?.date[9]}-${b?.date[0]+b?.date[1]}-${b?.date[3]+b?.date[4]}`)
-    console.log(dateA)
-    console.log(dateB)
     if (dateA>dateB){
       return -1
     }
@@ -68,7 +65,6 @@ const GigsListPage = (props) => {
   }
 
   const getGigs = async () => {
-    console.log("Fetching gigs");
     try {
       const response = await fetch('/api/v1/gigs')
       if (!response.ok) {
@@ -87,11 +83,6 @@ const GigsListPage = (props) => {
     getGigs()
   },[])
   
-  useEffect(() => {
-    console.log("Filter function changed:", filterFunction); // Log filterFunction changes
-  }, [filterFunction]);
-  
-
   let sortedTileComponents
   if (!filterFunction){
     const sortedGigs = gigs.sort( createdAt )
@@ -166,7 +157,6 @@ const GigsListPage = (props) => {
 
   return (
     <div className="hero-image bg-clear">
-      {console.log("Rendering GigsListPage UI")}
         <div className="small-2 bg-clear scroll" style={{  flexDirection: 'column', alignItems: 'center' }}>
           <ToggleGroup setSelectedComponent={setSelectedComponent} selectedComponent={selectedComponent} />
   

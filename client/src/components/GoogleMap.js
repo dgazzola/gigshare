@@ -13,7 +13,6 @@ const GoogleMap = ({ gig, dropDown }) => {
       try {
         const response = await fetch('/api/v1/getApiKey');
         const data = await response.json();
-        console.log('api response data:', data)
         if (response.ok) {
           setApiKey(data.apiKey);
         } else {
@@ -26,7 +25,6 @@ const GoogleMap = ({ gig, dropDown }) => {
 
     fetchApiKey();
   }, []);
-  console.log('apiKey:', apiKey)
   
   if (!apiKey) {
     console.error("Google Maps API key is not defined.");
@@ -43,7 +41,6 @@ const GoogleMap = ({ gig, dropDown }) => {
     .then((response) => {
       return response.json();
     }).then(jsonData => {
-      console.log('map response:', jsonData)
       coordinates={lat:jsonData.results[0].geometry.location.lat, lng:jsonData.results[0].geometry.location.lng}
       const map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,
