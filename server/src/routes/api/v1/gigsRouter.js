@@ -6,6 +6,34 @@ import cleanUserInput from "../../../services/cleanUserInput.js"
 
 const gigsRouter = new express.Router()
 
+gigsRouter.get("/search", async (req, res) => {
+  const query = req.query.query || ""; // Search term
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+
+  try {
+    const gigs = await Gig.query()
+      .where("name", "like", `%${query}%`)
+      .orWhere("city", "like", `%${query}%`)
+      .page(page - 1, limit);
+
+    const serializedGigs = await Promise.all(
+      gigs.results.map(async (gig) => {
+        return await GigSerializer.getDetail(gig);
+      })
+    );
+
+    return res.status(200).json({
+      gigs: serializedGigs,
+      totalCount: gigs.total,
+      totalPages: Math.ceil(gigs.total / limit),
+      currentPage: page
+    });
+  } catch (error) {
+    return res.status(500).json({ errors: error });
+  }
+});
+
 gigsRouter.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1 if no page is provided
   const limit = parseInt(req.query.limit) || 8; // Default to 8 items per page

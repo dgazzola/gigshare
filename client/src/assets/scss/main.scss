@@ -265,3 +265,46 @@ select{
   font-size: 1.2rem;
   font-style: italic;
 }
+
+
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px; /* Space between the buttons and page info */
+  margin-top: 20px;
+}
+
+.pagination-button {
+  background-color: rgba(149, 0, 255, 0.8);  /* Use your main purple color */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-family: Spectral, serif; /* Ensures consistent font */
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.pagination-button:hover {
+  background-color: rgba(149, 0, 255, 1); /* Darker shade of purple on hover */
+}
+
+.pagination-button:disabled {
+  background-color: rgba(0, 0, 0, 0.1); /* Light gray for disabled state */
+  color: rgba(149, 0, 255, 0.5); /* Slightly transparent purple */
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgba(149, 0, 255, 0.8);  /* Matching your main purple color */
+  font-family: Spectral, serif; /* Consistent font */
+  text-align: center;
+}

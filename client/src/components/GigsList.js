@@ -10,8 +10,12 @@ const GigsListPage = (props) => {
   const [filterFunction, setFilterFunction] = useState("");
   const [selectedComponent, setSelectedComponent] = useState("allGigs");
 
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [totalPages, setTotalPages] = useState(1); // Track total pages
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [searchPage, setSearchPage] = useState(1);
+  const [searchTotalPages, setSearchTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(""); // New state for storing search query
 
   // Sorting Functions
   const sortAlphabeticallyAscending = (a, b) => {
@@ -53,9 +57,7 @@ const GigsListPage = (props) => {
     try {
       const response = await fetch(`/api/v1/gigs?page=${page}&limit=8`);
       if (!response.ok) {
-        const errorMessage = `${response.status} (${response.statusText})`;
-        const error = new Error(errorMessage);
-        throw error;
+        throw new Error(`${response.status} (${response.statusText})`);
       }
       const parsedResponse = await response.json();
       setGigs(parsedResponse.gigs);
@@ -66,11 +68,49 @@ const GigsListPage = (props) => {
     }
   };
 
-  useEffect(() => {
-    getGigs(currentPage); // Fetch gigs when component mounts or page changes
-  }, [currentPage]);
+  const searchGigs = async (query, page) => {
+    try {
+      const response = await fetch(`/api/v1/gigs/search?query=${query}&page=${page}&limit=8`);
+      if (!response.ok) {
+        throw new Error(`${response.status} (${response.statusText})`);
+      }
+      const parsedResponse = await response.json();
+      setSearchResults(parsedResponse.gigs);
+      setSearchTotalPages(parsedResponse.totalPages);
+      setSearchPage(parsedResponse.currentPage);
+    } catch (err) {
+      console.error(`Error in fetch: ${err.message}`);
+    }
+  };
 
-  // Sorting filtered gigs
+  useEffect(() => {
+    if (selectedComponent === "allGigs") {
+      getGigs(currentPage);
+    }
+  }, [currentPage, selectedComponent]);
+
+  useEffect(() => {
+    if (selectedComponent === "searchGigs") {
+      searchGigs(searchQuery, searchPage);
+    }
+  }, [searchPage, searchQuery, selectedComponent]);
+
+  const handleNextPage = () => {
+    if (selectedComponent === "allGigs" && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (selectedComponent === "searchGigs" && searchPage < searchTotalPages) {
+      setSearchPage(searchPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (selectedComponent === "allGigs" && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else if (selectedComponent === "searchGigs" && searchPage > 1) {
+      setSearchPage(searchPage - 1);
+    }
+  };
+
   let sortedTileComponents;
   if (!filterFunction) {
     const sortedGigs = gigs.sort(createdAt);
@@ -78,48 +118,10 @@ const GigsListPage = (props) => {
       <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
     ));
   }
-  if (filterFunction === "alphabeticallyAscending") {
-    const sortedGigs = gigs.sort(sortAlphabeticallyAscending);
-    sortedTileComponents = sortedGigs.map((gigObject) => (
-      <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
-    ));
-  }
-  if (filterFunction === "alphabeticallyDescending") {
-    const sortedGigs = gigs.sort(sortAlphabeticallyDescending);
-    sortedTileComponents = sortedGigs.map((gigObject) => (
-      <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
-    ));
-  }
-  if (filterFunction === "chronologicallyClosest") {
-    const sortedGigs = gigs.sort(sortChronologicallyClosest);
-    sortedTileComponents = sortedGigs.map((gigObject) => (
-      <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
-    ));
-  }
-  if (filterFunction === "chronologicallyFurthest") {
-    const sortedGigs = gigs.sort(sortChronologicallyFurthest);
-    sortedTileComponents = sortedGigs.map((gigObject) => (
-      <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
-    ));
-  }
 
-  // Search results components
   const searchTileComponents = searchResults.map((gigObject) => (
     <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
   ));
-
-  // Handle Next and Previous page
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   return (
     <div className="hero-image bg-clear">
@@ -132,25 +134,28 @@ const GigsListPage = (props) => {
             <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
               {sortedTileComponents}
             </div>
-
-            {/* Pagination Controls */}
             <div className="pagination-controls">
-              <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                Previous
-              </button>
+              <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
               <span>Page {currentPage} of {totalPages}</span>
-              <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                Next
-              </button>
+              <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
             </div>
           </div>
         )}
 
         {selectedComponent === "searchGigs" && (
           <div style={{ maxWidth: '70%', margin: '0 auto' }}>
-            <SearchBar gigs={gigs} setSearchResults={setSearchResults} />
+            <SearchBar 
+              setSearchQuery={setSearchQuery} // Pass setSearchQuery for updating search query
+              searchGigs={searchGigs} 
+              setSearchPage={setSearchPage} 
+            />
             <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
               {searchTileComponents}
+            </div>
+            <div className="pagination-controls">
+              <button onClick={handlePreviousPage} disabled={searchPage === 1}>Previous</button>
+              <span>Page {searchPage} of {searchTotalPages}</span>
+              <button onClick={handleNextPage} disabled={searchPage === searchTotalPages}>Next</button>
             </div>
           </div>
         )}
