@@ -11,7 +11,7 @@ import session from "express-session";
 import "./boot.js";
 import User from "./models/User.js";
 import LocalStrategy from "./authentication/passportStrategy.js";
-import rateLimit from "express-rate-limit";
+import heapdump from 'heapdump';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -65,6 +65,18 @@ app.use(bodyParser.json());
 app.use(rootRouter);
 
 app.use(express.static(path.join(__dirname, "../public")));
+
+setInterval(() => {
+  const filename = `./heapdump-${Date.now()}.heapsnapshot`;  // Create a unique file name based on current timestamp
+  heapdump.writeSnapshot(filename, (err) => {
+    if (err) {
+      console.error('Error writing heap snapshot:', err);
+    } else {
+      console.log(`Heap snapshot written to ${filename}`);
+    }
+  });
+}, 3000);  // 30000 milliseconds = 30 seconds
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
