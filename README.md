@@ -30,6 +30,7 @@ gigshare is an application which helps artists and fans spread word of upcoming 
   
 ## To set up locally:
 
+  ```
   - Clone the repository
 
   - Set up your .env based on .env.example. This will require an API key from [Google Maps](https://developers.google.com/maps).
@@ -47,6 +48,7 @@ gigshare is an application which helps artists and fans spread word of upcoming 
   - Navigate to the app root directory and run `yarn dev`
 
   - Go to `localhost:3000` in a browser to view the application
+```
 
 ## Creator:
 
