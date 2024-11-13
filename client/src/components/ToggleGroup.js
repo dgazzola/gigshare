@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 const ToggleGroup = ({ setSelectedComponent, selectedComponent }) => {
   const [alignment, setAlignment] = useState(selectedComponent === "allGigs" ? "left" : "center");
 
