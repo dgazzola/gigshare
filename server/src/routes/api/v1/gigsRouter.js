@@ -14,9 +14,9 @@ gigsRouter.get("/", async (req, res) => {
         return await GigSerializer.getDetail(gig)
       })
     )
-    return res.status(200).json({ gigs:serializedGigs })
+    return res.status(200).json({ gigs: serializedGigs })
   } catch (error) {
-    return res.status(500).json({errors: error})
+    return res.status(500).json({ errors: error })
   }
 })
 
@@ -24,93 +24,142 @@ gigsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
   try {
     const newPersistedGig = await Gig.query().insertAndFetch(body)
-    return res.status(201).json({ gig:newPersistedGig })
+    return res.status(201).json({ gig: newPersistedGig })
   } catch (error) {
-    if (error instanceof ValidationError){
-      return res.status(422).json({ errors:error.data })
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ errors: error.data })
     }
-    return res.status(500).json({ errors:error })
+    return res.status(500).json({ errors: error })
   }
 })
 
 gigsRouter.get("/:id", async (req, res) => {
   const { id } = req.params
+  if (!id) {
+    return res.status(404).json({ error: "Gig not found" })
+  }
   try {
     const gig = await Gig.query().findById(id)
+    if (!gig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
     const serializedGig = await GigSerializer.getDetail(gig)
-    for (let i=0; i<serializedGig.favorited?.length; i++){
-      if (serializedGig.favorited[i].id === req.user?.id){
-        serializedGig.isUserFavorite=true
+    for (let i = 0; i < serializedGig.favorited?.length; i++) {
+      if (serializedGig.favorited[i].id === req.user?.id) {
+        serializedGig.isUserFavorite = true
       }
     }
-    return res.status(200).json({ gig:serializedGig })
-  } catch(error) {
-    return res.status(500).json({ errors:error })
+    return res.status(200).json({ gig: serializedGig })
+  } catch (error) {
+    return res.status(500).json({ errors: error })
   }
 })
 
 gigsRouter.patch("/:id", async (req, res) => {
   const { id } = req.params
+  if (!id) {
+    return res.status(404).json({ error: "Gig not found" })
+  }
   try {
-    const gig = await Gig.query().findById(id).patch(req.body)
-    return res.status(200).json({ gig })
+    const gig = await Gig.query().findById(id)
+    if (!gig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
+    const updatedGig = await gig.patch(req.body)
+    return res.status(200).json({ gig: updatedGig })
   } catch (error) {
-    return res.status(500).json({errors: error})
+    return res.status(500).json({ errors: error })
   }
 })
 
 gigsRouter.delete("/:id", async (req, res) => {
   const { id } = req.params
+  if (!id) {
+    return res.status(404).json({ error: "Gig not found" })
+  }
   try {
     const deletedGig = await Gig.query().deleteById(id)
+    if (!deletedGig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
     return res.status(200).json({ deletedGig })
   } catch (error) {
-    return res.status(500).json({errors: error})
+    return res.status(500).json({ errors: error })
   }
 })
 
 gigsRouter.delete("/:id/favorites", async (req, res) => {
   const { id } = req.params
   const userId = req.user.id
-  const gig = await Gig.query().findById(id)
-  const user = await User.query().findById(userId)
+  if (!id || !userId) {
+    return res.status(404).json({ error: "Gig or user not found" })
+  }
 
   try {
+    const gig = await Gig.query().findById(id)
+    if (!gig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
+
+    const user = await User.query().findById(userId)
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
     const deletedFavorite = await Favorite.query()
-    .select('userId', 'gigId')
-    .where('gigId', `${gig.id}`)
-    .where('userId', `${user.id}`)
-    .delete()
-    return res.status(200).json({deletedFavorite})
+      .select("userId", "gigId")
+      .where("gigId", id)
+      .where("userId", userId)
+      .delete()
+    
+    return res.status(200).json({ deletedFavorite })
   } catch (error) {
-    return res.status(500).json({errors: error})
+    return res.status(500).json({ errors: error })
   }
 })
 
 gigsRouter.post("/:id/favorites", async (req, res) => {
   const { id } = req.params
   const userId = req.user.id
-  const gig = await Gig.query().findById(id)
-  const user = await User.query().findById(userId)
+  if (!id || !userId) {
+    return res.status(404).json({ error: "Gig or user not found" })
+  }
 
   try {
-    const addedFavorite = await Favorite.query().insertAndFetch({userId:user.id, gigId:gig.id})
-    return res.status(201).json({addedFavorite})
+    const gig = await Gig.query().findById(id)
+    if (!gig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
+
+    const user = await User.query().findById(userId)
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    const addedFavorite = await Favorite.query().insertAndFetch({ userId, gigId: gig.id })
+    return res.status(201).json({ addedFavorite })
   } catch (error) {
-    return res.status(500).json({errors: error})
+    return res.status(500).json({ errors: error })
   }
 })
 
 gigsRouter.patch("/:id/lineups", async (req, res) => {
-  const { gigId } = req.body
-  const { artistId } = req.body
+  const { gigId, artistId } = req.body
+  if (!gigId || !artistId) {
+    return res.status(404).json({ error: "Gig or artist not found" })
+  }
 
   try {
+    const gig = await Gig.query().findById(gigId)
+    if (!gig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
+
     const addedLineup = await Lineup.query().insertAndFetch({ gigId, artistId })
     const returnedGig = await Gig.query().findById(gigId)
-    return res.status(201).json({returnedGig})
+    return res.status(201).json({ returnedGig })
   } catch (error) {
-    return res.status(500).json({errors: error})
+    return res.status(500).json({ errors: error })
   }
 })
 
