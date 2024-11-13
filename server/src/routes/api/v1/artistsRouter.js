@@ -1,7 +1,6 @@
 import express from "express"
 import ArtistSerializer from "../../../serializers/ArtistSerializer.js"
 import { Artist } from "../../../models/index.js"
-import { ValidationError } from "objection"
 
 const artistsRouter = new express.Router()
 
