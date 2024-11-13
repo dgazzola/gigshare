@@ -17,25 +17,35 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Enforce HTTPS in production
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(`https://${req.headers.host}${req.url}`);
+    }
+    next();
+  });
+}
+
 // CORS setup
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com" : "*",
-  credentials: true
+  credentials: true  // Required for cross-origin cookies
 }));
 
 // Session setup with secure cookies in production
 app.use(session({
-  secret: process.env.SESSION_SECRET || "default_secret", // Ensure SESSION_SECRET is set in Heroku
+  secret: process.env.SESSION_SECRET || "default_secret",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    secure: process.env.NODE_ENV === 'production',  // Secure cookies in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Cross-site setting
     httpOnly: true,
   }
 }));
 
-// Initialize Passport
+// Initialize Passport and session management
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -71,7 +81,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Use main router
+// Main router
 app.use(rootRouter);
 
 // Serve static files
