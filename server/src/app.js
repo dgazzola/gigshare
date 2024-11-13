@@ -19,18 +19,28 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com/" : "*",
-  credentials: true
+  origin: process.env.NODE_ENV === 'production' ? "https://gigshare-breakable-toy-d3d5ed3d577f.herokuapp.com" : "*",
+  credentials: true // Allows cookies and session data to be sent
 }));
 
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     secure: process.env.NODE_ENV === 'production',
+//     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+//     httpOnly: true,
+//   }
+// }));
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || "default_secret",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Ensures cookies are secure only in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Required for cross-origin in production
+    httpOnly: true, // Prevents client-side JavaScript access to the cookie
   }
 }));
 
@@ -56,31 +66,25 @@ app.engine(
 );
 app.set("view engine", "hbs");
 
-// Logger, JSON, and URL-encoded parser setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// API routes
 app.use(rootRouter);
 
-// Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Serve the frontend for non-API routes
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/dist", "index.html"));
 });
 
-// Error-handling middleware for unhandled routes and errors
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000; // Use Heroku's $PORT or default to 3000 for local development
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
