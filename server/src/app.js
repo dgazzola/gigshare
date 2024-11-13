@@ -67,31 +67,31 @@ app.use(rootRouter);
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Add logging for incoming requests
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.originalUrl}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`Incoming request: ${req.method} ${req.originalUrl}`);
+//   next();
+// });
 
-// Add a more specific check for /json/list and /json/version requests
-app.use((req, res, next) => {
-  if (req.originalUrl.includes('/json/list') || req.originalUrl.includes('/json/version')) {
-    console.log(`Caught request to ${req.originalUrl}`);
-  }
-  next();
-});
+// // Add a more specific check for /json/list and /json/version requests
+// app.use((req, res, next) => {
+//   if (req.originalUrl.includes('/json/list') || req.originalUrl.includes('/json/version')) {
+//     console.log(`Caught request to ${req.originalUrl}`);
+//   }
+//   next();
+// });
 
-// Fallback route handler for undefined routes to avoid loop
-app.get('*', (req, res) => {
-  console.log(`No route found for ${req.originalUrl}, returning 404`);
-  res.status(404).json({ error: "Not Found" });
-});
+// // Fallback route handler for undefined routes to avoid loop
+// app.get('*', (req, res) => {
+//   console.log(`No route found for ${req.originalUrl}, returning 404`);
+//   res.status(404).json({ error: "Not Found" });
+// });
 
-// Error handling with logging
-app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  console.log('Request causing error:', req.originalUrl);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+// // Error handling with logging
+// app.use((err, req, res, next) => {
+//   console.error('Unhandled error:', err);
+//   console.log('Request causing error:', req.originalUrl);
+//   res.status(500).json({ error: 'Internal Server Error' });
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
