@@ -3,12 +3,9 @@ import {useState, useEffect} from "react"
 
 
 const GoogleMap = ({ gig, dropDown }) => {
-  // const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API || '';
   const [apiKey, setApiKey] = useState('');
-  // const [coordinates, setCoordinates] = useState(null);
 
   useEffect(() => {
-    // Fetch the API key from the server-side endpoint
     const fetchApiKey = async () => {
       try {
         const response = await fetch('/api/v1/getApiKey');
