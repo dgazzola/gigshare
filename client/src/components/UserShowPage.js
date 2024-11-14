@@ -154,13 +154,14 @@ const UserShowPage = (props) => {
           <h3 className="username-string">{user.username}</h3>
           <h3 className="email-string">{user.email}</h3>
           {artistInfo}
+          {currentUser?.id === user.id &&
           <div className="shift-down">
-          <Link to={`/gigs/new-gig-form`} className="centered">
-            <button type="button" className="button">
-              Host a Gig
-            </button>
-          </Link>
-          </div>
+            <Link to={`/gigs/new-gig-form`} className="centered">
+              <button type="button" className="button">
+                Host a Gig
+              </button>
+            </Link>
+          </div>}
           {dropzoneComponent}
         </div>
 
