@@ -3,6 +3,7 @@ import AddArtistToLineupButton from "./AddArtistToLineup"
 import GigDelete from "./GigDelete"
 
 const EditGigForm = ({ artists, handleInputChange, currentUser, gig, handleUpdate, updatedGig, showGigForm, setShouldRedirect}) => {
+  
 
   if (currentUser?.id===gig.hostId && showGigForm){
     return(

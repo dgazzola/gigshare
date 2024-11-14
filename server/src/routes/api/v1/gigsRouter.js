@@ -95,21 +95,21 @@ gigsRouter.get("/:id", async (req, res) => {
 })
 
 gigsRouter.patch("/:id", async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   if (!id) {
-    return res.status(404).json({ error: "Gig not found" })
+    return res.status(404).json({ error: "Gig not found" });
   }
   try {
-    const gig = await Gig.query().findById(id)
-    if (!gig) {
-      return res.status(404).json({ error: "Gig not found" })
+    const updatedGig = await Gig.query().patchAndFetchById(id, req.body);
+    if (!updatedGig) {
+      return res.status(404).json({ error: "Gig not found" });
     }
-    const updatedGig = await gig.patch(req.body)
-    return res.status(200).json({ gig: updatedGig })
+    return res.status(200).json({ gig: updatedGig });
   } catch (error) {
-    return res.status(500).json({ errors: error })
+    console.error("Error updating gig:", error); // Log the error for debugging
+    return res.status(500).json({ errors: error.message });
   }
-})
+});
 
 gigsRouter.delete("/:id", async (req, res) => {
   const { id } = req.params
