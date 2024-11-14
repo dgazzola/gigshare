@@ -1,6 +1,18 @@
 import GigSerializer from "./GigSerializer.js"
 
 class ArtistSerializer {
+
+  static async getSummary(artist) {
+    const allowedAttributes = ["id", "artistName", "genre", "mediaUrl"];
+    let serializedArtist = {};
+    
+    for (const attribute of allowedAttributes) {
+      serializedArtist[attribute] = artist[attribute];
+    }
+    
+    return serializedArtist;
+  }
+
   static async getDetail(artist){
     const allowedAttributes = ["id", "artistName", "genre", "userId", "mediaUrl"]
     let serializedArtist = {}
@@ -15,6 +27,7 @@ class ArtistSerializer {
     serializedArtist.gigs = serializedGigs
     return serializedArtist
   }
+  
 }
 
 export default ArtistSerializer

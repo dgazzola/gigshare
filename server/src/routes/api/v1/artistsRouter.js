@@ -6,25 +6,26 @@ const artistsRouter = new express.Router()
 
 
 artistsRouter.get("/", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const search = req.query.search || "";
 
   try {
-    const artists = await Artist.query().page(page - 1, limit);
+    console.log("Fetching artists with search:", search);
+
+    const artistsQuery = Artist.query()
+      .where("artistName", "ilike", `%${search}%`);
+
+    const artists = await artistsQuery;
     const serializedArtists = await Promise.all(
-      artists.results.map(async (artist) => {
+      artists.map(async (artist) => {
         return await ArtistSerializer.getSummary(artist);
       })
     );
 
-    return res.status(200).json({
-      artists: serializedArtists,
-      total: artists.total,
-      totalPages: Math.ceil(artists.total / limit),
-      currentPage: page
-    });
+
+    return res.status(200).json({ artists: serializedArtists });
   } catch (error) {
-    return res.status(500).json({ errors: error });
+    console.error("Error fetching artists:", error);
+    return res.status(500).json({ errors: error.message || "Internal Server Error" });
   }
 });
 
