@@ -23,6 +23,9 @@ const TopBar = ({ user }) => {
         </button>
 
     </li>,
+    <li key="add-gig" >
+
+    </li>,
     <li key="sign-out" >
       <SignOutButton />
     </li>,

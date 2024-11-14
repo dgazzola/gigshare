@@ -11,7 +11,7 @@ class UserSerializer {
       serializedUser[attribute] = user[attribute];
     }
 
-    const relatedArtist = await user.$relatedQuery("artists"); // Use `.first()` to get a single artist
+    const relatedArtist = await user.$relatedQuery("artists");
     serializedUser.artist = relatedArtist || null;
 
 

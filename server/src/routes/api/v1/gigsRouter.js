@@ -62,6 +62,7 @@ gigsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
   try {
     const newPersistedGig = await Gig.query().insertAndFetch(body)
+    console.log('newPersistedGig', newPersistedGig)
     return res.status(201).json({ gig: newPersistedGig })
   } catch (error) {
     if (error instanceof ValidationError) {
