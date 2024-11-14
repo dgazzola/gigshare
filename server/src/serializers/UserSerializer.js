@@ -11,8 +11,9 @@ class UserSerializer {
       serializedUser[attribute] = user[attribute];
     }
 
-    const relatedArtist = await user.$relatedQuery("artists");
-    serializedUser.artist = relatedArtist;
+    const relatedArtist = await user.$relatedQuery("artists"); // Use `.first()` to get a single artist
+    serializedUser.artist = relatedArtist || null;
+
 
     const favoriteGigs = await user.$relatedQuery("favoritedGigs").page(favoritePage - 1, limit);
     serializedUser.favoriteGigs = favoriteGigs.results;

@@ -20,7 +20,7 @@ const RegisterArtistForm = props => {
         body: JSON.stringify(newArtistData)
       })
       if (!response.ok) {
-        if (response.status===422){
+        if (response.status === 422) {
           const body = await response.json()
           const newErrors = translateServerErrors(body.errors)
           return setErrors(newErrors)
@@ -30,19 +30,21 @@ const RegisterArtistForm = props => {
           throw error
         }
       } else {
+        const responseBody = await response.json()
         setShouldRedirect(true)
       }
-    } catch(error) {
+    } catch (error) {
       console.error(`Error in fetch: ${error.message}`)
     }
   }
+  
 
   if (shouldRedirect) {
     return <Redirect push to={`/users/${props.currentUser.id}`} />
   }
 
   return (
-    <div className="text-white hero-image-3 centered">
+    <div className="text-white hero-image centered">
       <div className="info-wrap">
         <h1 className = "glow small">Register Artist</h1>
         <ErrorList errors={errors} />

@@ -62,20 +62,21 @@ artistsRouter.get("/:id", async (req, res) => {
 })
 
 artistsRouter.patch("/:id", async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   if (!id) {
-    return res.status(404).json({ error: "Artist not found" })
+    return res.status(404).json({ error: "Artist not found" });
   }
   try {
-    const artist = await Artist.query().findById(id)
+    const artist = await Artist.query().findById(id);
     if (!artist) {
-      return res.status(404).json({ error: "Artist not found" })
+      return res.status(404).json({ error: "Artist not found" });
     }
-    const updatedArtist = await artist.patch(req.body)
-    return res.status(200).json({ artist: updatedArtist })
+    const updatedArtist = await Artist.query().patchAndFetchById(id, req.body);
+    return res.status(200).json({ artist: updatedArtist });
   } catch (error) {
-    return res.status(500).json({ errors: error })
+    console.error("Error in artist PATCH:", error);
+    return res.status(500).json({ errors: error.message || "Internal Server Error" });
   }
-})
+});
 
 export default artistsRouter

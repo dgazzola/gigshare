@@ -11,7 +11,7 @@ userArtistsRouter.post("/", async (req, res) => {
   const artistName = body?.artistName
   const mediaUrl = body?.mediaUrl
   const genre = body?.genre
-  const userId = req.user.id
+  const userId = req.params.id
   try {
     const newArtist = await Artist.query().insert({ artistName, genre, userId, mediaUrl })
     return res.status(201).json({ artist:newArtist })

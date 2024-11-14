@@ -92,19 +92,19 @@ const UserShowPage = (props) => {
     previewComponent = <img src={uploadedImage.preview} className="profile-image-preview" />;
   }
 
-  let artistInfo = "replace with user artist button";
+  let artistInfo;
 
-  if (user.artist.length !== 0) {
+  if (user.artist && user.artist.length > 0) {
     artistInfo = (
       <div className="shift-down">
-        <Link to={`/artists/${user?.artist[0].id}`} className="centered">
+        <Link to={`/artists/${user.artist[0].id}`} className="centered">
           <button type="button" className="button">
             {user.artist[0].artistName}'s Artist Page
           </button>
         </Link>
       </div>
     );
-  } else {
+  } else if (currentUser?.id === user.id){
     artistInfo = (
       <div className="shift-down">
         <Link to={`/users/${id}/register-as-artist`} className="centered">
@@ -114,8 +114,9 @@ const UserShowPage = (props) => {
         </Link>
       </div>
     );
+  } else {
+    artistInfo = <></>
   }
-
   if (currentUser?.id === user.id) {
     dropzoneComponent = (
       <div className="grid-x dropzone">
@@ -152,38 +153,31 @@ const UserShowPage = (props) => {
           <img src={user.profileImage} className="profile-image" alt="profile-image" />
           <h3 className="username-string">{user.username}</h3>
           <h3 className="email-string">{user.email}</h3>
-
-          <div className="shift-down">
-            <Link to={`/users/${id}/register-as-artist`} className="centered">
-              <button type="button" className="button">
-                Register As Artist
-              </button>
-            </Link>
-          </div>
-          
+          {artistInfo}
           {dropzoneComponent}
         </div>
 
         <div className="small-7 scroll bg-clear">
           <h1 className="glow small">Hosted Gigs</h1>
           <div className="grid-x">{hostedGigTiles}</div>
-          {user?.hostedGigs.length>0 &&
-          <div className="pagination-controls">
-            <button className="pagination-button" onClick={handlePreviousHostedGigsPage} disabled={hostedGigsPage === 1}>Previous</button>
-            <span className="pagination-info">Page {hostedGigsPage} of {hostedGigsTotalPages}</span>
-            <button className="pagination-button" onClick={handleNextHostedGigsPage} disabled={hostedGigsPage === hostedGigsTotalPages}>Next</button>
-          </div>}
+          {user?.hostedGigs.length > 0 &&
+            <div className="pagination-controls">
+              <button className="pagination-button" onClick={handlePreviousHostedGigsPage} disabled={hostedGigsPage === 1}>Previous</button>
+              <span className="pagination-info">Page {hostedGigsPage} of {hostedGigsTotalPages}</span>
+              <button className="pagination-button" onClick={handleNextHostedGigsPage} disabled={hostedGigsPage === hostedGigsTotalPages}>Next</button>
+            </div>
+          }
 
           <h1 className="glow small">Favorited Gigs</h1>
-          {user.favoriteGigs.length>0 &&
-          <>
-            <div className="grid-x">{favoriteGigTiles}</div>
-            <div className="pagination-controls">
-              <button className="pagination-button" onClick={handlePreviousFavoriteGigsPage} disabled={favoriteGigsPage === 1}>Previous</button>
-              <span className="pagination-info">Page {favoriteGigsPage} of {favoriteGigsTotalPages}</span>
-              <button className="pagination-button" onClick={handleNextFavoriteGigsPage} disabled={favoriteGigsPage === favoriteGigsTotalPages}>Next</button>
-            </div>
-          </>
+          {user.favoriteGigs.length > 0 &&
+            <>
+              <div className="grid-x">{favoriteGigTiles}</div>
+              <div className="pagination-controls">
+                <button className="pagination-button" onClick={handlePreviousFavoriteGigsPage} disabled={favoriteGigsPage === 1}>Previous</button>
+                <span className="pagination-info">Page {favoriteGigsPage} of {favoriteGigsTotalPages}</span>
+                <button className="pagination-button" onClick={handleNextFavoriteGigsPage} disabled={favoriteGigsPage === favoriteGigsTotalPages}>Next</button>
+              </div>
+            </>
           }
         </div>
       </div>
