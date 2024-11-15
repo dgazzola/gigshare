@@ -129,13 +129,19 @@ button:disabled {
 
 
 div.scroll {
-  height: 80vh;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+div.scroll-most {
+  height: 75vh;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: center;
 }
 div.scroll-half {
-  height: 30vh;
+  height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: center;
@@ -339,30 +345,30 @@ select{
 }
 
 .sorry-message {
-  color: rgba(149, 0, 255, 0.7); // Matches the purple color used
+  color: rgba(149, 0, 255, 0.7);
   text-align: center;
   margin-top: 20px;
-  font-family: Spectral, serif; // Matches your text font
-  font-size: 16px; // Adjust size if needed
+  font-family: Spectral, serif;
+  font-size: 16px;
 }
 
 .sorry-message-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; /* Adjust this height as needed for proper vertical centering */
+  height: 200px;
   text-align: center;
 }
 
 .favorite-button-container-bottom {
   position: absolute;
-  bottom: 10px; /* Position from the bottom */
-  left: 10px;   /* Position from the left */
-  z-index: 1;   /* Ensure it appears on top */
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
 }
 .favorite-button-container-top {
   position: absolute;
-  top: 10px; /* Position from the bottom */
-  left: 10px;   /* Position from the left */
-  z-index: 1;   /* Ensure it appears on top */
+  top: 10px;
+  left: 10px;
+  z-index: 1;
 }

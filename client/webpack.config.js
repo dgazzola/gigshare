@@ -14,7 +14,7 @@ module.exports = {
   devtool: isDevelopment ? "source-map" : false,
   mode: isDevelopment ? "development" : "production",
   plugins: [
-    isDevelopment && new ReactRefreshWebpackPlugin(), // Add react-refresh plugin for development
+    isDevelopment && new ReactRefreshWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.REACT_APP_GOOGLE_MAPS_API': JSON.stringify(process.env.REACT_APP_GOOGLE_MAPS_API),
@@ -27,7 +27,7 @@ module.exports = {
       title: "Engage",
       template: path.join(__dirname, "public/index.template.html"),
     }),
-  ].filter(Boolean), // Filter out false values to avoid adding undefined plugins
+  ].filter(Boolean),
   module: {
     rules: [
       {
@@ -37,7 +37,7 @@ module.exports = {
         options: {
           presets: ["@babel/env"],
           plugins: [
-            isDevelopment && require.resolve("react-refresh/babel"), // Add react-refresh plugin for Babel
+            isDevelopment && require.resolve("react-refresh/babel"),
           ].filter(Boolean),
           cwd: path.resolve(__dirname),
         },
@@ -95,14 +95,14 @@ module.exports = {
     filename: "bundle.js",
   },
   devServer: {
-    static: path.join(__dirname, "../server/public/dist"), // Serve from the server's dist folder
+    static: path.join(__dirname, "../server/public/dist"),
     historyApiFallback: true,
     port: 3000,
-    hot: true, // Enable hot reloading
+    hot: true,
     proxy: [
       {
         context: ["/auth", "/api"],
-        target: "http://localhost:4000", // Proxy API requests to your backend
+        target: "http://localhost:4000"
       },
     ],
   },

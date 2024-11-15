@@ -1,33 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import GigTile from './GigTile.js';
+import GigTile from "./GigTile.js";
 import Dropzone from "react-dropzone";
-import GigFavoriteButton from "./GigFavoriteButton";
-import '../assets/scss/main.scss';
-import { useFavorites } from '../context/FavoritesContext.js';
+import "../assets/scss/main.scss";
+import { useFavorites } from "../context/FavoritesContext.js";
 
 const UserShowPage = (props) => {
   const { id } = props.match.params;
   const currentUser = props.currentUser;
-  const [user, setUser] = useState({ artist: [], favoriteGigs: [], hostedGigs: [], profileImage: "" });
+  const [user, setUser] = useState({
+    artist: [],
+    hostedGigs: [],
+    profileImage: "",
+  });
   const [newProfileImage, setNewProfileImage] = useState({ image: {} });
   const [uploadedImage, setUploadedImage] = useState({ preview: "" });
-  const [favoriteGigsPage, setFavoriteGigsPage] = useState(1);
-  const [favoriteGigsTotalPages, setFavoriteGigsTotalPages] = useState(1);
   const [hostedGigsPage, setHostedGigsPage] = useState(1);
   const [hostedGigsTotalPages, setHostedGigsTotalPages] = useState(1);
-  const { favoriteGigs } = useFavorites()
+  const [favoriteGigsPage, setFavoriteGigsPage] = useState(1);
+  const { favoriteGigs } = useFavorites();
+
+  const favoriteGigsPerPage = 8;
+  const favoriteGigsTotalPagesDynamic = Math.ceil(favoriteGigs.length / favoriteGigsPerPage);
+
+  useEffect(() => {
+    if (favoriteGigsPage > favoriteGigsTotalPagesDynamic) {
+      setFavoriteGigsPage(favoriteGigsTotalPagesDynamic || 1);
+    }
+  }, [favoriteGigsPage, favoriteGigsTotalPagesDynamic]);
+
+  const currentFavoriteGigs = favoriteGigs.slice(
+    (favoriteGigsPage - 1) * favoriteGigsPerPage,
+    favoriteGigsPage * favoriteGigsPerPage
+  );
 
   const getUser = async () => {
     try {
-      const response = await fetch(`/api/v1/users/${id}?favoritePage=${favoriteGigsPage}&hostedPage=${hostedGigsPage}`);
+      const response = await fetch(`/api/v1/users/${id}?hostedPage=${hostedGigsPage}`);
       if (!response.ok) throw new Error(`${response.status}: (${response.statusText})`);
       const body = await response.json();
-      setUser((prevUser) => ({
-        ...body.user,
-        favoriteGigs: favoriteGigs, // Sync with global state
-      }));
-      setFavoriteGigsTotalPages(body.user.favoriteGigsTotalPages);
+      setUser(body.user);
       setHostedGigsTotalPages(body.user.hostedGigsTotalPages);
     } catch (error) {
       console.error(`Error in fetch: ${error}`);
@@ -36,14 +48,18 @@ const UserShowPage = (props) => {
 
   useEffect(() => {
     getUser();
-  }, [favoriteGigsPage, hostedGigsPage, favoriteGigs]);
+  }, [hostedGigsPage]);
 
   const handleNextFavoriteGigsPage = () => {
-    if (favoriteGigsPage < favoriteGigsTotalPages) setFavoriteGigsPage(favoriteGigsPage + 1);
+    if (favoriteGigsPage < favoriteGigsTotalPagesDynamic) {
+      setFavoriteGigsPage(favoriteGigsPage + 1);
+    }
   };
 
   const handlePreviousFavoriteGigsPage = () => {
-    if (favoriteGigsPage > 1) setFavoriteGigsPage(favoriteGigsPage - 1);
+    if (favoriteGigsPage > 1) {
+      setFavoriteGigsPage(favoriteGigsPage - 1);
+    }
   };
 
   const handleNextHostedGigsPage = () => {
@@ -68,7 +84,7 @@ const UserShowPage = (props) => {
     try {
       const response = await fetch(`/api/v1/users/${user.id}`, {
         method: "PATCH",
-        headers: { "Accept": "image/jpeg" },
+        headers: { Accept: "image/jpeg" },
         body: imageAddToProfile,
       });
       if (!response.ok) throw new Error(`${response.status} (${response.statusText})`);
@@ -80,21 +96,12 @@ const UserShowPage = (props) => {
     }
   };
 
-  const updateFavorites = (gigId, isFavorite) => {
-    setUser(prevUser => {
-      const updatedFavorites = isFavorite
-        ? [...prevUser.favoriteGigs, { id: gigId }]
-        : prevUser.favoriteGigs.filter(gig => gig.id !== gigId);
-      return { ...prevUser, favoriteGigs: updatedFavorites };
-    });
-  };
-
-  const favoriteGigTiles = user.favoriteGigs?.map(gigObject => (
-    <GigTile key={gigObject.id} {...gigObject} currentUser={user} updateFavorites={updateFavorites} />
+  const favoriteGigTiles = currentFavoriteGigs.map((gigObject) => (
+    <GigTile key={gigObject.id} {...gigObject} currentUser={currentUser} />
   ));
 
-  const hostedGigTiles = user.hostedGigs?.map(gigObject => (
-    <GigTile key={gigObject.id} {...gigObject} currentUser={user} updateFavorites={updateFavorites} />
+  const hostedGigTiles = user.hostedGigs?.map((gigObject) => (
+    <GigTile key={gigObject.id} {...gigObject} currentUser={currentUser} />
   ));
 
   let dropzoneComponent = "";
@@ -116,7 +123,7 @@ const UserShowPage = (props) => {
         </Link>
       </div>
     );
-  } else if (currentUser?.id === user.id){
+  } else if (currentUser?.id === user.id) {
     artistInfo = (
       <div className="shift-down">
         <Link to={`/users/${id}/register-as-artist`} className="centered">
@@ -127,8 +134,9 @@ const UserShowPage = (props) => {
       </div>
     );
   } else {
-    artistInfo = <></>
+    artistInfo = <></>;
   }
+
   if (currentUser?.id === user.id) {
     dropzoneComponent = (
       <div className="grid-x dropzone">
@@ -166,43 +174,70 @@ const UserShowPage = (props) => {
           <h3 className="username-string">{user.username}</h3>
           <h3 className="email-string">{user.email}</h3>
           {artistInfo}
-          {currentUser?.id === user.id &&
-          <div className="shift-down">
-            <Link to={`/gigs/new-gig-form`} className="centered">
-              <button type="button" className="button">
-                Host a Gig
-              </button>
-            </Link>
-          </div>}
+          {currentUser?.id === user.id && (
+            <div className="shift-down">
+              <Link to={`/gigs/new-gig-form`} className="centered">
+                <button type="button" className="button">
+                  Host a Gig
+                </button>
+              </Link>
+            </div>
+          )}
           {dropzoneComponent}
         </div>
 
         <div className="small-7 scroll bg-clear">
-          {currentUser?.hostedGigs?.length > 0 &&
-          <>
-            <h1 className="glow small">Hosted Gigs</h1>
-            <div className="grid-x">{hostedGigTiles}</div>
-            <div className="pagination-controls">
-              <button className="pagination-button" onClick={handlePreviousHostedGigsPage} disabled={hostedGigsPage === 1}>Previous</button>
-              <span className="pagination-info">Page {hostedGigsPage} of {hostedGigsTotalPages}</span>
-              <button className="pagination-button" onClick={handleNextHostedGigsPage} disabled={hostedGigsPage === hostedGigsTotalPages}>Next</button>
-            </div>
-          
-          
-          </>
-          }
-
-          {favoriteGigs.length > 0 &&
+          {user.hostedGigs?.length > 0 && (
             <>
-            <h1 className="glow small">Favorite Gigs</h1>
-              <div className="grid-x">{favoriteGigTiles}</div>
+              <h1 className="glow small">Hosted Gigs</h1>
+              <div className="grid-x">{hostedGigTiles}</div>
               <div className="pagination-controls">
-                <button className="pagination-button" onClick={handlePreviousFavoriteGigsPage} disabled={favoriteGigsPage === 1}>Previous</button>
-                <span className="pagination-info">Page {favoriteGigsPage} of {favoriteGigsTotalPages}</span>
-                <button className="pagination-button" onClick={handleNextFavoriteGigsPage} disabled={favoriteGigsPage === favoriteGigsTotalPages}>Next</button>
+                <button
+                  className="pagination-button"
+                  onClick={handlePreviousHostedGigsPage}
+                  disabled={hostedGigsPage === 1}
+                >
+                  Previous
+                </button>
+                <span className="pagination-info">
+                  Page {hostedGigsPage} of {hostedGigsTotalPages}
+                </span>
+                <button
+                  className="pagination-button"
+                  onClick={handleNextHostedGigsPage}
+                  disabled={hostedGigsPage === hostedGigsTotalPages}
+                >
+                  Next
+                </button>
               </div>
             </>
-          }
+          )}
+
+          {favoriteGigs.length > 0 && (
+            <>
+              <h1 className="glow small">Favorite Gigs</h1>
+              <div className="grid-x">{favoriteGigTiles}</div>
+              <div className="pagination-controls">
+                <button
+                  className="pagination-button"
+                  onClick={handlePreviousFavoriteGigsPage}
+                  disabled={favoriteGigsPage === 1}
+                >
+                  Previous
+                </button>
+                <span className="pagination-info">
+                  Page {favoriteGigsPage} of {favoriteGigsTotalPagesDynamic}
+                </span>
+                <button
+                  className="pagination-button"
+                  onClick={handleNextFavoriteGigsPage}
+                  disabled={favoriteGigsPage === favoriteGigsTotalPagesDynamic}
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

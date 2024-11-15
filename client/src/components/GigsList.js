@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GigTile from "./GigTile.js";
 import SearchBar from "../services/SearchBar.js";
-import GigSortDropdown from "./GigSortDropdown.js";
 import ToggleGroup from "./ToggleGroup.js";
 import '../assets/scss/main.scss';
 
@@ -18,19 +17,12 @@ const GigsListPage = (props) => {
   const [searchTotalPages, setSearchTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const sortAlphabeticallyAscending = (a, b) => a.name.localeCompare(b.name);
-  const sortAlphabeticallyDescending = (a, b) => b.name.localeCompare(a.name);
   const createdAt = (a, b) => new Date(b.createdAt) - new Date(a.createdAt);
-
-  const sortChronologicallyClosest = (a, b) => new Date(a.date) - new Date(b.date);
-  const sortChronologicallyFurthest = (a, b) => new Date(b.date) - new Date(a.date);
-
   const getGigs = async (page) => {
     try {
       const response = await fetch(`/api/v1/gigs?page=${page}&limit=8`);
       if (!response.ok) throw new Error(`${response.status} (${response.statusText})`);
       const parsedResponse = await response.json();
-      console.log('parsedResponse.gigs', parsedResponse.gigs, 'parsedResponse');
       setGigs(parsedResponse.gigs);
       setTotalPages(parsedResponse.totalPages);
       setCurrentPage(parsedResponse.currentPage);
@@ -99,11 +91,6 @@ const GigsListPage = (props) => {
   
         {selectedComponent === "allGigs" && (
           <div style={{ maxWidth: '70%', margin: '0 auto' }}>
-            {/* <GigSortDropdown
-              gigs={gigs}
-              setGigs={setGigs}
-              setFilterFunction={setFilterFunction}
-            /> */}
             <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
               {gigComponents}
             </div>
