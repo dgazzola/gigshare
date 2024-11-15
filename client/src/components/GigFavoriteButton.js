@@ -9,7 +9,7 @@ const GigFavoriteButton = ({ gigId, currentUser }) => {
   const isFavorited = favoriteGigs.some((gig) => gig.id === gigId);
 
   const handleFavoriteClick = (e) => {
-    e.stopPropagation(); // Prevent bubbling
+    e.stopPropagation();
     if (currentUser) {
       toggleFavorite(gigId, isFavorited, currentUser.id);
     } else {

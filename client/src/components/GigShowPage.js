@@ -97,7 +97,7 @@ const GigShowPage = (props) => {
 
   return (
     <div className="hero-image grid-x">
-      <div className="bg-orange rounded small-5 scroll" style={{ position: "relative" }}>
+      <div className="bg-orange rounded small-5 scroll-most" style={{ position: "relative" }}>
   {props.currentUser &&
   <div className="favorite-button-container-top">
     <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} />
@@ -120,7 +120,7 @@ const GigShowPage = (props) => {
   />
 </div>
 
-      <div className="small-6 scroll">
+      <div className="small-6 scroll-most">
         {lineupMessage}
         <div className="centered grid-x">{artistTileComponents}</div>
         {totalArtistPages > 1 && (

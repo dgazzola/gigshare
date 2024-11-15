@@ -31,19 +31,11 @@ const App = (props) => {
   useEffect(() => {
     fetchCurrentUser();
   }, []);
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     fetchFavorites(currentUser.id);
-  //   }
-  // }, [currentUser, fetchFavorites]);
-
   useEffect(() => {
     if (currentUser) {
-      console.log("Fetching favorites for user:", currentUser.id);
       fetchFavorites(currentUser.id);
     }
-  }, [currentUser]); // fetchFavorites is now stable and does not need to be in the dependency array
+  }, [currentUser]);
   
   return (
       <Router>
