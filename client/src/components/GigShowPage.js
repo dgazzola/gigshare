@@ -98,23 +98,26 @@ const GigShowPage = (props) => {
   return (
     <div className="hero-image grid-x">
       <div className="bg-orange rounded small-5 scroll" style={{ position: "relative" }}>
-      {/* <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} setCurrentUser={props.setCurrentUser}/> */}
-      <h1 className="glow small title-bold" style={{ marginLeft: "40px", display: "inline-block" }}>
-        {gig.name}
-      </h1>
-      <h2 className="text-white">{gig.city}, {gig.state}</h2>
-      <h2 className="text-white">{gig.date}</h2>
-      <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
-      <GoogleMap gig={gig} />
-      <EditGigButton 
-        handleInputChange={handleInputChange} 
-        currentUser={props.currentUser} 
-        gig={gig} 
-        handleUpdate={handleUpdate} 
-        updatedGig={updatedGig} 
-        artists={gig.artists}
-      />
-    </div>
+  <div className="favorite-button-container">
+    <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} />
+  </div>
+  <h1 className="glow small title-bold" style={{ marginLeft: "40px", display: "inline-block" }}>
+    {gig.name}
+  </h1>
+  <h2 className="text-white">{gig.city}, {gig.state}</h2>
+  <h2 className="text-white">{gig.date}</h2>
+  <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
+  <GoogleMap gig={gig} />
+  <EditGigButton 
+    handleInputChange={handleInputChange} 
+    currentUser={props.currentUser} 
+    gig={gig} 
+    handleUpdate={handleUpdate} 
+    updatedGig={updatedGig} 
+    artists={gig.artists}
+  />
+</div>
+
       <div className="small-6 scroll">
         {lineupMessage}
         <div className="centered grid-x">{artistTileComponents}</div>

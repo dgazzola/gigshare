@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./components/App";
 import config from "./config";
 import RedBox from "redbox-react";
+import { FavoritesProvider } from "./context/FavoritesContext";
 
 document.addEventListener("DOMContentLoaded", () => {
   let reactElement = document.getElementById("app");
@@ -10,20 +11,59 @@ document.addEventListener("DOMContentLoaded", () => {
   if (reactElement) {
     const root = createRoot(reactElement);
 
+    const renderApp = (Component) => {
+      root.render(
+        <FavoritesProvider> {/* Wrap the App with FavoritesProvider */}
+          <Component />
+        </FavoritesProvider>
+      );
+    };
+
     if (config.nodeEnv === "development") {
       try {
-        root.render(<App />);
+        renderApp(App);
       } catch (e) {
         root.render(<RedBox error={e} />);
       }
     } else {
-      root.render(<App />);
+      renderApp(App);
     }
 
     if (module.hot) {
       module.hot.accept("./components/App", () => {
-        root.render(<App />);
+        renderApp(App);
       });
     }
   }
 });
+
+
+// import React from "react";
+// import { createRoot } from "react-dom/client";
+// import App from "./components/App";
+// import config from "./config";
+// import RedBox from "redbox-react";
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   let reactElement = document.getElementById("app");
+
+//   if (reactElement) {
+//     const root = createRoot(reactElement);
+
+//     if (config.nodeEnv === "development") {
+//       try {
+//         root.render(<App />);
+//       } catch (e) {
+//         root.render(<RedBox error={e} />);
+//       }
+//     } else {
+//       root.render(<App />);
+//     }
+
+//     if (module.hot) {
+//       module.hot.accept("./components/App", () => {
+//         root.render(<App />);
+//       });
+//     }
+//   }
+// });
