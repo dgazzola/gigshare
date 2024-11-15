@@ -8,7 +8,6 @@ import '../assets/scss/main.scss';
 const UserShowPage = (props) => {
   const { id } = props.match.params;
   const currentUser = props.currentUser;
-
   const [user, setUser] = useState({ artist: [], favoriteGigs: [], hostedGigs: [], profileImage: "" });
   const [newProfileImage, setNewProfileImage] = useState({ image: {} });
   const [uploadedImage, setUploadedImage] = useState({ preview: "" });
