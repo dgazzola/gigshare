@@ -42,7 +42,6 @@ userFavoritesRouter.post("/", async (req, res) => {
 userFavoritesRouter.delete("/", async (req, res) => {
   const userId = req.user.id;
   const { gigId } = req.body;
-  console.log('delete call userId and gigId', userId, gigId)
 
   if (!gigId) {
     return res.status(400).json({ error: "gigId is required" });

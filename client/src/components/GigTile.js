@@ -8,7 +8,6 @@ import GigFavoriteButton from "./GigFavoriteButton";
 const GigTile = ({ id, name, city, date, currentUser, setCurrentUser }) => {
   const gigUrl = `/gigs/${id}`;
   const [isFavorite, setIsFavorite] = useState(false);
-  console.log('GIGTILE RECEIVING DATA:', id, name, city, date, currentUser)
 
   useEffect(() => {
     const fetchGigData = async () => {
@@ -26,11 +25,6 @@ const GigTile = ({ id, name, city, date, currentUser, setCurrentUser }) => {
 
     fetchGigData();
   }, [id, currentUser]);
-
-  // const handleFavoriteClick = (event) => {
-  //   event.stopPropagation();
-  //   setIsFavorite(!isFavorite);
-  // };
 
   return (
     <div className="button callout cell tile-box bg-orange" style={{ position: "relative" }}>

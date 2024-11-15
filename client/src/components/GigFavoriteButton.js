@@ -1,4 +1,5 @@
 const GigFavoriteButton = ({ gigId, favoriteGigs, updateFavoriteGigs, currentUser }) => {
+  // THIS NEEDS WORK/BRAINSTORMING!!!
   const [isFilled, setIsFilled] = useState(false);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const GigFavoriteButton = ({ gigId, favoriteGigs, updateFavoriteGigs, currentUse
       if (!response.ok) throw new Error("Failed to update favorite status");
 
       const data = await response.json();
-      updateFavoriteGigs(data.favorites); // Update centralized state
+      updateFavoriteGigs(data.favorites);
     } catch (error) {
       console.error("Error updating favorite:", error);
     }

@@ -20,7 +20,6 @@ const App = (props) => {
   const fetchCurrentUser = async () => {
     try {
       const user = await getCurrentUser();
-      console.log('current user:', user)
       setCurrentUser(user);
     } catch (err) {
       setCurrentUser(null);

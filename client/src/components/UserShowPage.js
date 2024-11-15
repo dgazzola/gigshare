@@ -23,8 +23,6 @@ const UserShowPage = (props) => {
       if (!response.ok) throw new Error(`${response.status}: (${response.statusText})`);
       const body = await response.json();
       setUser(body.user);
-      console.log('user show page body.user:', body.user);
-      console.log('user show page currentUser:', currentUser);
       setFavoriteGigsTotalPages(body.user.favoriteGigsTotalPages);
       setHostedGigsTotalPages(body.user.hostedGigsTotalPages);
     } catch (error) {
