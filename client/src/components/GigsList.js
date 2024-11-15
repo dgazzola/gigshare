@@ -8,7 +8,7 @@ import '../assets/scss/main.scss';
 const GigsListPage = (props) => {
   const [gigs, setGigs] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [filterFunction, setFilterFunction] = useState("");
+  const [filterFunction, setFilterFunction] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState("allGigs");
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,47 +18,19 @@ const GigsListPage = (props) => {
   const [searchTotalPages, setSearchTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const sortAlphabeticallyAscending = (a, b) => {
-    if (a?.name.toLowerCase() < b?.name.toLowerCase()) return -1;
-    if (a?.name.toLowerCase() > b?.name.toLowerCase()) return 1;
-    return 0;
-  };
+  const sortAlphabeticallyAscending = (a, b) => a.name.localeCompare(b.name);
+  const sortAlphabeticallyDescending = (a, b) => b.name.localeCompare(a.name);
+  const createdAt = (a, b) => new Date(b.createdAt) - new Date(a.createdAt);
 
-  const sortAlphabeticallyDescending = (a, b) => {
-    if (a?.name.toLowerCase() > b?.name.toLowerCase()) return -1;
-    if (a?.name.toLowerCase() < b?.name.toLowerCase()) return 1;
-    return 0;
-  };
-
-  const createdAt = (a, b) => {
-    if (a?.createdAt > b?.createdAt) return -1;
-    if (a?.createdAt < b?.createdAt) return 1;
-    return 0;
-  };
-
-  const sortChronologicallyClosest = (a, b) => {
-    const dateA = new Date(`${a?.date[6] + a?.date[7] + a?.date[8] + a?.date[9]}-${a?.date[0] + a?.date[1]}-${a?.date[3] + a?.date[4]}`);
-    const dateB = new Date(`${b?.date[6] + b?.date[7] + b?.date[8] + b?.date[9]}-${b?.date[0] + b?.date[1]}-${b?.date[3] + b?.date[4]}`);
-    if (dateA > dateB) return 1;
-    if (dateA < dateB) return -1;
-    return 0;
-  };
-
-  const sortChronologicallyFurthest = (a, b) => {
-    const dateA = new Date(`${a?.date[6] + a?.date[7] + a?.date[8] + a?.date[9]}-${a?.date[0] + a?.date[1]}-${a?.date[3] + a?.date[4]}`);
-    const dateB = new Date(`${b?.date[6] + b?.date[7] + b?.date[8] + b?.date[9]}-${b?.date[0] + b?.date[1]}-${b?.date[3] + b?.date[4]}`);
-    if (dateA > dateB) return -1;
-    if (dateA < dateB) return 1;
-    return 0;
-  };
+  const sortChronologicallyClosest = (a, b) => new Date(a.date) - new Date(b.date);
+  const sortChronologicallyFurthest = (a, b) => new Date(b.date) - new Date(a.date);
 
   const getGigs = async (page) => {
     try {
       const response = await fetch(`/api/v1/gigs?page=${page}&limit=8`);
-      if (!response.ok) {
-        throw new Error(`${response.status} (${response.statusText})`);
-      }
+      if (!response.ok) throw new Error(`${response.status} (${response.statusText})`);
       const parsedResponse = await response.json();
+      console.log('parsedResponse.gigs', parsedResponse.gigs, 'parsedResponse');
       setGigs(parsedResponse.gigs);
       setTotalPages(parsedResponse.totalPages);
       setCurrentPage(parsedResponse.currentPage);
@@ -70,9 +42,7 @@ const GigsListPage = (props) => {
   const searchGigs = async (query, page) => {
     try {
       const response = await fetch(`/api/v1/gigs/search?query=${query}&page=${page}&limit=8`);
-      if (!response.ok) {
-        throw new Error(`${response.status} (${response.statusText})`);
-      }
+      if (!response.ok) throw new Error(`${response.status} (${response.statusText})`);
       const parsedResponse = await response.json();
       setSearchResults(parsedResponse.gigs);
       setSearchTotalPages(parsedResponse.totalPages);
@@ -83,15 +53,11 @@ const GigsListPage = (props) => {
   };
 
   useEffect(() => {
-    if (selectedComponent === "allGigs") {
-      getGigs(currentPage);
-    }
+    if (selectedComponent === "allGigs") getGigs(currentPage);
   }, [currentPage, selectedComponent]);
 
   useEffect(() => {
-    if (selectedComponent === "searchGigs") {
-      searchGigs(searchQuery, searchPage);
-    }
+    if (selectedComponent === "searchGigs") searchGigs(searchQuery, searchPage);
   }, [searchPage, searchQuery, selectedComponent]);
 
   const handleNextPage = () => {
@@ -110,37 +76,47 @@ const GigsListPage = (props) => {
     }
   };
 
-  let sortedTileComponents;
-  if (!filterFunction) {
-    const sortedGigs = gigs.sort(createdAt);
-    sortedTileComponents = sortedGigs.map((gigObject) => (
-      <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
-    ));
-  }
+  const sortedGigs = filterFunction
+    ? gigs.slice().sort(filterFunction)
+    : gigs.slice().sort(createdAt);
 
-  const searchTileComponents = searchResults.map((gigObject) => (
-    <GigTile key={gigObject.id} {...gigObject} currentUser={props.currentUser} />
+  const sortedSearchResults = filterFunction
+    ? searchResults.slice().sort(filterFunction)
+    : searchResults;
+
+  const gigComponents = sortedGigs.map((gig) => (
+    <GigTile key={gig.id} {...gig} currentUser={props.currentUser} />
+  ));
+
+  const searchComponents = sortedSearchResults.map((gig) => (
+    <GigTile key={gig.id} {...gig} currentUser={props.currentUser} />
   ));
 
   return (
     <div className="hero-image bg-clear">
       <div className="small-2 bg-clear scroll" style={{ flexDirection: 'column', alignItems: 'center' }}>
         <ToggleGroup setSelectedComponent={setSelectedComponent} selectedComponent={selectedComponent} />
-
+  
         {selectedComponent === "allGigs" && (
           <div style={{ maxWidth: '70%', margin: '0 auto' }}>
-            <GigSortDropdown gigs={gigs} setGigs={setGigs} setFilterFunction={setFilterFunction} />
+            {/* <GigSortDropdown
+              gigs={gigs}
+              setGigs={setGigs}
+              setFilterFunction={setFilterFunction}
+            /> */}
             <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-              {sortedTileComponents}
+              {gigComponents}
             </div>
-            <div className="pagination-controls">
-              <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
-              <span className="pagination-info">Page {currentPage} of {totalPages}</span>
-              <button className="pagination-button" onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
-            </div>
+            {gigs.length > 0 && (
+              <div className="pagination-controls">
+                <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
+                <span className="pagination-info">Page {currentPage} of {totalPages}</span>
+                <button className="pagination-button" onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+              </div>
+            )}
           </div>
         )}
-
+  
         {selectedComponent === "searchGigs" && (
           <div style={{ maxWidth: '70%', margin: '0 auto' }}>
             <SearchBar 
@@ -149,13 +125,15 @@ const GigsListPage = (props) => {
               setSearchPage={setSearchPage} 
             />
             <div className="grid-x grid-padding-x" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-              {searchTileComponents}
+              {searchResults.length > 0 ? searchComponents : <p>No results found</p>}
             </div>
-            <div className="pagination-controls">
-              <button className="pagination-button" onClick={handlePreviousPage} disabled={searchPage === 1}>Previous</button>
-              <span className="pagination-info">Page {searchPage} of {searchTotalPages}</span>
-              <button className="pagination-button" onClick={handleNextPage} disabled={searchPage === searchTotalPages}>Next</button>
-            </div>
+            {searchResults.length > 0 && (
+              <div className="pagination-controls">
+                <button className="pagination-button" onClick={handlePreviousPage} disabled={searchPage === 1}>Previous</button>
+                <span className="pagination-info">Page {searchPage} of {searchTotalPages}</span>
+                <button className="pagination-button" onClick={handleNextPage} disabled={searchPage === searchTotalPages}>Next</button>
+              </div>
+            )}
           </div>
         )}
       </div>

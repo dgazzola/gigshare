@@ -13,8 +13,8 @@ gigsRouter.get("/search", async (req, res) => {
 
   try {
     const gigs = await Gig.query()
-      .where("name", "like", `%${query}%`)
-      .orWhere("city", "like", `%${query}%`)
+      .where("name", "ilike", `%${query}%`)
+      .orWhere("city", "ilike", `%${query}%`)
       .page(page - 1, limit);
 
     const serializedGigs = await Promise.all(
@@ -27,12 +27,15 @@ gigsRouter.get("/search", async (req, res) => {
       gigs: serializedGigs,
       totalCount: gigs.total,
       totalPages: Math.ceil(gigs.total / limit),
-      currentPage: page
+      currentPage: page,
+      message: gigs.results.length === 0 ? "Sorry, no gigs match your query!" : undefined
     });
   } catch (error) {
+    console.error("Error in /search endpoint:", error);
     return res.status(500).json({ errors: error });
   }
 });
+
 
 gigsRouter.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;

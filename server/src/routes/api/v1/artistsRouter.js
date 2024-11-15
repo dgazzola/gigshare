@@ -9,8 +9,6 @@ artistsRouter.get("/", async (req, res) => {
   const search = req.query.search || "";
 
   try {
-    console.log("Fetching artists with search:", search);
-
     const artistsQuery = Artist.query()
       .where("artistName", "ilike", `%${search}%`);
 

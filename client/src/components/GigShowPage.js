@@ -7,15 +7,12 @@ import EditGigButton from "./EditGigButton.js";
 import getCurrentUser from "../services/getCurrentUser.js";
 
 const GigShowPage = (props) => {
-  // needs to take in setUser, currentUser and gigId
   const [gig, setGig] = useState({});
   const [updatedGig, setUpdatedGig] = useState({});
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentArtistPage, setCurrentArtistPage] = useState(1);
   const id = props.match.params.id;
   const artistsPerPage = 8;
-  console.log('show page current user:', props.currentUser);
-  //props.setCurrentUser, props.currentUser, gigId
 
   const indexOfLastArtist = currentArtistPage * artistsPerPage;
   const indexOfFirstArtist = indexOfLastArtist - artistsPerPage;
