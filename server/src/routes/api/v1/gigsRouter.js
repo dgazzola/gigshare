@@ -7,7 +7,7 @@ import cleanUserInput from "../../../services/cleanUserInput.js"
 const gigsRouter = new express.Router()
 
 gigsRouter.get("/search", async (req, res) => {
-  const query = req.query.query || ""; // Search term
+  const query = req.query.query || "";
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 8;
 
@@ -35,12 +35,12 @@ gigsRouter.get("/search", async (req, res) => {
 });
 
 gigsRouter.get("/", async (req, res) => {
-  const page = parseInt(req.query.page) || 1; // Default to page 1 if no page is provided
-  const limit = parseInt(req.query.limit) || 8; // Default to 8 items per page
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
 
   try {
     const gigs = await Gig.query()
-      .page(page - 1, limit); // `page` is 0-indexed, so subtract 1
+      .page(page - 1, limit);
     const serializedGigs = await Promise.all(
       gigs.results.map(async (gig) => {
         return await GigSerializer.getDetail(gig);
@@ -49,7 +49,7 @@ gigsRouter.get("/", async (req, res) => {
     
     return res.status(200).json({
       gigs: serializedGigs,
-      totalCount: gigs.total,  // Total number of gigs (used for calculating pages)
+      totalCount: gigs.total,
       totalPages: Math.ceil(gigs.total / limit),
       currentPage: page
     });
@@ -62,7 +62,6 @@ gigsRouter.post("/", async (req, res) => {
   const body = cleanUserInput(req.body)
   try {
     const newPersistedGig = await Gig.query().insertAndFetch(body)
-    console.log('newPersistedGig', newPersistedGig)
     return res.status(201).json({ gig: newPersistedGig })
   } catch (error) {
     if (error instanceof ValidationError) {
@@ -106,7 +105,7 @@ gigsRouter.patch("/:id", async (req, res) => {
     }
     return res.status(200).json({ gig: updatedGig });
   } catch (error) {
-    console.error("Error updating gig:", error); // Log the error for debugging
+    console.error("Error updating gig:", error);
     return res.status(500).json({ errors: error.message });
   }
 });

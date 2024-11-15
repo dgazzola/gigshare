@@ -4,14 +4,18 @@ import { Redirect } from "react-router-dom";
 import GoogleMap from "./GoogleMap.js";
 import GigFavoriteButton from "./GigFavoriteButton.js";
 import EditGigButton from "./EditGigButton.js";
+import getCurrentUser from "../services/getCurrentUser.js";
 
 const GigShowPage = (props) => {
+  // needs to take in setUser, currentUser and gigId
   const [gig, setGig] = useState({});
   const [updatedGig, setUpdatedGig] = useState({});
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentArtistPage, setCurrentArtistPage] = useState(1);
   const id = props.match.params.id;
   const artistsPerPage = 8;
+  console.log('show page current user:', props.currentUser);
+  //props.setCurrentUser, props.currentUser, gigId
 
   const indexOfLastArtist = currentArtistPage * artistsPerPage;
   const indexOfFirstArtist = indexOfLastArtist - artistsPerPage;
@@ -96,22 +100,24 @@ const GigShowPage = (props) => {
 
   return (
     <div className="hero-image grid-x">
-      <div className="bg-orange rounded small-5 scroll">
-        <h1 className="glow small title-bold">{gig.name}</h1>
-        <h2 className="text-white">{gig.city}, {gig.state}</h2>
-        <h2 className="text-white">{gig.date}</h2>
-        <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
-        <GoogleMap gig={gig} />
-        <GigFavoriteButton currentUser={props.currentUser} gig={gig} setGig={setGig} />
-        <EditGigButton 
-          handleInputChange={handleInputChange} 
-          currentUser={props.currentUser} 
-          gig={gig} 
-          handleUpdate={handleUpdate} 
-          updatedGig={updatedGig} 
-          artists={gig.artists}
-        />
-      </div>
+      <div className="bg-orange rounded small-5 scroll" style={{ position: "relative" }}>
+      {/* <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} setCurrentUser={props.setCurrentUser}/> */}
+      <h1 className="glow small title-bold" style={{ marginLeft: "40px", display: "inline-block" }}>
+        {gig.name}
+      </h1>
+      <h2 className="text-white">{gig.city}, {gig.state}</h2>
+      <h2 className="text-white">{gig.date}</h2>
+      <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
+      <GoogleMap gig={gig} />
+      <EditGigButton 
+        handleInputChange={handleInputChange} 
+        currentUser={props.currentUser} 
+        gig={gig} 
+        handleUpdate={handleUpdate} 
+        updatedGig={updatedGig} 
+        artists={gig.artists}
+      />
+    </div>
       <div className="small-6 scroll">
         {lineupMessage}
         <div className="centered grid-x">{artistTileComponents}</div>

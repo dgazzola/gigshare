@@ -6,28 +6,30 @@ import "../assets/scss/main.scss";
 import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
-import HomePage from "./HomePage.js"
+import HomePage from "./HomePage.js";
 import GigsListPage from "./GigsList.js";
 import GigShowPage from "./GigShowPage.js";
 import NewGigForm from "./NewGigForm.js";
 import UserShowPage from "./UserShowPage.js";
 import RegisterArtistForm from "./RegisterArtistForm.js";
-import ArtistShowPage from "./ArtistShowPage.js"
+import ArtistShowPage from "./ArtistShowPage.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
+  
   const fetchCurrentUser = async () => {
     try {
-      const user = await getCurrentUser()
-      setCurrentUser(user)
-    } catch(err) {
-      setCurrentUser(null)
+      const user = await getCurrentUser();
+      console.log('current user:', user)
+      setCurrentUser(user);
+    } catch (err) {
+      setCurrentUser(null);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchCurrentUser()
-  }, [])
+    fetchCurrentUser();
+  }, []);
 
   return (
     <Router>
@@ -39,17 +41,17 @@ const App = (props) => {
         <Route 
           exact 
           path="/gigs"
-          render= {(props) => <GigsListPage {...props} currentUser={currentUser}/>}
+          render={(props) => <GigsListPage {...props} currentUser={currentUser} />}
         />
         <Route 
           exact 
           path="/gigs/new-gig-form"
-          render= {(props) => <NewGigForm {...props} currentUser={currentUser}/>}
+          render={(props) => <NewGigForm {...props} currentUser={currentUser} />}
         />
         <Route 
           exact 
           path="/gigs/:id"
-          render= {(props) => <GigShowPage {...props} currentUser={currentUser}/>}
+          render={(props) => <GigShowPage {...props} currentUser={currentUser} />}
         />
         <Route
           exact
@@ -67,14 +69,16 @@ const App = (props) => {
         <Route 
           exact 
           path="/users/:id" 
-          render={(props) => <UserShowPage {...props} currentUser={currentUser} />}/>
+          render={(props) => <UserShowPage {...props} currentUser={currentUser} />}
+        />
         <Route 
           exact 
           path="/artists/:id" 
-          render={(props) => <ArtistShowPage {...props} currentUser={currentUser} />}/>
+          render={(props) => <ArtistShowPage {...props} currentUser={currentUser} />}
+        />
       </Switch>
     </Router>
   );
 };
 
-export default App
+export default App;
