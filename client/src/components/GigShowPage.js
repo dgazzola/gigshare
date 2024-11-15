@@ -98,9 +98,11 @@ const GigShowPage = (props) => {
   return (
     <div className="hero-image grid-x">
       <div className="bg-orange rounded small-5 scroll" style={{ position: "relative" }}>
-  <div className="favorite-button-container">
+  {props.currentUser &&
+  <div className="favorite-button-container-top">
     <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} />
   </div>
+  }
   <h1 className="glow small title-bold" style={{ marginLeft: "40px", display: "inline-block" }}>
     {gig.name}
   </h1>

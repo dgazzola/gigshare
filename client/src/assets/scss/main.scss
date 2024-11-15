@@ -129,7 +129,7 @@ button:disabled {
 
 
 div.scroll {
-  height: 60vh;
+  height: 80vh;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: center;
@@ -354,10 +354,15 @@ select{
   text-align: center;
 }
 
-.favorite-button-container {
+.favorite-button-container-bottom {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1; /* Ensure it appears on top */
+  bottom: 10px; /* Position from the bottom */
+  left: 10px;   /* Position from the left */
+  z-index: 1;   /* Ensure it appears on top */
 }
-
+.favorite-button-container-top {
+  position: absolute;
+  top: 10px; /* Position from the bottom */
+  left: 10px;   /* Position from the left */
+  z-index: 1;   /* Ensure it appears on top */
+}

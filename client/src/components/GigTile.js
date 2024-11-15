@@ -28,9 +28,11 @@ const GigTile = ({ id, name, city, date, currentUser }) => {
 
   return (
     <div className="button callout cell tile-box bg-orange" style={{ position: "relative" }}>
-  <div className="favorite-button-container">
+  {currentUser &&
+  <div className="favorite-button-container-bottom">
     <GigFavoriteButton gigId={id} currentUser={currentUser} />
   </div>
+  }
   <Link to={gigUrl} className="centered" style={{ textDecoration: "none", paddingTop: "40px" }}>
     <h4 className="title-bold">{name}</h4>
     <p className="descriptor">{city}</p>
