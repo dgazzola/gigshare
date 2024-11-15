@@ -4,6 +4,7 @@ import GigTile from './GigTile.js';
 import Dropzone from "react-dropzone";
 import GigFavoriteButton from "./GigFavoriteButton";
 import '../assets/scss/main.scss';
+import { useFavorites } from '../context/FavoritesContext.js';
 
 const UserShowPage = (props) => {
   const { id } = props.match.params;
@@ -15,13 +16,17 @@ const UserShowPage = (props) => {
   const [favoriteGigsTotalPages, setFavoriteGigsTotalPages] = useState(1);
   const [hostedGigsPage, setHostedGigsPage] = useState(1);
   const [hostedGigsTotalPages, setHostedGigsTotalPages] = useState(1);
+  const { favoriteGigs } = useFavorites()
 
   const getUser = async () => {
     try {
       const response = await fetch(`/api/v1/users/${id}?favoritePage=${favoriteGigsPage}&hostedPage=${hostedGigsPage}`);
       if (!response.ok) throw new Error(`${response.status}: (${response.statusText})`);
       const body = await response.json();
-      setUser(body.user);
+      setUser((prevUser) => ({
+        ...body.user,
+        favoriteGigs: favoriteGigs, // Sync with global state
+      }));
       setFavoriteGigsTotalPages(body.user.favoriteGigsTotalPages);
       setHostedGigsTotalPages(body.user.hostedGigsTotalPages);
     } catch (error) {
@@ -31,7 +36,7 @@ const UserShowPage = (props) => {
 
   useEffect(() => {
     getUser();
-  }, [favoriteGigsPage, hostedGigsPage]);
+  }, [favoriteGigsPage, hostedGigsPage, favoriteGigs]);
 
   const handleNextFavoriteGigsPage = () => {
     if (favoriteGigsPage < favoriteGigsTotalPages) setFavoriteGigsPage(favoriteGigsPage + 1);
@@ -85,14 +90,7 @@ const UserShowPage = (props) => {
   };
 
   const favoriteGigTiles = user.favoriteGigs?.map(gigObject => (
-    <div key={gigObject.id} style={{ position: "relative" }}>
-      <GigTile {...gigObject} />
-      <GigFavoriteButton
-        gigId={gigObject.id}
-        currentUser={currentUser}
-        updateFavorites={updateFavorites}
-      />
-    </div>
+    <GigTile key={gigObject.id} {...gigObject} currentUser={user} updateFavorites={updateFavorites} />
   ));
 
   const hostedGigTiles = user.hostedGigs?.map(gigObject => (
@@ -194,7 +192,7 @@ const UserShowPage = (props) => {
           </>
           }
 
-          {currentUser.favoriteGigs.length > 0 &&
+          {favoriteGigs.length > 0 &&
             <>
             <h1 className="glow small">Favorite Gigs</h1>
               <div className="grid-x">{favoriteGigTiles}</div>

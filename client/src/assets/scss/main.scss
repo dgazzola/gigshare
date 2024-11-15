@@ -353,3 +353,11 @@ select{
   height: 200px; /* Adjust this height as needed for proper vertical centering */
   text-align: center;
 }
+
+.favorite-button-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1; /* Ensure it appears on top */
+}
+

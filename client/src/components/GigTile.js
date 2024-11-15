@@ -5,7 +5,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GigFavoriteButton from "./GigFavoriteButton";
 
-const GigTile = ({ id, name, city, date, currentUser, setCurrentUser }) => {
+const GigTile = ({ id, name, city, date, currentUser }) => {
   const gigUrl = `/gigs/${id}`;
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -28,13 +28,15 @@ const GigTile = ({ id, name, city, date, currentUser, setCurrentUser }) => {
 
   return (
     <div className="button callout cell tile-box bg-orange" style={{ position: "relative" }}>
-      {/* <GigFavoriteButton gigId={id} currentUser={currentUser} setCurrentUser={setCurrentUser} /> */}
-      <Link to={gigUrl} className="centered" style={{ textDecoration: "none", paddingTop: "40px" }}>
-        <h4 className="title-bold">{name}</h4>
-        <p className="descriptor">{city}</p>
-        <p className="descriptor">{date}</p>
-      </Link>
-    </div>
+  <div className="favorite-button-container">
+    <GigFavoriteButton gigId={id} currentUser={currentUser} />
+  </div>
+  <Link to={gigUrl} className="centered" style={{ textDecoration: "none", paddingTop: "40px" }}>
+    <h4 className="title-bold">{name}</h4>
+    <p className="descriptor">{city}</p>
+    <p className="descriptor">{date}</p>
+  </Link>
+</div>
   );
 };
 

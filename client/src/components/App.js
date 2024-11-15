@@ -13,9 +13,11 @@ import NewGigForm from "./NewGigForm.js";
 import UserShowPage from "./UserShowPage.js";
 import RegisterArtistForm from "./RegisterArtistForm.js";
 import ArtistShowPage from "./ArtistShowPage.js";
+import { useFavorites } from "../context/FavoritesContext.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
+  const { fetchFavorites } = useFavorites();
   
   const fetchCurrentUser = async () => {
     try {
@@ -30,53 +32,66 @@ const App = (props) => {
     fetchCurrentUser();
   }, []);
 
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     fetchFavorites(currentUser.id);
+  //   }
+  // }, [currentUser, fetchFavorites]);
+
+  useEffect(() => {
+    if (currentUser) {
+      console.log("Fetching favorites for user:", currentUser.id);
+      fetchFavorites(currentUser.id);
+    }
+  }, [currentUser]); // fetchFavorites is now stable and does not need to be in the dependency array
+  
   return (
-    <Router>
-      <TopBar user={currentUser} />
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
-        <Route 
-          exact 
-          path="/gigs"
-          render={(props) => <GigsListPage {...props} currentUser={currentUser} />}
-        />
-        <Route 
-          exact 
-          path="/gigs/new-gig-form"
-          render={(props) => <NewGigForm {...props} currentUser={currentUser} />}
-        />
-        <Route 
-          exact 
-          path="/gigs/:id"
-          render={(props) => <GigShowPage {...props} currentUser={currentUser} />}
-        />
-        <Route
-          exact
-          path="/users/:id/register-as-artist"
-          render={(props) =>
-            currentUser ? (
-              <RegisterArtistForm {...props} currentUser={currentUser} />
-            ) : (
-              <Redirect to="/user-sessions/new" />
-            )
-          }
-        />
-        <Route exact path="/users/new" component={RegistrationForm} />
-        <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route 
-          exact 
-          path="/users/:id" 
-          render={(props) => <UserShowPage {...props} currentUser={currentUser} />}
-        />
-        <Route 
-          exact 
-          path="/artists/:id" 
-          render={(props) => <ArtistShowPage {...props} currentUser={currentUser} />}
-        />
-      </Switch>
-    </Router>
+      <Router>
+        <TopBar user={currentUser} />
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <Route 
+            exact 
+            path="/gigs"
+            render={(props) => <GigsListPage {...props} currentUser={currentUser} />}
+          />
+          <Route 
+            exact 
+            path="/gigs/new-gig-form"
+            render={(props) => <NewGigForm {...props} currentUser={currentUser} />}
+          />
+          <Route 
+            exact 
+            path="/gigs/:id"
+            render={(props) => <GigShowPage {...props} currentUser={currentUser} />}
+          />
+          <Route
+            exact
+            path="/users/:id/register-as-artist"
+            render={(props) =>
+              currentUser ? (
+                <RegisterArtistForm {...props} currentUser={currentUser} />
+              ) : (
+                <Redirect to="/user-sessions/new" />
+              )
+            }
+          />
+          <Route exact path="/users/new" component={RegistrationForm} />
+          <Route exact path="/user-sessions/new" component={SignInForm} />
+          <Route 
+            exact 
+            path="/users/:id" 
+            render={(props) => <UserShowPage {...props} currentUser={currentUser} />}
+          />
+          <Route 
+            exact 
+            path="/artists/:id" 
+            render={(props) => <ArtistShowPage {...props} currentUser={currentUser} />}
+          />
+        </Switch>
+      </Router>
   );
 };
 
