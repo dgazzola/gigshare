@@ -27,4 +27,3 @@ node_modules
 **/coverage
 # Ignore all .env files
 *.env
-/server/public
