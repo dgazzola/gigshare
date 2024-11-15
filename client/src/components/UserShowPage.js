@@ -178,7 +178,7 @@ const UserShowPage = (props) => {
         </div>
 
         <div className="small-7 scroll bg-clear">
-          {currentUser.hostedGigs.length > 0 &&
+          {currentUser?.hostedGigs?.length > 0 &&
           <>
             <h1 className="glow small">Hosted Gigs</h1>
             <div className="grid-x">{hostedGigTiles}</div>
