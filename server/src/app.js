@@ -63,6 +63,15 @@ app.use(bodyParser.json());
 
 app.use(rootRouter);
 
+// Serve static files from React's build directory
+app.use(express.static(path.join(__dirname, "../public/dist")));
+
+// Handle React routing, return index.html for all unmatched routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/dist", "index.html"));
+});
+
+
 app.use(express.static(path.join(__dirname, "../public")));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
