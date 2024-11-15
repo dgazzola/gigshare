@@ -1,24 +1,35 @@
-import React from "react"
+const GigFavoriteButton = ({ gigId, favoriteGigs, updateFavoriteGigs, currentUser }) => {
+  const [isFilled, setIsFilled] = useState(false);
 
-const GigFavoriteButton = ({ currentUser, gig, handleFavoriteButton}) => {
-  let favoriteMessage
+  useEffect(() => {
+    setIsFilled(favoriteGigs.some((gig) => gig.id === gigId));
+  }, [favoriteGigs, gigId]);
 
-  if (gig.isUserFavorite) {
-    favoriteMessage = "Unfavorite"
-  } else {
-    favoriteMessage = "Favorite"
-  }
+  const handleFavoriteClick = async () => {
+    try {
+      const response = await fetch(`/api/v1/users/${currentUser.id}/favorites`, {
+        method: isFilled ? "DELETE" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gigId }),
+      });
 
-  if(currentUser?.id){
-    return (
-      <button type="button" className="button" onClick={handleFavoriteButton}>{favoriteMessage}</button>
-    )  
-  } else {
-    return (
-      ""
-    )
-  }
+      if (!response.ok) throw new Error("Failed to update favorite status");
 
-}
+      const data = await response.json();
+      updateFavoriteGigs(data.favorites); // Update centralized state
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+    }
+  };
 
-export default GigFavoriteButton
+  return (
+    <IconButton
+      onClick={(e) => {
+        e.stopPropagation();
+        handleFavoriteClick();
+      }}
+    >
+      {isFilled ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+    </IconButton>
+  );
+};

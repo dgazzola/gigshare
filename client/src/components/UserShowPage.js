@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import GigTile from './GigTile.js';
 import Dropzone from "react-dropzone";
+import GigFavoriteButton from "./GigFavoriteButton";
 import '../assets/scss/main.scss';
 
 const UserShowPage = (props) => {
   const { id } = props.match.params;
   const currentUser = props.currentUser;
+
   const [user, setUser] = useState({ artist: [], favoriteGigs: [], hostedGigs: [], profileImage: "" });
   const [newProfileImage, setNewProfileImage] = useState({ image: {} });
   const [uploadedImage, setUploadedImage] = useState({ preview: "" });
-
   const [favoriteGigsPage, setFavoriteGigsPage] = useState(1);
   const [favoriteGigsTotalPages, setFavoriteGigsTotalPages] = useState(1);
-
   const [hostedGigsPage, setHostedGigsPage] = useState(1);
   const [hostedGigsTotalPages, setHostedGigsTotalPages] = useState(1);
 
@@ -21,9 +21,10 @@ const UserShowPage = (props) => {
     try {
       const response = await fetch(`/api/v1/users/${id}?favoritePage=${favoriteGigsPage}&hostedPage=${hostedGigsPage}`);
       if (!response.ok) throw new Error(`${response.status}: (${response.statusText})`);
-      
       const body = await response.json();
       setUser(body.user);
+      console.log('user show page body.user:', body.user);
+      console.log('user show page currentUser:', currentUser);
       setFavoriteGigsTotalPages(body.user.favoriteGigsTotalPages);
       setHostedGigsTotalPages(body.user.hostedGigsTotalPages);
     } catch (error) {
@@ -77,12 +78,28 @@ const UserShowPage = (props) => {
     }
   };
 
+  const updateFavorites = (gigId, isFavorite) => {
+    setUser(prevUser => {
+      const updatedFavorites = isFavorite
+        ? [...prevUser.favoriteGigs, { id: gigId }]
+        : prevUser.favoriteGigs.filter(gig => gig.id !== gigId);
+      return { ...prevUser, favoriteGigs: updatedFavorites };
+    });
+  };
+
   const favoriteGigTiles = user.favoriteGigs?.map(gigObject => (
-    <GigTile key={gigObject.id} {...gigObject} currentUser={user} />
+    <div key={gigObject.id} style={{ position: "relative" }}>
+      <GigTile {...gigObject} />
+      <GigFavoriteButton
+        gigId={gigObject.id}
+        currentUser={currentUser}
+        updateFavorites={updateFavorites}
+      />
+    </div>
   ));
 
   const hostedGigTiles = user.hostedGigs?.map(gigObject => (
-    <GigTile key={gigObject.id} {...gigObject} currentUser={user} />
+    <GigTile key={gigObject.id} {...gigObject} currentUser={user} updateFavorites={updateFavorites} />
   ));
 
   let dropzoneComponent = "";
@@ -166,19 +183,23 @@ const UserShowPage = (props) => {
         </div>
 
         <div className="small-7 scroll bg-clear">
-          <h1 className="glow small">Hosted Gigs</h1>
-          <div className="grid-x">{hostedGigTiles}</div>
-          {user?.hostedGigs.length > 0 &&
+          {currentUser.hostedGigs.length > 0 &&
+          <>
+            <h1 className="glow small">Hosted Gigs</h1>
+            <div className="grid-x">{hostedGigTiles}</div>
             <div className="pagination-controls">
               <button className="pagination-button" onClick={handlePreviousHostedGigsPage} disabled={hostedGigsPage === 1}>Previous</button>
               <span className="pagination-info">Page {hostedGigsPage} of {hostedGigsTotalPages}</span>
               <button className="pagination-button" onClick={handleNextHostedGigsPage} disabled={hostedGigsPage === hostedGigsTotalPages}>Next</button>
             </div>
+          
+          
+          </>
           }
 
-          <h1 className="glow small">Favorited Gigs</h1>
-          {user.favoriteGigs.length > 0 &&
+          {currentUser.favoriteGigs.length > 0 &&
             <>
+            <h1 className="glow small">Favorite Gigs</h1>
               <div className="grid-x">{favoriteGigTiles}</div>
               <div className="pagination-controls">
                 <button className="pagination-button" onClick={handlePreviousFavoriteGigsPage} disabled={favoriteGigsPage === 1}>Previous</button>
