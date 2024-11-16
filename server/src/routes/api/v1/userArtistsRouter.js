@@ -1,6 +1,5 @@
 import express from "express";
-import passport from "passport";
-import { User, Artist } from "../../../models/index.js";
+import { Artist } from "../../../models/index.js";
 import { ValidationError } from "objection"
 import cleanUserInput from "../../../services/cleanUserInput.js";
 

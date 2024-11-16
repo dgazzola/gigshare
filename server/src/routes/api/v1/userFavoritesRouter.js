@@ -1,5 +1,4 @@
 import express from "express";
-import passport from "passport";
 import { Favorite, User } from "../../../models/index.js";
 import { ValidationError } from "objection"
 
@@ -64,9 +63,5 @@ userFavoritesRouter.delete("/", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
-
-
 
 export default userFavoritesRouter

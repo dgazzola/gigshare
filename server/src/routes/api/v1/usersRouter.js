@@ -1,5 +1,4 @@
 import express from "express";
-import passport from "passport";
 import uploadImage from "../../../services/uploadImage.js";
 import { User } from "../../../models/index.js";
 import { ValidationError } from "objection";

@@ -1,7 +1,3 @@
-import Artist from "../models/index.js";
-import User from "../models/index.js";
-import { Gig, Favorite } from "../models/index.js";
-
 class UserSerializer {
   static async getSummary(user, favoritePage = 1, hostedPage = 1, limit = 8) {
     const allowedAttributes = ["id", "email", "username", "createdAt", "profileImage"];
