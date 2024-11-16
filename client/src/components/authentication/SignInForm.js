@@ -67,7 +67,7 @@ const SignInForm = () => {
 
   return (
     <div className="text-white centered hero-image" onSubmit={onSubmit}>
-      <div className="info-wrap">
+      <div>
       <h1 className="glow small title-bold">Sign In</h1>
       <form>
 

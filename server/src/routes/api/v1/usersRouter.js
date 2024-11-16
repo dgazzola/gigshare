@@ -38,7 +38,7 @@ usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
   const favoritePage = parseInt(req.query.favoritePage) || 1;
   const hostedPage = parseInt(req.query.hostedPage) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const limit = parseInt(req.query.limit) || 10;
 
   try {
     const user = await User.query().findById(id);

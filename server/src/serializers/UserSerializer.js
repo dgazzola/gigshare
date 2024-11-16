@@ -1,5 +1,5 @@
 class UserSerializer {
-  static async getSummary(user, favoritePage = 1, hostedPage = 1, limit = 8) {
+  static async getSummary(user, favoritePage = 1, hostedPage = 1, limit = 10) {
     const allowedAttributes = ["id", "email", "username", "createdAt", "profileImage"];
     const serializedUser = {};
 

@@ -20,7 +20,7 @@ const UserShowPage = (props) => {
   const [favoriteGigsPage, setFavoriteGigsPage] = useState(1);
   const { favoriteGigs } = useFavorites();
 
-  const favoriteGigsPerPage = 8;
+  const favoriteGigsPerPage = 5;
   const favoriteGigsTotalPagesDynamic = Math.ceil(favoriteGigs.length / favoriteGigsPerPage);
 
   useEffect(() => {

@@ -88,7 +88,7 @@ const RegistrationForm = () => {
 
   return (
     <div className="hero-image bg-clear centered">
-      <div className="info-wrap">
+      <div>
         <h1 className="glow small">Register</h1>
         <form onSubmit={onSubmit}>
             <label className="text-white">

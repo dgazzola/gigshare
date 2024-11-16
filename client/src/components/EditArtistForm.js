@@ -33,7 +33,7 @@ const EditArtistForm = ({currentUser, artist, editArtist, handleDelete}) => {
 
   if (showEditForm){
     editForm =
-    <div className="info-wrap">
+    <div>
     <form onSubmit={handleUpdate} className="form-smaller">
     <label className="text-white">
         Update Artist Name:
