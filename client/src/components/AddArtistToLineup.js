@@ -113,17 +113,18 @@ const AddArtistToLineupButton = ({ gig }) => {
                 label="Search Artists"
                 variant="outlined"
                 fullWidth
-                InputLabelProps={{
-                  style: {
-                    color: "rgba(149, 0, 255, 0.8)",
-                    fontFamily: "Karla, sans-serif",
+                slotProps={{
+                  inputLabel: {
+                    style: {
+                      color: "rgba(149, 0, 255, 0.8)",
+                      fontFamily: "Karla, sans-serif",
+                    },
                   },
-                }}
-                inputProps={{
-                  ...params.inputProps,
-                  style: {
-                    color: "black",
-                    fontFamily: "Spectral, serif",
+                  htmlInput: {
+                    style: {
+                      color: "black",
+                      fontFamily: "Spectral, serif",
+                    },
                   },
                 }}
                 sx={{
@@ -140,7 +141,7 @@ const AddArtistToLineupButton = ({ gig }) => {
                   },
                 }}
               />
-            )}
+            )}            
             popupIcon={null}
             PaperComponent={({ children }) => (
               <div

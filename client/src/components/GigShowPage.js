@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import GoogleMap from "./GoogleMap.js";
 import GigFavoriteButton from "./GigFavoriteButton.js";
 import EditGigButton from "./EditGigButton.js";
-import getCurrentUser from "../services/getCurrentUser.js";
 
 const GigShowPage = (props) => {
   const [gig, setGig] = useState({});

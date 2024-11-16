@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GigFavoriteButton from "./GigFavoriteButton";
 
 const GigTile = ({ id, name, city, date, currentUser }) => {
   const gigUrl = `/gigs/${id}`;
-  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchGigData = async () => {

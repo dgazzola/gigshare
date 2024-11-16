@@ -15,7 +15,7 @@ import RegisterArtistForm from "./RegisterArtistForm.js";
 import ArtistShowPage from "./ArtistShowPage.js";
 import { useFavorites } from "../context/FavoritesContext.js";
 
-const App = (props) => {
+const App = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const { fetchFavorites } = useFavorites();
   

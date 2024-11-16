@@ -5,7 +5,7 @@ class Favorite extends Model {
     return "favorites"
   }
 
-   static get relationMappings(){
+  static get relationMappings(){
     const { User, Gig } = require("./index.js")
 
     return {

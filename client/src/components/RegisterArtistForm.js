@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom"
 import translateServerErrors from "./../services/translateServerErrors.js"
 import ErrorList from "./layout/ErrorList.js";
@@ -30,7 +30,6 @@ const RegisterArtistForm = props => {
           throw error
         }
       } else {
-        const responseBody = await response.json()
         setShouldRedirect(true)
       }
     } catch (error) {

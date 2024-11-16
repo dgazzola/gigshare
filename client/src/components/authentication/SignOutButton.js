@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
 
 const SignOutButton = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -18,7 +17,6 @@ const SignOutButton = () => {
         const error = new Error(errorMessage)
         throw(error)
       }
-      const respBody = await response.json()
       setShouldRedirect(true)
       return { status: "ok" }
     } catch(err) {

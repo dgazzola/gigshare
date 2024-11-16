@@ -5,7 +5,7 @@ class Lineup extends Model {
     return "lineups"
   }
 
-   static get relationMappings(){
+  static get relationMappings(){
     const { Gig, Artist } = require("./index.js")
 
     return {
