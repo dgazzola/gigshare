@@ -44,7 +44,7 @@ const RegisterArtistForm = props => {
 
   return (
     <div className="text-white hero-image centered">
-      <div className="info-wrap">
+      <div>
         <h1 className = "glow small">Register Artist</h1>
         <ErrorList errors={errors} />
         <NewArtistForm registerNewArtist={registerNewArtist} className="centered" />

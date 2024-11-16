@@ -61,7 +61,7 @@ const AddArtistToLineupButton = ({ gig }) => {
         Add Artist
       </button>
       {showLineupDropdown && (
-        <div className="info-wrap">
+        <div>
           <Autocomplete
             freeSolo
             options={availableArtists}
@@ -78,7 +78,7 @@ const AddArtistToLineupButton = ({ gig }) => {
                   color: "black",
                   backgroundColor: "rgba(255, 255, 255, 0.9)",
                   padding: "10px",
-                  borderBottom: "1px solid rgba(149, 0, 255, 0.1)",
+                  borderBottom: "1px solid rgba(149, 0, 255, 0.1)"
                 }}
               >
                 <Typography
@@ -127,6 +127,9 @@ const AddArtistToLineupButton = ({ gig }) => {
                   },
                 }}
                 sx={{
+                  // width: '50%', // Set the desired percentage width here
+                  maxWidth: '80%', // Optional: Ensure it doesn't stretch too wide
+                  minWidth: '30%', // Optional: Ensure it doesn't shrink too much
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: "rgba(149, 0, 255, 0.8)",

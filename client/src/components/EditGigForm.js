@@ -18,7 +18,7 @@ const EditGigForm = ({
           handlePreviousArtistPage={handlePreviousArtistPage} 
           totalPages={totalPages} 
         />
-        <div className="info-wrap">
+        <div>
           <form onSubmit={handleUpdate}>
             <label className="text-white">
               Name:
