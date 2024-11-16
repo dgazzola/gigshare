@@ -5,8 +5,10 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const AddArtistToLineupButton = ({ gig }) => {
   const [showLineupDropdown, setShowLineupDropdown] = useState(false);
   const [availableArtists, setAvailableArtists] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const [debounceTimer, setDebounceTimer] = useState(null);
 
+  // Fetch artists based on the search query
   const fetchAvailableArtists = async (search = "") => {
     if (!search.trim()) {
       setAvailableArtists([]);
@@ -19,23 +21,34 @@ const AddArtistToLineupButton = ({ gig }) => {
         throw new Error(`Error fetching artists: ${response.statusText}`);
       }
       const data = await response.json();
-      setAvailableArtists(data.artists);
+      setAvailableArtists(data.artists || []);
     } catch (error) {
       console.error("Error fetching available artists:", error);
+      setAvailableArtists([]);
     }
   };
 
+  // Handle search input changes with debounce
   const handleSearchChange = (event, newValue) => {
+    setSearchText(newValue || "");
     if (debounceTimer) clearTimeout(debounceTimer);
+
+    const trimmedValue = newValue?.trim() || "";
+    if (!trimmedValue) {
+      setAvailableArtists([]);
+      return;
+    }
+
     const newTimer = setTimeout(() => {
-      fetchAvailableArtists(newValue);
+      fetchAvailableArtists(trimmedValue);
     }, 500);
     setDebounceTimer(newTimer);
   };
 
+  // Handle adding an artist to the lineup
   const handleAddArtist = async (artist) => {
     if (gig.artists?.some((gigArtist) => gigArtist.id === artist.id)) {
-      alert("Artist is already in lineup!");
+      alert("Artist is already in the lineup!");
       return;
     }
 
@@ -57,16 +70,22 @@ const AddArtistToLineupButton = ({ gig }) => {
 
   return (
     <div>
-      <button type="button" className="button" onClick={() => setShowLineupDropdown(!showLineupDropdown)}>
+      <button
+        type="button"
+        className="button"
+        onClick={() => setShowLineupDropdown(!showLineupDropdown)}
+      >
         Add Artist
       </button>
+
       {showLineupDropdown && (
         <div className="info-wrap">
           <Autocomplete
             freeSolo
             options={availableArtists}
-            getOptionLabel={(artist) => artist.artistName || ""}
+            value={searchText || ""}
             onInputChange={handleSearchChange}
+            getOptionLabel={(artist) => artist.artistName || ""}
             noOptionsText="No artists found"
             renderOption={(props, artist) => (
               <li
@@ -107,41 +126,44 @@ const AddArtistToLineupButton = ({ gig }) => {
                 </IconButton>
               </li>
             )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search Artists"
-                variant="outlined"
-                fullWidth
-                slotProps={{
-                  inputLabel: {
-                    style: {
-                      color: "rgba(149, 0, 255, 0.8)",
-                      fontFamily: "Karla, sans-serif",
+            renderInput={(params) =>
+              params ? (
+                <TextField
+                  {...params}
+                  label="Search Artists"
+                  variant="outlined"
+                  fullWidth
+                  slotProps={{
+                    inputLabel: {
+                      style: {
+                        color: "rgba(149, 0, 255, 0.8)",
+                        fontFamily: "Karla, sans-serif",
+                      },
                     },
-                  },
-                  htmlInput: {
-                    style: {
-                      color: "black",
-                      fontFamily: "Spectral, serif",
+                    htmlInput: {
+                      style: {
+                        color: "black",
+                        fontFamily: "Spectral, serif",
+                        autoComplete: "off",
+                      },
                     },
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "rgba(149, 0, 255, 0.8)",
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "rgba(149, 0, 255, 0.8)",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "rgba(149, 0, 255, 1)",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "rgba(149, 0, 255, 1)",
+                      },
                     },
-                    "&:hover fieldset": {
-                      borderColor: "rgba(149, 0, 255, 1)",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "rgba(149, 0, 255, 1)",
-                    },
-                  },
-                }}
-              />
-            )}            
+                  }}
+                />
+              ) : null
+            }
             popupIcon={null}
             PaperComponent={({ children }) => (
               <div
