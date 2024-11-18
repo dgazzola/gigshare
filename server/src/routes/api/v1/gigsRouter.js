@@ -36,6 +36,27 @@ gigsRouter.get("/search", async (req, res) => {
   }
 });
 
+gigsRouter.get("/:id", async (req, res) => {
+  const { id } = req.params
+  if (!id) {
+    return res.status(404).json({ error: "Gig not found" })
+  }
+  try {
+    const gig = await Gig.query().findById(id)
+    if (!gig) {
+      return res.status(404).json({ error: "Gig not found" })
+    }
+    const serializedGig = await GigSerializer.getDetail(gig)
+    // for (let i = 0; i < serializedGig.favorited?.length; i++) {
+    //   if (serializedGig.favorited[i].id === req.user?.id) {
+    //     serializedGig.isUserFavorite = true
+    //   }
+    // }
+    return res.status(200).json({ gig: serializedGig })
+  } catch (error) {
+    return res.status(500).json({ errors: error })
+  }
+})
 
 gigsRouter.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -74,27 +95,6 @@ gigsRouter.post("/", async (req, res) => {
   }
 })
 
-gigsRouter.get("/:id", async (req, res) => {
-  const { id } = req.params
-  if (!id) {
-    return res.status(404).json({ error: "Gig not found" })
-  }
-  try {
-    const gig = await Gig.query().findById(id)
-    if (!gig) {
-      return res.status(404).json({ error: "Gig not found" })
-    }
-    const serializedGig = await GigSerializer.getDetail(gig)
-    for (let i = 0; i < serializedGig.favorited?.length; i++) {
-      if (serializedGig.favorited[i].id === req.user?.id) {
-        serializedGig.isUserFavorite = true
-      }
-    }
-    return res.status(200).json({ gig: serializedGig })
-  } catch (error) {
-    return res.status(500).json({ errors: error })
-  }
-})
 
 gigsRouter.patch("/:id", async (req, res) => {
   const { id } = req.params;
@@ -106,7 +106,8 @@ gigsRouter.patch("/:id", async (req, res) => {
     if (!updatedGig) {
       return res.status(404).json({ error: "Gig not found" });
     }
-    return res.status(200).json({ gig: updatedGig });
+    const serializedGig = await GigSerializer.getDetail(updatedGig)
+    return res.status(200).json({ gig: serializedGig });
   } catch (error) {
     console.error("Error updating gig:", error);
     return res.status(500).json({ errors: error.message });
@@ -185,23 +186,40 @@ gigsRouter.post("/:id/favorites", async (req, res) => {
 })
 
 gigsRouter.patch("/:id/lineups", async (req, res) => {
-  const { gigId, artistId } = req.body
-  if (!gigId || !artistId) {
-    return res.status(404).json({ error: "Gig or artist not found" })
+  const { gigId, artistIds } = req.body;
+
+  if (!gigId || !artistIds || !Array.isArray(artistIds)) {
+    return res.status(400).json({ error: "Invalid input. gigId and artistIds are required." });
   }
 
   try {
-    const gig = await Gig.query().findById(gigId)
+    const gig = await Gig.query().findById(gigId);
     if (!gig) {
-      return res.status(404).json({ error: "Gig not found" })
+      return res.status(404).json({ error: "Gig not found" });
     }
 
-    const addedLineup = await Lineup.query().insertAndFetch({ gigId, artistId })
-    const returnedGig = await Gig.query().findById(gigId)
-    return res.status(201).json({ returnedGig })
+    const insertedLineups = [];
+    for (const artistId of artistIds) {
+      const existingEntry = await Lineup.query()
+        .where({ gigId, artistId })
+        .first();
+
+      if (!existingEntry) {
+        const newLineup = await Lineup.query().insertAndFetch({ gigId, artistId });
+        insertedLineups.push(newLineup);
+      }
+    }
+
+    const updatedGig = await Gig.query()
+      .findById(gigId)
+      .withGraphFetched("artists");
+
+    return res.status(200).json({ gig: updatedGig });
   } catch (error) {
-    return res.status(500).json({ errors: error })
+    console.error("Error adding lineup:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
-})
+});
+
 
 export default gigsRouter

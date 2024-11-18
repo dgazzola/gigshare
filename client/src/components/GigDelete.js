@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
 
-const GigDelete = ({currentUser, gig}) => {
+const GigDelete = ({gig, currentUser}) => {
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const handleDelete = () => {
@@ -43,13 +43,9 @@ const GigDelete = ({currentUser, gig}) => {
     return <Redirect push to ={`/users/${currentUser.id}`} />
   }
 
-  if(currentUser?.id===gig.hostId){
-    return(
-      <button type="button" className={`button right-forty`} onClick={handleDelete}> Delete Gig</button>
-    )
-  } else {
-    return(null)
-  }
+  return(
+    <button type="button" className={`button right-forty`} onClick={handleDelete}> Delete Gig</button>
+  )
 }
 
 export default GigDelete

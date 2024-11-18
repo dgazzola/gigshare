@@ -93,7 +93,7 @@ const NewGigForm = props => {
   })
 
   if (shouldRedirect) {
-    return <Redirect push to="/gigs" />
+    return <Redirect push to={`/users/${props.currentUser.id}`} />
   }
 
   return(

@@ -1,26 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import GigFavoriteButton from "./GigFavoriteButton";
 
 const GigTile = ({ id, name, city, date, currentUser }) => {
   const gigUrl = `/gigs/${id}`;
-
-  useEffect(() => {
-    const fetchGigData = async () => {
-      try {
-      const response = await fetch(`/api/v1/gigs/${id}`);
-        if (!response.ok) throw new Error(`${response.status} (${response.statusText})`);
-        const parsedResponse = await response.json();
-
-        const isFavorited = parsedResponse.gig.favorited?.some(fav => fav.id === currentUser?.id);
-        setIsFavorite(isFavorited);
-      } catch (err) {
-        console.error(`Error fetching gig data: ${err.message}`);
-      }
-    };
-
-    fetchGigData();
-  }, [id, currentUser]);
 
   return (
     <div className="button callout cell tile-box bg-orange" style={{ position: "relative" }}>

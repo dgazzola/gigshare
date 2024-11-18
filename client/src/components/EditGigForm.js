@@ -1,97 +1,148 @@
-import React from "react";
-import AddArtistToLineupButton from "./AddArtistToLineup";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import GigDelete from "./GigDelete";
 
-const EditGigForm = ({ 
-  artists, handleInputChange, currentUser, gig, handleUpdate, updatedGig, showGigForm, 
-  currentArtistPage, handleNextArtistPage, handlePreviousArtistPage, totalPages 
-}) => {
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  borderRadius: "8px",
+  boxShadow: 24,
+  p: 4,
+};
 
-  if (currentUser?.id === gig.hostId && showGigForm) {
-    return (
-      <div>
-        <AddArtistToLineupButton 
-          gig={gig} 
-          artists={artists} 
-          currentArtistPage={currentArtistPage} 
-          handleNextArtistPage={handleNextArtistPage} 
-          handlePreviousArtistPage={handlePreviousArtistPage} 
-          totalPages={totalPages} 
-        />
-        <div>
-          <form onSubmit={handleUpdate}>
-            <label className="text-white">
-              Name:
-              <input
-                type="text"
-                name="name"
-                onChange={handleInputChange}
-                value={updatedGig.name || ""}
-              />
-            </label>
-            <label className="text-white">
-              Address:
-              <input
-                type="text"
-                name="address"
-                onChange={handleInputChange}
-                value={updatedGig.address || ""}
-              />
-            </label>
-            <label className="text-white">
-              City:
-              <input
-                type="text"
-                name="city"
-                onChange={handleInputChange}
-                value={updatedGig.city || ""}
-              />
-            </label>
-            <label className="text-white">
-              State:
-              <input
-                type="text"
-                name="state"
-                onChange={handleInputChange}
-                value={updatedGig.state || ""}
-              />
-            </label>
-            <label className="text-white left-thirty">
-              Date:
-              <input
-                type="date"
-                name="date"
-                onChange={handleInputChange}
-                value={updatedGig.date || ""}
-              />
-            </label>
-            <label className="text-white left-thirty">
-              Start Time:
-              <input
-                type="time"
-                name="startTime"
-                onChange={handleInputChange}
-                value={updatedGig.startTime || ""}
-              />
-            </label>
-            <label className="text-white left-thirty">
-              End Time:
-              <input
-                type="time"
-                name="endTime"
-                onChange={handleInputChange}
-                value={updatedGig.endTime || ""}
-              />
-            </label>
-            <input className="button left-forty" type="submit" value="Update Gig" />
-            <GigDelete gig={gig} currentUser={currentUser} />
-          </form>
-        </div>
-      </div>
-    );
-  } else {
-    return null;
+const EditGigForm = ({ gig, setShowEditGig, setGig, currentUser }) => {
+  const [updatedGig, setUpdatedGig] = useState({});
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  const editGig = async () => {
+    try {
+      const response = await fetch(`/api/v1/gigs/${gig.id}`, {
+        method: "PATCH",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(updatedGig),
+      });
+      if (!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`;
+        throw new Error(errorMessage);
+      }
+      const body = await response.json();
+      setShowEditGig(false);
+      setShouldRedirect(true);
+      setGig(body.gig);
+    } catch (err) {
+      console.error(`Error in fetch: ${err.message}`);
+    }
+  };
+
+  if (shouldRedirect) {
+    return <Redirect push to={`/gigs/${gig.id}`} />;
   }
+
+  const handleInputChange = (event) => {
+    setUpdatedGig({
+      ...updatedGig,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    editGig();
+  };
+
+  const handleClose = () => {
+    setShowEditGig(false);
+  };
+
+  return (
+    <Modal open onClose={handleClose}>
+      <Box sx={modalStyle}>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Edit Gig
+        </Typography>
+        <form onSubmit={handleUpdate}>
+          <TextField
+            label="Name"
+            name="name"
+            fullWidth
+            margin="normal"
+            onChange={handleInputChange}
+            value={updatedGig.name || gig.name || ""}
+          />
+          <TextField
+            label="Address"
+            name="address"
+            fullWidth
+            margin="normal"
+            onChange={handleInputChange}
+            value={updatedGig.address || gig.address || ""}
+          />
+          <TextField
+            label="City"
+            name="city"
+            fullWidth
+            margin="normal"
+            onChange={handleInputChange}
+            value={updatedGig.city || gig.city || ""}
+          />
+          <TextField
+            label="State"
+            name="state"
+            fullWidth
+            margin="normal"
+            onChange={handleInputChange}
+            value={updatedGig.state || gig.state || ""}
+          />
+          <TextField
+            label="Date"
+            name="date"
+            type="date"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            onChange={handleInputChange}
+            value={updatedGig.date || gig.date || ""}
+          />
+          <TextField
+            label="Start Time"
+            name="startTime"
+            type="time"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            onChange={handleInputChange}
+            value={updatedGig.startTime || gig.startTime || ""}
+          />
+          <TextField
+            label="End Time"
+            name="endTime"
+            type="time"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            onChange={handleInputChange}
+            value={updatedGig.endTime || gig.endTime || ""}
+          />
+          <Box display="flex" justifyContent="space-between" mt={2}>
+            <Button variant="contained" color="primary" type="submit">
+              Update Gig
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+          </Box>
+        </form>
+        <GigDelete gig={gig} currentUser={currentUser} />
+      </Box>
+    </Modal>
+  );
 };
 
 export default EditGigForm;

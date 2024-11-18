@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ArtistTile from "./ArtistTile.js";
-import { Redirect } from "react-router-dom";
 import GoogleMap from "./GoogleMap.js";
 import GigFavoriteButton from "./GigFavoriteButton.js";
-import EditGigButton from "./EditGigButton.js";
+import EditGigForm from "./EditGigForm.js";
+import AddArtistToLineup from "./AddArtistToLineup.js";
 
 const GigShowPage = (props) => {
   const [gig, setGig] = useState({});
-  const [updatedGig, setUpdatedGig] = useState({});
-  const [shouldRedirect, setShouldRedirect] = useState(false);
   const [currentArtistPage, setCurrentArtistPage] = useState(1);
+  const [showEditGig, setShowEditGig] = useState(false);
+  const [showAddArtist, setShowAddArtist] = useState(false);
   const id = props.match.params.id;
-  const artistsPerPage = 8;
+  const artistsPerPage = 6;
 
   const indexOfLastArtist = currentArtistPage * artistsPerPage;
   const indexOfFirstArtist = indexOfLastArtist - artistsPerPage;
@@ -26,6 +26,7 @@ const GigShowPage = (props) => {
         throw new Error(errorMessage);
       }
       const gigData = await response.json();
+      console.log('gigData:', gigData);
       setGig(gigData.gig);
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`);
@@ -48,43 +49,6 @@ const GigShowPage = (props) => {
     }
   };
 
-  const handleInputChange = (event) => {
-    setUpdatedGig({
-      ...updatedGig,
-      [event.currentTarget.name]: event.currentTarget.value
-    });
-  };
-
-  const handleUpdate = (event) => {
-    event.preventDefault();
-    editGig();
-  };
-
-  const editGig = async () => {
-    try {
-      const response = await fetch(`/api/v1/gigs/${gig.id}`, {
-        method: "PATCH",
-        headers: new Headers({
-          "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(updatedGig)
-      });
-      if (!response.ok) {
-        const errorMessage = `${response.status} (${response.statusText})`;
-        throw new Error(errorMessage);
-      }
-      const body = await response.json();
-      setShouldRedirect(true);
-      setGig(body.gig);
-    } catch (err) {
-      console.error(`Error in fetch: ${err.message}`);
-    }
-  };
-
-  if (shouldRedirect) {
-    return <Redirect push to={`/users/${props.currentUser.id}`} />;
-  }
-
   let lineupMessage = <h1 className="glow small">Lineup TBA</h1>;
   let artistTileComponents = "";
   if (gig.artists && gig.artists.length > 0) {
@@ -95,56 +59,64 @@ const GigShowPage = (props) => {
   }
 
   return (
-    <div className="hero-image grid-x">
-      <div className="bg-orange rounded small-5 scroll-most" style={{ position: "relative" }}>
-  {props.currentUser &&
-  <div className="favorite-button-container-top">
-    <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} />
-  </div>
-  }
-  <h1 className="glow small title-bold" style={{ marginLeft: "40px", display: "inline-block" }}>
-    {gig.name}
-  </h1>
-  <h2 className="text-white">{gig.city}, {gig.state}</h2>
-  <h2 className="text-white">{gig.date}</h2>
-  <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
-  <GoogleMap gig={gig} />
-  <EditGigButton 
-    handleInputChange={handleInputChange} 
-    currentUser={props.currentUser} 
-    gig={gig} 
-    handleUpdate={handleUpdate} 
-    updatedGig={updatedGig} 
-    artists={gig.artists}
-  />
-</div>
-
-      <div className="small-6 scroll-most">
-        {lineupMessage}
-        <div className="centered grid-x">{artistTileComponents}</div>
-        {totalArtistPages > 1 && (
-          <div className="pagination-controls">
-            <button
-              className="pagination-button"
-              onClick={handlePreviousArtistPage}
-              disabled={currentArtistPage === 1}
-            >
-              Previous
-            </button>
-            <span className="pagination-info">
-              Page {currentArtistPage} of {totalArtistPages}
-            </span>
-            <button
-              className="pagination-button"
-              onClick={handleNextArtistPage}
-              disabled={currentArtistPage === totalArtistPages}
-            >
-              Next
-            </button>
-          </div>
-        )}
+  <div className="hero-image grid-x">
+    <div className="bg-orange rounded small-5 scroll-most" style={{ position: "relative" }}>
+    {props.currentUser &&
+      <div className="favorite-button-container-top">
+        <GigFavoriteButton gigId={gig.id} currentUser={props.currentUser} />
       </div>
+    }
+      <h1 className="small title-bold" style={{ display: "inline-block" }}>
+        {gig.name}
+      </h1>
+      <h2 className="text-white">{gig.city}, {gig.state}</h2>
+      <h2 className="text-white">{gig.date}</h2>
+      <h2 className="text-white">{gig.startTime}-{gig.endTime}</h2>
+      <GoogleMap gig={gig} />
+      {!showEditGig && props.currentUser?.id === gig.hostId &&
+        <button className="button" style={{ display: "inline-block"}} onClick={() => setShowEditGig(!showEditGig)}>
+          Edit Gig
+        </button>
+      }
+      {showEditGig && !showAddArtist &&
+        <EditGigForm gig={gig} setShowEditGig={setShowEditGig} setGig={setGig} currentUser={props.currentUser}/>
+      }
+      {!showAddArtist && props.currentUser?.id === gig.hostId &&
+        <button className="button" style={{ display: "inline-block"}} onClick={() => setShowAddArtist(!showAddArtist)}>
+          Add Artist
+        </button>
+      }
+      {showAddArtist && !showEditGig &&
+        <AddArtistToLineup gig={gig} setGig={setGig} setShowAddArtist={setShowAddArtist}/>
+      }
     </div>
+
+    <div className="small-6 scroll-most">
+      {lineupMessage}
+      <div className="centered grid-x">{artistTileComponents}</div>
+        {totalArtistPages > 1 && (
+        <div className="pagination-controls">
+          <button
+            className="pagination-button"
+            onClick={handlePreviousArtistPage}
+            disabled={currentArtistPage === 1}
+          >
+            Previous
+          </button>
+          <span className="pagination-info">
+            Page {currentArtistPage} of {totalArtistPages}
+          </span>
+          <button
+            className="pagination-button"
+            onClick={handleNextArtistPage}
+            disabled={currentArtistPage === totalArtistPages}
+          >
+            Next
+          </button>
+      </div>
+        )}
+    </div>
+  </div>
   );
 };
 

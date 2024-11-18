@@ -1,11 +1,32 @@
 import React, { useState } from "react";
-import { Autocomplete, TextField, IconButton, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  TextField,
+  IconButton,
+  Typography,
+  Modal,
+  Box,
+  Button,
+} from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const AddArtistToLineupButton = ({ gig }) => {
-  const [showLineupDropdown, setShowLineupDropdown] = useState(false);
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  borderRadius: "8px",
+  boxShadow: 24,
+  p: 4,
+};
+
+const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
   const [availableArtists, setAvailableArtists] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [debounceTimer, setDebounceTimer] = useState(null);
+  const [searchInput, setSearchInput] = useState(""); // Track the search input value
 
   const fetchAvailableArtists = async (search = "") => {
     if (!search.trim()) {
@@ -26,6 +47,7 @@ const AddArtistToLineupButton = ({ gig }) => {
   };
 
   const handleSearchChange = (event, newValue) => {
+    setSearchInput(newValue); // Update the search input value
     if (debounceTimer) clearTimeout(debounceTimer);
     const newTimer = setTimeout(() => {
       fetchAvailableArtists(newValue);
@@ -33,134 +55,160 @@ const AddArtistToLineupButton = ({ gig }) => {
     setDebounceTimer(newTimer);
   };
 
-  const handleAddArtist = async (artist) => {
-    if (gig.artists?.some((gigArtist) => gigArtist.id === artist.id)) {
-      alert("Artist is already in lineup!");
+  const handleAddArtist = (artist) => {
+    if (artists.some((existingArtist) => existingArtist.id === artist.id)) {
+      alert("Artist is already in the lineup!");
       return;
     }
 
+    // Use functional state update to ensure no race conditions
+    setArtists((prevArtists) => [...prevArtists, artist]);
+    setSearchInput(""); // Clear the search input
+    setAvailableArtists([]); // Clear the search results
+  };
+
+  
+  const handleClose = () => {
+    setShowAddArtist(false);
+  };
+  
+  const handleSave = async () => {
+    const artistIds = artists.map((artist) => artist.id);
+    console.log("Current gig state before save:", gig);
     try {
       const response = await fetch(`/api/v1/gigs/${gig.id}/lineups`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gigId: gig.id, artistId: artist.id }),
+        body: JSON.stringify({ gigId: gig.id, artistIds: artistIds }),
       });
       if (!response.ok) {
         throw new Error(`Error adding artist to lineup: ${response.statusText}`);
       }
-      setShowLineupDropdown(false);
-      window.location.reload();
+
+      setGig((prevGig) => ({
+        ...prevGig,
+        artists: [...prevGig.artists, ...artists],
+      }));
+      setShowAddArtist(false);
+      setArtists([]);
     } catch (error) {
       console.error("Error updating lineup:", error);
     }
   };
-
+  
   return (
-    <div>
-      <button type="button" className="button" onClick={() => setShowLineupDropdown(!showLineupDropdown)}>
-        Add Artist
-      </button>
-      {showLineupDropdown && (
-        <div>
-          <Autocomplete
-            freeSolo
-            options={availableArtists}
-            getOptionLabel={(artist) => artist.artistName || ""}
-            onInputChange={handleSearchChange}
-            noOptionsText="No artists found"
-            renderOption={(props, artist) => (
-              <li
-                {...props}
-                key={artist.id}
+    <Modal open onClose={handleClose}>
+      <Box sx={modalStyle}>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Add Artist to Lineup
+        </Typography>
+        <Autocomplete
+          freeSolo
+          options={availableArtists}
+          getOptionLabel={(artist) => artist.artistName || ""}
+          inputValue={searchInput} // Bind the input value
+          onInputChange={handleSearchChange}
+          noOptionsText="No artists found"
+          renderOption={(props, artist) => (
+            <li
+              {...props}
+              key={artist.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddArtist(artist);
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "10px",
+                borderBottom: "1px solid rgba(149, 0, 255, 0.1)",
+              }}
+            >
+              <Typography
+                variant="body2"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
+                  flexGrow: 1,
+                  color: "rgba(149, 0, 255, 0.8)",
+                  fontFamily: "Karla, sans-serif",
+                }}
+              >
+                {artist.artistName}
+              </Typography>
+              <IconButton
+                style={{
+                  color: "rgba(149, 0, 255, 0.8)",
+                }}
+                aria-label="add artist to lineup"
+                size="small"
+                edge="end"
+              >
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </li>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search Artists"
+              variant="outlined"
+              fullWidth
+              InputLabelProps={{
+                style: {
+                  color: "rgba(149, 0, 255, 0.8)",
+                  fontFamily: "Karla, sans-serif",
+                },
+              }}
+              inputProps={{
+                ...params.inputProps,
+                style: {
                   color: "black",
-                  backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  padding: "10px",
-                  borderBottom: "1px solid rgba(149, 0, 255, 0.1)"
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  style={{
-                    flexGrow: 1,
-                    color: "rgba(149, 0, 255, 0.8)",
-                    fontFamily: "Karla, sans-serif",
-                  }}
-                >
-                  {artist.artistName}
-                </Typography>
-                <IconButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddArtist(artist);
-                  }}
-                  style={{
-                    color: "rgba(149, 0, 255, 0.8)",
-                  }}
-                  aria-label="add artist to lineup"
-                  size="small"
-                  edge="end"
-                >
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              </li>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search Artists"
-                variant="outlined"
-                fullWidth
-                InputLabelProps={{
-                  style: {
-                    color: "rgba(149, 0, 255, 0.8)",
-                    fontFamily: "Karla, sans-serif",
+                  fontFamily: "Spectral, serif",
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "rgba(149, 0, 255, 0.8)",
                   },
-                }}
-                inputProps={{
-                  ...params.inputProps,
-                  style: {
-                    color: "black",
-                    fontFamily: "Spectral, serif",
+                  "&:hover fieldset": {
+                    borderColor: "rgba(149, 0, 255, 1)",
                   },
-                }}
-                sx={{
-                  // width: '50%', // Set the desired percentage width here
-                  maxWidth: '80%', // Optional: Ensure it doesn't stretch too wide
-                  minWidth: '30%', // Optional: Ensure it doesn't shrink too much
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "rgba(149, 0, 255, 0.8)",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "rgba(149, 0, 255, 1)",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "rgba(149, 0, 255, 1)",
-                    },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgba(149, 0, 255, 1)",
                   },
-                }}
-              />
-            )}
-            popupIcon={null}
-            PaperComponent={({ children }) => (
-              <div
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  borderRadius: "8px",
-                }}
-              >
-                {children}
-              </div>
-            )}
-          />
-        </div>
-      )}
-    </div>
+                },
+              }}
+            />
+          )}
+          popupIcon={null}
+          PaperComponent={({ children }) => (
+            <div
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                borderRadius: "8px",
+              }}
+            >
+              {children}
+            </div>
+          )}
+        />
+        {artists.length > 0 &&
+          artists.map((artist) => (
+            // <ArtistTile key={artist.id} {...artist} />
+            <h1 key={artist.id}>{artist.name}</h1>
+          ))}
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <Button variant="outlined" color="secondary" onClick={handleSave}>
+            Save
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
   );
 };
 
-export default AddArtistToLineupButton;
+export default AddArtistToLineup;
