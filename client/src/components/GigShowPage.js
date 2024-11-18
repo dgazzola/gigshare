@@ -26,7 +26,6 @@ const GigShowPage = (props) => {
         throw new Error(errorMessage);
       }
       const gigData = await response.json();
-      console.log('gigData:', gigData);
       setGig(gigData.gig);
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`);

@@ -9,7 +9,6 @@ class GigSerializer {
 
     serializedGig.artists = await gig.$relatedQuery("artists")
     serializedGig.favorited = await gig.$relatedQuery("users")
-    // serializedGig.isUserFavorite=false
 
     return serializedGig
   }

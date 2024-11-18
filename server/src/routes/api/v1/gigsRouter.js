@@ -47,11 +47,6 @@ gigsRouter.get("/:id", async (req, res) => {
       return res.status(404).json({ error: "Gig not found" })
     }
     const serializedGig = await GigSerializer.getDetail(gig)
-    // for (let i = 0; i < serializedGig.favorited?.length; i++) {
-    //   if (serializedGig.favorited[i].id === req.user?.id) {
-    //     serializedGig.isUserFavorite = true
-    //   }
-    // }
     return res.status(200).json({ gig: serializedGig })
   } catch (error) {
     return res.status(500).json({ errors: error })

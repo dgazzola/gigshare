@@ -27,13 +27,7 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
   const [availableArtists, setAvailableArtists] = useState([]);
   const [artists, setArtists] = useState([]);
   const [debounceTimer, setDebounceTimer] = useState(null);
-  const [searchInput, setSearchInput] = useState(""); // Track the search input value
-
-  ///// Need to filter artists from the dropdown list
-
-  //// hiting minus button from the artist added list should remove from the artists
-
-  //// hitting minus from the artist tile will remove from the lineup if confirmed
+  const [searchInput, setSearchInput] = useState("");
 
   const fetchAvailableArtists = async (search = "") => {
     if (!search.trim()) {
@@ -47,14 +41,19 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
         throw new Error(`Error fetching artists: ${response.statusText}`);
       }
       const data = await response.json();
-      setAvailableArtists(data.artists);
+      const gigArtistIds = gig.artists.map((artist) => artist.id);
+      const filteredArtists = data.artists.filter(
+        (artist) => !gigArtistIds.includes(artist.id)
+      );
+
+      setAvailableArtists(filteredArtists);
     } catch (error) {
       console.error("Error fetching available artists:", error);
     }
   };
 
   const handleSearchChange = (event, newValue) => {
-    setSearchInput(newValue); // Update the search input value
+    setSearchInput(newValue);
     if (debounceTimer) clearTimeout(debounceTimer);
     const newTimer = setTimeout(() => {
       fetchAvailableArtists(newValue);
@@ -68,9 +67,8 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
       return;
     }
 
-    // Use functional state update to ensure no race conditions
     setArtists((prevArtists) => [...prevArtists, artist]);
-    setSearchInput(""); // Clear the search input
+    setSearchInput("");
     setAvailableArtists([])
   };
 
@@ -81,7 +79,6 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
   
   const handleSave = async () => {
     const artistIds = artists.map((artist) => artist.id);
-    console.log("Current gig state before save:", gig);
     try {
       const response = await fetch(`/api/v1/gigs/${gig.id}/lineups`, {
         method: "PATCH",
@@ -96,7 +93,7 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
         ...prevGig,
         artists: [...prevGig.artists, ...artists],
       }));
-      setSearchInput(""); // Clear the search inp
+      setSearchInput("");
       setArtists([]);
       setShowAddArtist(false);
     } catch (error) {
@@ -114,7 +111,7 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
           freeSolo
           options={availableArtists}
           getOptionLabel={(artist) => artist.artistName || ""}
-          inputValue={searchInput} // Bind the input value
+          inputValue={searchInput}
           onInputChange={handleSearchChange}
           noOptionsText="No artists found"
           renderOption={(props, artist) => (
