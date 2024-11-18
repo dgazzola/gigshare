@@ -12,8 +12,8 @@ const GigTile = ({ id, name, city, date, currentUser }) => {
         if (!response.ok) throw new Error(`${response.status} (${response.statusText})`);
         const parsedResponse = await response.json();
 
-        const isFavorited = parsedResponse.gig.favorited?.some(fav => fav.id === currentUser?.id);
-        setIsFavorite(isFavorited);
+        // const isFavorited = parsedResponse.gig.favorited?.some(fav => fav.id === currentUser?.id);
+        // setIsFavorite(isFavorited);
       } catch (err) {
         console.error(`Error fetching gig data: ${err.message}`);
       }
