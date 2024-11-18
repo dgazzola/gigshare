@@ -9,6 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const modalStyle = {
   position: "absolute",
@@ -27,6 +28,12 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
   const [artists, setArtists] = useState([]);
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [searchInput, setSearchInput] = useState(""); // Track the search input value
+
+  ///// Need to filter artists from the dropdown list
+
+  //// hiting minus button from the artist added list should remove from the artists
+
+  //// hitting minus from the artist tile will remove from the lineup if confirmed
 
   const fetchAvailableArtists = async (search = "") => {
     if (!search.trim()) {
@@ -64,7 +71,7 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
     // Use functional state update to ensure no race conditions
     setArtists((prevArtists) => [...prevArtists, artist]);
     setSearchInput(""); // Clear the search input
-    setAvailableArtists([]); // Clear the search results
+    setAvailableArtists([])
   };
 
   
@@ -89,8 +96,9 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
         ...prevGig,
         artists: [...prevGig.artists, ...artists],
       }));
-      setShowAddArtist(false);
+      setSearchInput(""); // Clear the search inp
       setArtists([]);
+      setShowAddArtist(false);
     } catch (error) {
       console.error("Error updating lineup:", error);
     }
@@ -195,9 +203,41 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
         />
         {artists.length > 0 &&
           artists.map((artist) => (
-            // <ArtistTile key={artist.id} {...artist} />
-            <h1 key={artist.id}>{artist.name}</h1>
-          ))}
+            <Box
+              key={artist.id}
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              p={2}
+              mt={1}
+              mb={1}
+              border="1px solid rgba(253, 164, 0, 0.4)"
+              borderRadius="8px"
+              bgcolor="rgba(253, 164, 0, 0.1)"
+            >
+              <Box>
+                <Typography variant="body1" fontWeight="bold" color="rgba(149, 0, 255, 0.8)">
+                  {artist.artistName}
+                </Typography>
+                <Typography variant="body2" color="rgba(149, 0, 255, 0.5)">
+                  {artist.genre}
+                </Typography>
+              </Box>
+              <IconButton
+                aria-label="remove artist"
+                onClick={() =>
+                  setArtists((prevArtists) =>
+                    prevArtists.filter((a) => a.id !== artist.id)
+                  )
+                }
+                color="error"
+              >
+                <RemoveCircleOutlineIcon />
+              </IconButton>
+            </Box>
+          ))
+        }
+
         <Box display="flex" justifyContent="space-between" mt={2}>
           <Button variant="outlined" color="secondary" onClick={handleSave}>
             Save

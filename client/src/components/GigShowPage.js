@@ -54,7 +54,7 @@ const GigShowPage = (props) => {
   if (gig.artists && gig.artists.length > 0) {
     lineupMessage = <h1 className="glow small title-bold">LineUp:</h1>;
     artistTileComponents = currentArtists.map((artistObject) => (
-      <ArtistTile key={artistObject.id} {...artistObject} />
+      <ArtistTile key={artistObject.id} {...artistObject} gig={gig} setGig={setGig}/>
     ));
   }
 
