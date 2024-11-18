@@ -17,7 +17,7 @@ module.exports = {
     isDevelopment && new ReactRefreshWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.REACT_APP_GOOGLE_MAPS_API': JSON.stringify(process.env.REACT_APP_GOOGLE_MAPS_API),
+      'process.env.GOOGLE_MAPS_API': JSON.stringify(process.env.GOOGLE_MAPS_API),
     }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? "[name].css" : "[name].[hash].css",
