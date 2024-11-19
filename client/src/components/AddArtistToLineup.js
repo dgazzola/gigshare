@@ -34,7 +34,7 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
       setAvailableArtists([]);
       return;
     }
-
+  
     try {
       const response = await fetch(`/api/v1/artists?search=${search}`);
       if (!response.ok) {
@@ -42,15 +42,18 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
       }
       const data = await response.json();
       const gigArtistIds = gig.artists.map((artist) => artist.id);
+      const addedArtistIds = artists.map((artist) => artist.id);
+  
       const filteredArtists = data.artists.filter(
-        (artist) => !gigArtistIds.includes(artist.id)
+        (artist) => !gigArtistIds.includes(artist.id) && !addedArtistIds.includes(artist.id)
       );
-
+  
       setAvailableArtists(filteredArtists);
     } catch (error) {
       console.error("Error fetching available artists:", error);
     }
   };
+  
 
   const handleSearchChange = (event, newValue) => {
     setSearchInput(newValue);
