@@ -1,114 +1,138 @@
-import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom"
-import translateServerErrors from "./../services/translateServerErrors.js"
-import _ from "lodash"
-import ErrorList from "./layout/ErrorList.js";
+import React, { useState } from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { addGigModalStyle, buttonStyle } from "../assets/mui-styles";
 
-const NewGigForm = props => {
+const NewGigForm = ({ currentUser, onClose, setUser }) => {
   const defaultForm = {
-    name:"",
-    address:"",
-    city:"",
-    state:"",
-    date:"",
-    startTime:"",
-    endTime:""
-  }
-  const [newGig, setNewGig] = useState(defaultForm)
-  const [shouldRedirect, setShouldRedirect] = useState(false)
-  const [errors, setErrors] = useState({})
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    hostId: currentUser.id,
+  };
 
-  const addNewGig = async () =>{
+  const [newGig, setNewGig] = useState(defaultForm);
+
+  const handleInput = (event) => {
+    const { name, value } = event.target;
+    setNewGig((prev) => ({
+      ...prev,
+      [name]: name === "date" ? new Date(value).toISOString().slice(0, 10) : value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch('/api/v1/gigs', {
-        method:"POST",
-        headers: new Headers({
-          "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(newGig)
-      })
-      if (!response.ok) {
-        if (response.status === 422) {
-          const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
-        } else {
-          const errorMessage = `${response.status} (${response.statusText})`
-          const error = new Error(errorMessage)
-          throw error
-        }
+      const response = await fetch("/api/v1/gigs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newGig),
+      });
+      if (response.ok) {
+        const { gig } = await response.json();
+        console.log('created gig return:', gig);
+        setUser((prevUser) => ({
+          ...prevUser,
+          hostedGigs: [...prevUser.hostedGigs, gig],
+        }));
+        onClose();
       } else {
-        const body = await response.json()
-        setShouldRedirect(true)
+        console.error("Failed to create gig:", response.statusText);
       }
-    } catch (err) {
-      console.error(`Error in fetch: ${err.message}`)
+    } catch (error) {
+      console.error("Error submitting gig:", error);
     }
-  }
+  };
+  
 
-  const handleSubmit = (event) =>{
-    event.preventDefault()
-    addNewGig()
-  }
-
-  const handleInput = event => {
-    if (event.currentTarget.name==="date"){
-      setNewGig({
-        ...newGig,
-        date: new Date(event.currentTarget.value).toISOString().slice(0,10)
-      })
-    } else {
-      setNewGig({
-        ...newGig,
-        [event.currentTarget.name]: event.currentTarget.value,
-        hostId:`${props.currentUser?.id}`
-      })
-    }
-  }
-
-  const formInputs = Object.keys(defaultForm).map(input => {
-    if (input!=="date" && input!=="startTime"&& input!=="endTime"){
-      return(
-        <label className="text-white" key={input}>{_.startCase(input)}:
-          <input type="text" name={input} value={newGig[input]} onChange={handleInput}/>
-        </label>
-      )
-    }
-    if (input==="date"){
-      return(
-
-        <label className="text-white" key={input}>{_.startCase(input)}:
-          <input type="date" name={input} value={newGig[input]} onChange={handleInput}/>
-        </label>
-      )
-    }
-    if (input==="startTime" || input==="endTime"){
-      return(
-
-        <label className="text-white" key={input}>{_.startCase(input)}:
-          <input type="time" name={input} value={newGig[input]} onChange={handleInput}/>
-        </label>
-      )
-    }
-  })
-
-  if (shouldRedirect) {
-    return <Redirect push to={`/users/${props.currentUser.id}`} />
-  }
-
-  return(
-    <div className="centered hero-image">
-      <div>
-      <h1 className="centered text-white glow small">Submit A Gig!</h1>
-      <form onSubmit={handleSubmit} className="form new-gig-form">
-        <ErrorList errors={errors} />
-        {formInputs}
-        <div className="clear"></div>
-        <input type="submit" value="Submit Gig" className="button" onClick={handleSubmit}/>
+  return (
+    <Box sx={addGigModalStyle}>
+      <Typography variant="h6" component="h2" gutterBottom>
+        Submit a Gig
+      </Typography>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
+        <TextField
+          label="Name"
+          name="name"
+          value={newGig.name}
+          onChange={handleInput}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          label="Address"
+          name="address"
+          value={newGig.address}
+          onChange={handleInput}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          label="City"
+          name="city"
+          value={newGig.city}
+          onChange={handleInput}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          label="State"
+          name="state"
+          value={newGig.state}
+          onChange={handleInput}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          label="Date"
+          name="date"
+          type="date"
+          value={newGig.date}
+          onChange={handleInput}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          label="Start Time"
+          name="startTime"
+          type="time"
+          value={newGig.startTime}
+          onChange={handleInput}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          label="End Time"
+          name="endTime"
+          type="time"
+          value={newGig.endTime}
+          onChange={handleInput}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <Button variant="outlined" sx={buttonStyle} type="submit">
+            Submit Gig
+          </Button>
+          <Button variant="outlined" sx={buttonStyle} onClick={onClose}>
+            Cancel
+          </Button>
+        </Box>
       </form>
-      </div>
-    </div>
-  )
-}
+    </Box>
+  );
+};
 
-export default NewGigForm
+export default NewGigForm;

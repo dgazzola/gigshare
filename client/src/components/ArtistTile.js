@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 const ArtistTile = ({ id, artistName, genre, gig, setGig}) => {
-  const artistUrl = `/artists/${id}`  // needs minus button to remove from gig list
+  const artistUrl = `/artists/${id}`
   return(
 
     <div className="button callout tile-box centered cell small-3 bg-orange">

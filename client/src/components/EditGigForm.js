@@ -14,18 +14,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "8px",
-  boxShadow: 24,
-  p: 4,
-};
+import { addGigModalStyle } from "../assets/mui-styles";
 
 const EditGigForm = ({ gig, setShowEditGig, setGig, currentUser }) => {
   const [updatedGig, setUpdatedGig] = useState({});
@@ -109,7 +98,7 @@ const EditGigForm = ({ gig, setShowEditGig, setGig, currentUser }) => {
   return (
     <>
       <Modal open onClose={handleClose}>
-        <Box sx={modalStyle}>
+        <Box sx={addGigModalStyle}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h6" component="h2" gutterBottom>
               Edit Gig
