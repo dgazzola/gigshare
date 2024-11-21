@@ -4,6 +4,9 @@ import GigTile from "./GigTile.js";
 import Dropzone from "react-dropzone";
 import "../assets/scss/main.scss";
 import { useFavorites } from "../context/FavoritesContext.js";
+import { Box, Modal } from "@mui/material";
+import NewGigForm from "./NewGigForm.js";
+import { addGigModalStyle } from "../assets/mui-styles.js";
 
 const UserShowPage = (props) => {
   const { id } = props.match.params;
@@ -19,6 +22,11 @@ const UserShowPage = (props) => {
   const [hostedGigsTotalPages, setHostedGigsTotalPages] = useState(1);
   const [favoriteGigsPage, setFavoriteGigsPage] = useState(1);
   const { favoriteGigs } = useFavorites();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
 
   const favoriteGigsPerPage = 5;
   const favoriteGigsTotalPagesDynamic = Math.ceil(favoriteGigs.length / favoriteGigsPerPage);
@@ -39,6 +47,7 @@ const UserShowPage = (props) => {
       const response = await fetch(`/api/v1/users/${id}?hostedPage=${hostedGigsPage}`);
       if (!response.ok) throw new Error(`${response.status}: (${response.statusText})`);
       const body = await response.json();
+      console.log('get user response', body.user);
       setUser(body.user);
       setHostedGigsTotalPages(body.user.hostedGigsTotalPages);
     } catch (error) {
@@ -174,13 +183,11 @@ const UserShowPage = (props) => {
           <h3 className="username-string">{user.username}</h3>
           <h3 className="email-string">{user.email}</h3>
           {artistInfo}
-          {currentUser?.id === user.id && (
+          {currentUser?.id === id && (
             <div className="shift-down">
-              <Link to={`/gigs/new-gig-form`} className="centered">
-                <button type="button" className="button">
-                  Host a Gig
-                </button>
-              </Link>
+              <button type="button" className="button" onClick={handleOpenModal}>
+                Host a Gig
+              </button>
             </div>
           )}
           {dropzoneComponent}
@@ -239,6 +246,11 @@ const UserShowPage = (props) => {
             </>
           )}
         </div>
+        <Modal open={isModalOpen} onClose={handleCloseModal}>
+          <Box sx={addGigModalStyle}>
+            <NewGigForm currentUser={currentUser} onClose={handleCloseModal} setUser={setUser}/>
+          </Box>
+        </Modal>
       </div>
     </div>
   );

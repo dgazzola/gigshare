@@ -10,18 +10,7 @@ import {
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "8px",
-  boxShadow: 24,
-  p: 4,
-};
+import { addArtistModalStyle, buttonStyle } from "../assets/mui-styles";
 
 const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
   const [availableArtists, setAvailableArtists] = useState([]);
@@ -106,7 +95,7 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
   
   return (
     <Modal open onClose={handleClose}>
-      <Box sx={modalStyle}>
+      <Box sx={addArtistModalStyle}>
         <Typography variant="h6" component="h2" gutterBottom>
           Add Artist to Lineup
         </Typography>
@@ -239,13 +228,14 @@ const AddArtistToLineup = ({ gig, setGig, setShowAddArtist}) => {
         }
 
         <Box display="flex" justifyContent="space-between" mt={2}>
-          <Button variant="outlined" color="secondary" onClick={handleSave}>
+          <Button variant="outlined" sx={buttonStyle} onClick={handleSave}>
             Save
           </Button>
-          <Button variant="outlined" color="secondary" onClick={handleClose}>
+          <Button variant="outlined" sx={buttonStyle} onClick={handleClose}>
             Cancel
           </Button>
         </Box>
+
       </Box>
     </Modal>
   );
